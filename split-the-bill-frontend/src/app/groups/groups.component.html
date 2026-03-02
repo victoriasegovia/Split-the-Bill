@@ -1,0 +1,11 @@
+<h2>Lista de Grupos</h2>
+
+<p *ngIf="groups.length == 0">No hay grupos</p>
+
+<ul *ngIf="groups.length > 0">
+    <li *ngFor="let group of groups">
+        {{ group.name }}
+    </li>
+</ul>
+
+<button>Añadir grupo</button>

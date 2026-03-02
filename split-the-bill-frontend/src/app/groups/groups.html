@@ -1,0 +1,24 @@
+<div class="groups-container">
+  <h2>Grupos</h2>
+  
+  <div *ngIf="loading" class="loading">
+    <p>Cargando grupos...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && groups.length > 0" class="groups-list">
+    <ul>
+      <li *ngFor="let group of groups" class="group-item">
+        <span>{{ group.name }}</span>
+        <small>#{{ group.id }}</small>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="!loading && groups.length === 0 && !error" class="empty">
+    <p>No hay grupos disponibles</p>
+  </div>
+</div>
