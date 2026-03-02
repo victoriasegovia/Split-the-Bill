@@ -19,13 +19,13 @@ public class GroupService implements GroupUseCases {
     }
 
     @Override
-    public void createGroupUseCase(String groupName) {
+    public Group createGroupUseCase(String groupName) {
         if (groupRepository.findByName(groupName).isPresent()) {
             throw new DuplicateGroupNameException(groupName);
         }
 
         Group newGroup = new Group(null, groupName);
-        groupRepository.save(newGroup);
+        return groupRepository.save(newGroup);
     }
 
     @Override
