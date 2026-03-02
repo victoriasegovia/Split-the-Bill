@@ -2,13 +2,16 @@ package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
 import com.civica.splitthebill.domain.port.in.GroupUseCases;
 import com.civica.splitthebill.domain.model.Group;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequest;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupResponse;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupDomainMapper;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -20,21 +23,18 @@ public class GroupController {
         this.groupUseCases = groupUseCases;
     }
 
-    // This DTO should be in a separate file, but for simplicity, we can keep it
-    // here for now!
-    public static record CreateGroupRequest(
-            @NotBlank @Size(min = 1, max = 100) String name) {
-    }
-
     @PostMapping
-    public ResponseEntity<Void> create(@Valid @RequestBody CreateGroupRequest request) {
-        groupUseCases.createGroupUseCase(request.name());
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<GroupResponse> create(@Valid @RequestBody GroupRequest request) {
+        Group created = groupUseCases.createGroupUseCase(request.name());
+        GroupResponse response = GroupDomainMapper.toResponse(created);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public List<Group> list() {
-        return groupUseCases.listGroupsUseCase();
+    public List<GroupResponse> list() {
+        return groupUseCases.listGroupsUseCase().stream()
+                .map(GroupDomainMapper::toResponse)
+                .collect(Collectors.toList());
     }
     
 }
