@@ -1,16 +1,18 @@
 package com.civica.splitthebill.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
+public record Group(
 
-import jakarta.validation.constraints.*;
-
-public record Group (
-    
     Long id,
-    @NotBlank @Size(min = 1, max = 100) String name
+    String name
 
-    // List<User> users = new ArrayList<>();
-    // List<Expense> expenses = new ArrayList<>();
-    
-) {}
+) {
+
+  public Group {
+    if (name == null || name.trim().isEmpty()) {
+      throw new IllegalArgumentException("Group name cannot be null or empty.");
+    }
+    if (name.length() > 50 || name.length() < 3) {
+      throw new IllegalArgumentException("Group name must be between 3 and 50 characters.");
+    }
+  }
+}

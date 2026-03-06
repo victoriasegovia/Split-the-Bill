@@ -27,20 +27,16 @@ public class GroupPersistanceAdapter implements GroupRepository {
     }
 
     @Override
+    public Optional<Group> findByName(String name) {
+        Optional <GroupEntity> group = jpaGroupRepository.findByName(name);
+        return group.map(GroupDomainMapper::toDomain);
+    }
+
+    @Override
     public List<Group> findAll() {
         return jpaGroupRepository.findAll().stream()
                 .map(GroupDomainMapper::toDomain)
                 .toList();
-    }
-    
-    @Override
-    public Optional<Group> findById(Long id) {
-        return jpaGroupRepository.findById(id).map(GroupDomainMapper::toDomain);
-    }
-    
-    @Override
-    public Optional<Group> findByName(String name) {
-        return jpaGroupRepository.findByName(name).map(GroupDomainMapper::toDomain);
     }
     
 }

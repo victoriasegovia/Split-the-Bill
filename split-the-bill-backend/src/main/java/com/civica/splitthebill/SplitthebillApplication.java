@@ -8,7 +8,5 @@ public class SplitthebillApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SplitthebillApplication.class, args);
-		System.out.println("Running...🏃‍♀️‍➡️");
 	}
-
 }
