@@ -1,22 +1,20 @@
 package com.civica.splitthebill.application.services;
 
 import java.util.List;
-import java.util.Locale;
 
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import com.civica.splitthebill.domain.exception.DuplicateGroupNameException;
 import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.domain.port.in.GroupUseCases;
+import com.civica.splitthebill.domain.port.in.GroupService;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
 
 @Service
-public class GroupService implements GroupUseCases {
+public class GroupUseCases implements GroupService {
 
     private final GroupRepository groupRepository;
 
-    public GroupService(GroupRepository groupRepository) {
+    public GroupUseCases(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
     }
 
