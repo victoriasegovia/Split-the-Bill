@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
-import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupDomainMapper;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupMapper;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaGroupRepository;
 
@@ -22,20 +22,20 @@ public class GroupPersistanceAdapter implements GroupRepository {
 
     @Override
     public Group save(Group group) {
-        GroupEntity saved = jpaGroupRepository.save(GroupDomainMapper.toEntity(group));
-        return GroupDomainMapper.toDomain(saved);
+        GroupEntity saved = jpaGroupRepository.save(GroupMapper.domaintoEntity(group));
+        return GroupMapper.entitytoDomain(saved);
     }
 
     @Override
     public Optional<Group> findByName(String name) {
         Optional <GroupEntity> group = jpaGroupRepository.findByName(name);
-        return group.map(GroupDomainMapper::toDomain);
+        return group.map(GroupMapper::entitytoDomain);
     }
 
     @Override
     public List<Group> findAll() {
         return jpaGroupRepository.findAll().stream()
-                .map(GroupDomainMapper::toDomain)
+                .map(GroupMapper::entitytoDomain)
                 .toList();
     }
     

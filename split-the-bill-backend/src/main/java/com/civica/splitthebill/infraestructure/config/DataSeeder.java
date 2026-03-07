@@ -17,8 +17,8 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        groupRepository.save(new Group(null, "Viaje a las Islas Canarias"));
-        groupRepository.save(new Group(null, "Cena de navidad"));
-        groupRepository.save(new Group(null, "Cumpleanos de Marta"));
+        groupRepository.save(new Group(null, "Viaje a las Islas Canarias", null));
+        groupRepository.save(new Group(null, "Cena de navidad", null));
+        groupRepository.save(new Group(null, "Cumpleanos de Marta", null));
     }
 }

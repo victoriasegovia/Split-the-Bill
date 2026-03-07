@@ -24,7 +24,7 @@ public class GroupUseCases implements GroupService {
             throw new DuplicateGroupNameException(groupName);
         }
 
-        Group newGroup = new Group(null, groupName);
+        Group newGroup = new Group(null, groupName, List.of());
         return groupRepository.save(newGroup);
     }
 

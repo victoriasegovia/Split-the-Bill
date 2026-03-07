@@ -2,9 +2,10 @@ package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
 import com.civica.splitthebill.domain.port.in.GroupService;
 import com.civica.splitthebill.domain.model.Group;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.DTOMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupResponse;
-import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupDomainMapper;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupMapper;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +25,16 @@ public class GroupController {
     }
 
     @PostMapping
-    public ResponseEntity<GroupResponse> create(@Valid @RequestBody GroupRequest request) {
+    public ResponseEntity<GroupResponse> create(@RequestBody GroupRequest request) {
         Group created = groupService.createGroupUseCase(request.name());
-        GroupResponse response = GroupDomainMapper.toResponse(created);
+        GroupResponse response = DTOMapper.domainToResponse(created);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
     public List<GroupResponse> list() {
         return groupService.listGroupsUseCase().stream()
-                .map(GroupDomainMapper::toResponse)
+                .map(DTOMapper::domainToResponse)
                 .collect(Collectors.toList());
     }
     
