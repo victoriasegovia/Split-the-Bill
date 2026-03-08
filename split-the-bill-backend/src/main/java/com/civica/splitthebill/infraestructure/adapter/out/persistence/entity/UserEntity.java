@@ -2,14 +2,10 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
 import java.util.List;
 import jakarta.persistence.*;
-import lombok.*;
+
 
 @Entity
 @Table(name = "users")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class UserEntity {
 
     @Id
@@ -26,4 +22,31 @@ public class UserEntity {
         this.id = id;
         this.name = name;
     }
+
+    public UserEntity() {}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<GroupEntity> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<GroupEntity> groups) {
+        this.groups = groups;
+    }
+
 }

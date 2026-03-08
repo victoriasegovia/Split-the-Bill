@@ -33,4 +33,14 @@ public class GroupUseCases implements GroupService {
         return groupRepository.findAll();
     }
 
+    @Override
+    public void addUserToGroupUseCase(Long groupId, Long userId) {
+        groupRepository.addUserToGroup(groupId, userId);
+    }
+
+    @Override
+    public void removeUserFromGroupUseCase(Long groupId, Long userId) {
+        groupRepository.removeUserFromGroup(groupId, userId);
+    }
+
 }

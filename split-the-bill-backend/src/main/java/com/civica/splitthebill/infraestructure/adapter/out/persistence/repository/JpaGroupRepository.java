@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface JpaGroupRepository extends JpaRepository<GroupEntity, Long> {
     Optional<GroupEntity> findByName(String name);
+    void addUserToGroup(Long groupId, Long userId);
+    void removeUserFromGroup(Long groupId, Long userId);
 }
