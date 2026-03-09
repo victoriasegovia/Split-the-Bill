@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface GroupRepository {
 
-    Group save(Group group);
+    Optional<Group> save(Group group);
     Optional<Group> findByName(String name);
     List<Group> findAll();
     List<User> findUsersByGroupId(Long groupId);

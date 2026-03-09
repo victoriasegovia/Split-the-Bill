@@ -2,7 +2,7 @@ package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
 import com.civica.splitthebill.domain.port.in.GroupService;
 import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.DTOMapper;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.RequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupResponse;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupMapper;
@@ -27,14 +27,14 @@ public class GroupController {
     @PostMapping
     public ResponseEntity<GroupResponse> create(@RequestBody GroupRequest request) {
         Group created = groupService.createGroupUseCase(request.name());
-        GroupResponse response = DTOMapper.domainToResponse(created);
+        GroupResponse response = RequestResponseMapper.domainToResponse(created);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
     public List<GroupResponse> list() {
         return groupService.listGroupsUseCase().stream()
-                .map(DTOMapper::domainToResponse)
+                .map(RequestResponseMapper::domainToResponse)
                 .collect(Collectors.toList());
     }
     

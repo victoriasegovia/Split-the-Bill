@@ -37,7 +37,6 @@ public final class GroupMapper {
                 .collect(Collectors.toList());
         groupEntity.setMembers(memberEntities);
 
-
         return groupEntity;
     }
 }
