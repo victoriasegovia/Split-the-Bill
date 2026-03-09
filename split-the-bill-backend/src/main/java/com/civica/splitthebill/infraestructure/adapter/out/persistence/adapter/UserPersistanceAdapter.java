@@ -1,6 +1,8 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.UserRepository;
@@ -31,5 +33,12 @@ public class UserPersistanceAdapter implements UserRepository {
         return userEntity.map(UserMapper::entitytoDomain);
     }
 
+    @Override
+    public List<User> findAllById(List<Long> ids) {
+        List<UserEntity> userEntities = jpaUserRepository.findAllById(ids);
+        return userEntities.stream()
+                .map(UserMapper::entitytoDomain)
+                .collect(Collectors.toList());
+    }
     
 }
