@@ -1,14 +1,11 @@
 package com.civica.splitthebill.domain.model;
 
-import java.util.List;
-
 public record Expense(
         Long id,
         String title,
         Long payerId,
         Long groupId,
-        double totalAmount,
-        List<ExpenseParticipation> participations
+        double totalAmount
         ) {
 
     public Expense {
@@ -23,9 +20,6 @@ public record Expense(
         }
         if (totalAmount <= 0) {
             throw new IllegalArgumentException("Expense total amount must be a positive number");
-        }
-        if (participations == null || participations.isEmpty()) {
-            throw new IllegalArgumentException("Expense must have at least one participation");
         }
     }
 }

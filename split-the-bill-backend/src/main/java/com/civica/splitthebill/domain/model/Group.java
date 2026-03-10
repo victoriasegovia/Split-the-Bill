@@ -1,13 +1,12 @@
 package com.civica.splitthebill.domain.model;
 
 import java.util.List;
-import com.civica.splitthebill.domain.model.User;
 
 public record Group(
 
     Long id,
     String name,
-    List<User> members
+    List<Long> membersIds
 
 ) {
 

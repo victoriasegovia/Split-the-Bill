@@ -16,7 +16,13 @@ public class UserEntity {
     private String name;
 
     @ManyToMany(mappedBy = "members")
-    private List<GroupEntity> groups;
+    private List<Long> groupIds;
+
+    @OneToMany(mappedBy = "expenses")
+    private List<Long> expenseIds;
+
+    @OneToMany(mappedBy = "debts")
+    private List<Long> debtIds;
 
     public UserEntity(Long id, String name) {
         this.id = id;
@@ -41,12 +47,27 @@ public class UserEntity {
         this.name = name;
     }
 
-    public List<GroupEntity> getGroups() {
-        return groups;
+    public List<Long> getGroupIds() {
+        return groupIds;
     }
 
-    public void setGroups(List<GroupEntity> groups) {
-        this.groups = groups;
+    public void setGroupIds(List<Long> groupIds) {
+        this.groupIds = groupIds;
     }
 
+    public List<Long> getExpenseIds() {
+        return expenseIds;
+    }
+
+    public void setExpenseIds(List<Long> expenseIds) {
+        this.expenseIds = expenseIds;
+    }
+
+    public List<Long> getDebtIds() {
+        return debtIds;
+    }
+
+    public void setDebtIds(List<Long> debtIds) {
+        this.debtIds = debtIds;
+    }
 }

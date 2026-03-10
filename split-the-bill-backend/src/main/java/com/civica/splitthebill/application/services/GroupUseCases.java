@@ -9,7 +9,7 @@ import com.civica.splitthebill.application.mapper.GroupDTOMapper;
 import com.civica.splitthebill.domain.exception.DuplicateGroupNameException;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.application.services.GroupService;
+import com.civica.splitthebill.domain.port.in.GroupService;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
 import com.civica.splitthebill.domain.port.out.UserRepository;
 
@@ -30,8 +30,7 @@ public class GroupUseCases implements GroupService {
             throw new DuplicateGroupNameException(groupDTO.name());
         }
 
-        List<User> members = userRepository.findAllById(groupDTO.membersIds());
-        Group group = GroupDTOMapper.dtoToDomain(groupDTO, members);
+        Group group = GroupDTOMapper.dtoToDomain(groupDTO);
         Group saved = groupRepository.save(group).orElseThrow(() -> new RuntimeException("Failed to save group"));
 
         return GroupDTOMapper.domainToDTO(saved);

@@ -2,8 +2,6 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
 import java.util.List;
 
-import com.civica.splitthebill.domain.model.User;
-
 import jakarta.persistence.*;
 
 @Entity

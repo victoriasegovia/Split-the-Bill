@@ -1,4 +1,4 @@
-package com.civica.splitthebill.application.services;
+package com.civica.splitthebill.domain.port.in;
 
 import java.util.List;
 
@@ -9,5 +9,4 @@ public interface GroupService {
     GroupDTO createGroupUseCase(GroupDTO groupDTO);
     List<GroupDTO> listGroupsUseCase();
     void addUserToGroupUseCase(Long groupId, Long userId);
-    void removeUserFromGroupUseCase(Long groupId, Long userId);
 }

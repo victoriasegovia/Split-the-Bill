@@ -1,14 +1,18 @@
 package com.civica.splitthebill.domain.model;
+/**
+public record Debt (
 
-public record ExpenseParticipation (
-
-    Long participantId,
+    Long id,
+    Long fromUserId,
+    Long toUserId,
     Long expenseId,
+    Long groupId,
+
     double owedAmount,
     double paidAmount
 
 ){
-    public ExpenseParticipation {
+    public Debt {
         if (owedAmount < 0) {
             throw new IllegalArgumentException("Owed amount cannot be negative");
         }
@@ -18,11 +22,17 @@ public record ExpenseParticipation (
         if (owedAmount == 0 && paidAmount == 0) {
             throw new IllegalArgumentException("Either owed amount or paid amount must be greater than zero");
         }
-        if (participantId == null) {
-            throw new IllegalArgumentException("Participant ID cannot be null");
+        if (fromUserId == null) {
+            throw new IllegalArgumentException("From User ID cannot be null");
+        }
+        if (toUserId == null) {
+            throw new IllegalArgumentException("To User ID cannot be null");
         }
         if (expenseId == null) {
             throw new IllegalArgumentException("Expense ID cannot be null");
         }
+        if (groupId == null) {
+            throw new IllegalArgumentException("Group ID cannot be null");
+        }
     }
-}
+}*/

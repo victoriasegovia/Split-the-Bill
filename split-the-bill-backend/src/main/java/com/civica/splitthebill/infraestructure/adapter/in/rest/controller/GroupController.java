@@ -1,13 +1,12 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
-import com.civica.splitthebill.application.services.GroupService;
+import com.civica.splitthebill.domain.port.in.GroupService;
 import com.civica.splitthebill.domain.port.out.UserRepository;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.RequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupResponse;
 import com.civica.splitthebill.application.dto.GroupDTO;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
