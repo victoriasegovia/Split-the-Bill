@@ -6,7 +6,9 @@ import java.util.Optional;
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.domain.port.out.ExpenseRespository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ExpensePersistanceAdapter implements ExpenseRespository {
 
     private final JpaExpenseRepository jpaExpenseRepository;

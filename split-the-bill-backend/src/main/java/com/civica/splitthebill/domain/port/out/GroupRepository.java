@@ -9,6 +9,7 @@ public interface GroupRepository {
 
     Optional<Group> save(Group group);
     Optional<Group> findByName(String name);
+    Optional<Group> findById(Long id);
     List<Group> findAll();
     List<User> findUsersByGroupId(Long groupId);
     void addUserToGroup(Long groupId, Long userId);

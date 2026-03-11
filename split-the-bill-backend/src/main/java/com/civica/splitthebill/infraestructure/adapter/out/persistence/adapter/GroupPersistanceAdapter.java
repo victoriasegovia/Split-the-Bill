@@ -3,8 +3,6 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Component;
-
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
@@ -16,8 +14,9 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.Us
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaGroupRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaUserRepository;
+import org.springframework.stereotype.Repository;
 
-@Component
+@Repository
 public class GroupPersistanceAdapter implements GroupRepository {
 
     private final JpaGroupRepository jpaGroupRepository;
@@ -35,7 +34,7 @@ public class GroupPersistanceAdapter implements GroupRepository {
         List<UserEntity> memberEntities = jpaUserRepository.findAllById(group.membersIds());
         List<ExpenseEntity> expenseEntities = jpaExpenseRepository.findAllByGroupId(group.id());
 
-        GroupEntity groupEntity = GroupMapper.domaintoEntity(group, memberEntities, expenseEntities);        
+        GroupEntity groupEntity = GroupMapper.domaintoEntity(group, memberEntities, expenseEntities);
         GroupEntity savedEntity = jpaGroupRepository.save(groupEntity);
 
         return Optional.of(GroupMapper.entitytoDomain(savedEntity));
@@ -74,6 +73,15 @@ public class GroupPersistanceAdapter implements GroupRepository {
 
         groupEntity.getMembers().add(userEntity);
         jpaGroupRepository.save(groupEntity);
+    }
+
+    @Override
+    public Optional<Group> findById(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("Group ID cannot be null");
+        }
+        Optional<GroupEntity> groupEntity = jpaGroupRepository.findById(id);
+        return groupEntity.map(GroupMapper::entitytoDomain);
     }
 
 }

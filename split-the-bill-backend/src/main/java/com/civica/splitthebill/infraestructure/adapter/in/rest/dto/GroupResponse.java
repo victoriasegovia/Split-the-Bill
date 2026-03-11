@@ -6,8 +6,8 @@ public record GroupResponse(
 
         Long id,
         String name,
-        List<String> members,
-        List<Long> expenseIds
+        List<String> memberNames,
+        List<Long> memberIds
 
 ) {
 }

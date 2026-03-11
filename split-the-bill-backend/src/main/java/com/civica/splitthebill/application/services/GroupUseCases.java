@@ -43,14 +43,32 @@ public class GroupUseCases implements GroupService {
     }
 
     @Override
+    public GroupDTO listGroupByIdUseCase(Long groupId) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("Group ID cannot be null");
+        }
+        Group group = groupRepository.findById(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
+        return GroupDTOMapper.domainToDTO(group);
+    }
+
+    @Override
     public void addUserToGroupUseCase(Long groupId, Long userId) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("Group ID cannot be null");
+        }
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
         groupRepository.addUserToGroup(groupId, userId);
     }
 
     @Override
-    public GroupDTO listGroupUseCase() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'listGroupUseCase'");
+    public List<String> listGroupMembersUseCase(Long groupId) {
+        if (groupId == null) {
+            throw new IllegalArgumentException("Group ID cannot be null");
+        }
+        List<User> users = groupRepository.findUsersByGroupId(groupId);
+        return users.stream().map(User::name).toList();
     }
 
 }

@@ -15,16 +15,16 @@ public class UserEntity {
     private String name;
 
     @ManyToMany(mappedBy = "members")
-    private List<Long> groupIds;
+    private List<GroupEntity> groups;
 
-    @OneToMany(mappedBy = "expenses")
-    private List<Long> expenseIds;
+    @OneToMany(mappedBy = "payer")
+    private List<ExpenseEntity> expenses;
 
-    public UserEntity(Long id, String name, List<Long> groupIds, List<Long> expenseIds) {
+    public UserEntity(Long id, String name, List<GroupEntity> groups, List<ExpenseEntity> expenses) {
         this.id = id;
         this.name = name;
-        this.groupIds = groupIds;
-        this.expenseIds = expenseIds;
+        this.groups = groups;
+        this.expenses = expenses;
     }
 
     public UserEntity() {}
@@ -45,19 +45,19 @@ public class UserEntity {
         this.name = name;
     }
 
-    public List<Long> getGroupIds() {
-        return groupIds;
+    public List<GroupEntity> getGroups() {
+        return groups;
     }
 
-    public void setGroupIds(List<Long> groupIds) {
-        this.groupIds = groupIds;
+    public void setGroups(List<GroupEntity> groups) {
+        this.groups = groups;
     }
 
-    public List<Long> getExpenseIds() {
-        return expenseIds;
+    public List<ExpenseEntity> getExpenses() {
+        return expenses;
     }
 
-    public void setExpenseIds(List<Long> expenseIds) {
-        this.expenseIds = expenseIds;
+    public void setExpenses(List<ExpenseEntity> expenses) {
+        this.expenses = expenses;
     }
 }

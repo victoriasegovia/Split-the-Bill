@@ -1,8 +1,6 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
 import com.civica.splitthebill.domain.port.in.GroupService;
-import com.civica.splitthebill.domain.port.out.UserRepository;
-import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.RequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupResponse;
@@ -17,11 +15,9 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
-    private final UserRepository userRepository;
 
-    public GroupController(GroupService groupService, UserRepository userRepository) {
+    public GroupController(GroupService groupService) {
         this.groupService = groupService;
-        this.userRepository = userRepository;
     }
 
     @PostMapping
@@ -29,26 +25,33 @@ public class GroupController {
         GroupDTO input = RequestResponseMapper.requestToDomainDTO(request);
         GroupDTO created = groupService.createGroupUseCase(input);
 
-        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, null, null);
+        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public List<GroupResponse> getAll() {
-        List<GroupDTO> groups = groupService.listGroupsUseCase();
+    public ResponseEntity<List<GroupResponse>> getAll() {
 
+        List<GroupDTO> groups = groupService.listGroupsUseCase();
+        
         List<GroupResponse> response = groups.stream()
-                .map(group -> RequestResponseMapper.domainDTOToResponse(group, group.memberNames()))
+                .map(group -> {
+                    List<String> memberNames = groupService.listGroupMembersUseCase(group.id());
+                    GroupResponse groupResponse = RequestResponseMapper.domainDTOToResponse(group, memberNames);
+                    return groupResponse;
+                })
                 .toList();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
-    public GroupResponse getById(@PathVariable Long id) {
+    public ResponseEntity<GroupResponse> getById(@PathVariable Long id) {
+
         GroupDTO group = groupService.listGroupByIdUseCase(id);
-        GroupResponse response = RequestResponseMapper.domainDTOToResponse(group);
-        
+        List<String> memberNames = groupService.listGroupMembersUseCase(id);
+        GroupResponse response = RequestResponseMapper.domainDTOToResponse(group, memberNames);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

@@ -1,6 +1,5 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
-import java.util.Collection;
 import java.util.List;
 
 import jakarta.persistence.*;
