@@ -6,7 +6,8 @@ public record Group(
 
     Long id,
     String name,
-    List<Long> membersIds
+    List<Long> membersIds,
+    List<Long> expenseIds
 
 ) {
 

@@ -10,8 +10,10 @@ import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.UserMapper;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaGroupRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaUserRepository;
 
@@ -20,22 +22,28 @@ public class GroupPersistanceAdapter implements GroupRepository {
 
     private final JpaGroupRepository jpaGroupRepository;
     private final JpaUserRepository jpaUserRepository;
+    private final JpaExpenseRepository jpaExpenseRepository;
 
-    public GroupPersistanceAdapter(JpaGroupRepository jpaGroupRepository, JpaUserRepository jpaUserRepository) {
+    public GroupPersistanceAdapter(JpaGroupRepository jpaGroupRepository, JpaUserRepository jpaUserRepository, JpaExpenseRepository jpaExpenseRepository) {
         this.jpaGroupRepository = jpaGroupRepository;
         this.jpaUserRepository = jpaUserRepository;
+        this.jpaExpenseRepository = jpaExpenseRepository;
     }
 
     @Override
     public Optional<Group> save(Group group) {
-        GroupEntity groupEntity = GroupMapper.domaintoEntity(group);
+        List<UserEntity> memberEntities = jpaUserRepository.findAllById(group.membersIds());
+        List<ExpenseEntity> expenseEntities = jpaExpenseRepository.findAllByGroupId(group.id());
+
+        GroupEntity groupEntity = GroupMapper.domaintoEntity(group, memberEntities, expenseEntities);        
         GroupEntity savedEntity = jpaGroupRepository.save(groupEntity);
+
         return Optional.of(GroupMapper.entitytoDomain(savedEntity));
     }
 
     @Override
     public Optional<Group> findByName(String name) {
-        Optional <GroupEntity> groupEntity =  jpaGroupRepository.findByName(name);
+        Optional<GroupEntity> groupEntity = jpaGroupRepository.findByName(name);
         return groupEntity.map(GroupMapper::entitytoDomain);
     }
 
@@ -48,31 +56,30 @@ public class GroupPersistanceAdapter implements GroupRepository {
 
     @Override
     public List<User> findUsersByGroupId(Long groupId) {
-        GroupEntity groupEntity = jpaGroupRepository.findById(groupId)
-                .orElseThrow(() -> new IllegalArgumentException("Group not found with id: " + groupId));
+        Optional<GroupEntity> groupEntity = jpaGroupRepository.findById(groupId);
 
-        if (groupEntity.getMembers() == null) {
-            throw new IllegalArgumentException("Group with id: " + groupId + " has no members.");
-        }
-
-        return groupEntity.getMembers().stream()
+        return groupEntity
+                .map(GroupEntity::getMembers)
+                .orElse(List.of())
+                .stream()
                 .map(UserMapper::entitytoDomain)
                 .toList();
     }
 
     @Override
     public void addUserToGroup(Long groupId, Long userId) {
-        UserEntity userEntity = jpaUserRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
-        GroupEntity groupEntity = jpaGroupRepository.findById(groupId)
-                .orElseThrow(() -> new IllegalArgumentException("Group not found with id: " + groupId));
+
+        UserEntity userEntity = jpaUserRepository.findById(userId).orElse(null);
+        GroupEntity groupEntity = jpaGroupRepository.findById(groupId).orElse(null);
+
         groupEntity.getMembers().add(userEntity);
         jpaGroupRepository.save(groupEntity);
     }
 
     @Override
     public void removeUserFromGroup(Long groupId, Long userId) {
-        throw new UnsupportedOperationException("Not implemented yet");
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'removeUserFromGroup'");
     }
 
 }

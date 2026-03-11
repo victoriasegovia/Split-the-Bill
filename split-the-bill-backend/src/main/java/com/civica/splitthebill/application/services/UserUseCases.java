@@ -10,13 +10,13 @@ public class UserUseCases implements UserService {
     @Override
     public UserDTO createUserUseCase(UserDTO userDTO) {
         // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Unimplemented method 'createUserUseCase'");
     }
 
     @Override
-    public List<UserDTO> listUsersinGroupUseCase(Long groupId) {
+    public List<UserDTO> listUsersInGroupUseCase(Long groupId) {
         // TODO Auto-generated method stub
-        return null;
+        throw new UnsupportedOperationException("Unimplemented method 'listUsersInGroupUseCase'");
     }
     
 }

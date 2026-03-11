@@ -12,6 +12,8 @@ public record GroupRequest(
         @Size(min = 3, max = 50)
         String name,
 
-        List<Long> membersIds
+        List<Long> membersIds,
+
+        List<Long> expenseIds
 ) {
 }

@@ -2,6 +2,7 @@ package com.civica.splitthebill.application.services;
 
 import java.util.List;
 
+import org.springframework.boot.webmvc.autoconfigure.WebMvcProperties.Apiversion.Use;
 import org.springframework.stereotype.Service;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
@@ -31,26 +32,19 @@ public class GroupUseCases implements GroupService {
         }
 
         Group group = GroupDTOMapper.dtoToDomain(groupDTO);
-        Group saved = groupRepository.save(group).orElseThrow(() -> new RuntimeException("Failed to save group"));
+        Group groupCreated = groupRepository.save(group).orElseThrow(() -> new RuntimeException("Failed to save group"));
 
-        return GroupDTOMapper.domainToDTO(saved);
+        return GroupDTOMapper.domainToDTO(groupCreated);
     }
 
     @Override
     public List<GroupDTO> listGroupsUseCase() {
-        return groupRepository.findAll().stream()
-                .map(GroupDTOMapper::domainToDTO)
-                .toList();
+        return groupRepository.findAll().stream().map(GroupDTOMapper::domainToDTO).toList();
     }
 
     @Override
     public void addUserToGroupUseCase(Long groupId, Long userId) {
         groupRepository.addUserToGroup(groupId, userId);
-    }
-
-    @Override
-    public void removeUserFromGroupUseCase(Long groupId, Long userId) {
-        groupRepository.removeUserFromGroup(groupId, userId);
     }
 
 }

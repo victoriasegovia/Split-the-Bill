@@ -7,7 +7,6 @@ public record UserDTO(
     Long id,
     String name,
     List<Long> groupIds,
-    List<Long> expenseIds,
-    List<Long> debtIds
+    List<Long> expenseIds
 
 ) {}

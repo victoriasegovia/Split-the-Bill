@@ -30,24 +30,28 @@ public class GroupController {
     public ResponseEntity<GroupResponse> create(@RequestBody GroupRequest request) {
         GroupDTO input = RequestResponseMapper.requestToDomainDTO(request);
         GroupDTO created = groupService.createGroupUseCase(input);
-        List<String> memberNames = userRepository.findAllById(created.membersIds()).stream()
-                .map(User::name)
-                .toList();
-        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, memberNames);
+
+        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public List<GroupResponse> list() {
+    public List<GroupResponse> getAll() {
         List<GroupDTO> groups = groupService.listGroupsUseCase();
         return groups.stream()
                 .map(groupDTO -> {
-                    List<String> memberNames = userRepository.findAllById(groupDTO.membersIds()).stream()
+                    List<String> memberNames = userRepository.findAllByGroupId(groupDTO.id()).stream()
                             .map(User::name)
                             .toList();
                     return RequestResponseMapper.domainDTOToResponse(groupDTO, memberNames);
                 })
                 .collect(Collectors.toList());
     }
-    
+
+    @GetMapping("/{id}")
+    public GroupResponse getById(@PathVariable Long id) {
+        List<GroupDTO> groups = groupService.listGroupsUseCase();
+        throw new RuntimeException("Group not found");
+    }
+
 }

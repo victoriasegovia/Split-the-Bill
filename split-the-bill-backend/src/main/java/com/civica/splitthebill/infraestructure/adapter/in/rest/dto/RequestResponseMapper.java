@@ -1,14 +1,8 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.dto;
 
 import org.springframework.stereotype.Component;
-
 import com.civica.splitthebill.application.dto.GroupDTO;
-import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.domain.model.User;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public final class RequestResponseMapper {
@@ -28,7 +22,8 @@ public final class RequestResponseMapper {
         return new GroupDTO(
             groupRequest.id(),
             groupRequest.name(),
-            groupRequest.membersIds()
+            groupRequest.membersIds(),
+            groupRequest.expenseIds()
         );
     }
 }

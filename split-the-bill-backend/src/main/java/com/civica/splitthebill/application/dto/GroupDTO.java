@@ -6,6 +6,6 @@ public record GroupDTO(
 
     Long id,
     String name,
-    List<Long> membersIds
-
+    List<Long> membersIds,
+    List<Long> expenseIds
 ) {}

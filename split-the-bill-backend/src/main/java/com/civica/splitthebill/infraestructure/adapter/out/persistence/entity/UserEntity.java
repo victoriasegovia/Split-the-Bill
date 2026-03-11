@@ -3,7 +3,6 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 import java.util.List;
 import jakarta.persistence.*;
 
-
 @Entity
 @Table(name = "users")
 public class UserEntity {
@@ -21,12 +20,11 @@ public class UserEntity {
     @OneToMany(mappedBy = "expenses")
     private List<Long> expenseIds;
 
-    @OneToMany(mappedBy = "debts")
-    private List<Long> debtIds;
-
-    public UserEntity(Long id, String name) {
+    public UserEntity(Long id, String name, List<Long> groupIds, List<Long> expenseIds) {
         this.id = id;
         this.name = name;
+        this.groupIds = groupIds;
+        this.expenseIds = expenseIds;
     }
 
     public UserEntity() {}
@@ -61,13 +59,5 @@ public class UserEntity {
 
     public void setExpenseIds(List<Long> expenseIds) {
         this.expenseIds = expenseIds;
-    }
-
-    public List<Long> getDebtIds() {
-        return debtIds;
-    }
-
-    public void setDebtIds(List<Long> debtIds) {
-        this.debtIds = debtIds;
     }
 }

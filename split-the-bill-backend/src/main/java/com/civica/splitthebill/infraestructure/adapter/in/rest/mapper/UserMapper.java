@@ -14,11 +14,10 @@ public final class UserMapper {
         userEntity.setName(user.name());
         userEntity.setGroupIds(user.groupIds());
         userEntity.setExpenseIds(user.expenseIds());
-        userEntity.setDebtIds(user.debtIds());
         return userEntity;
     }
 
     public static User entitytoDomain(UserEntity userEntity) {
-        return new User(userEntity.getId(), userEntity.getName(), userEntity.getGroupIds(), userEntity.getExpenseIds(), userEntity.getDebtIds());
+        return new User(userEntity.getId(), userEntity.getName(), userEntity.getGroupIds(), userEntity.getExpenseIds());
     }
 }

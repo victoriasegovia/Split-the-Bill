@@ -1,5 +1,6 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
+import java.util.Collection;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -23,6 +24,9 @@ public class GroupEntity {
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<UserEntity> members;
+
+    @OneToMany(mappedBy = "group")
+    private List<ExpenseEntity> expenses;
 
     public GroupEntity() {}
 
@@ -54,6 +58,14 @@ public class GroupEntity {
 
     public void setMembers(List<UserEntity> members) {
         this.members = members;
+    }
+
+    public List<ExpenseEntity> getExpenses() {
+        return expenses;
+    }
+
+    public void setExpenses(List<ExpenseEntity> expenses) {
+        this.expenses = expenses;
     }
 
 }
