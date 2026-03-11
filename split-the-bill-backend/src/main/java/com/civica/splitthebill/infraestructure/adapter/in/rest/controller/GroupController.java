@@ -10,9 +10,7 @@ import com.civica.splitthebill.application.dto.GroupDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -31,27 +29,27 @@ public class GroupController {
         GroupDTO input = RequestResponseMapper.requestToDomainDTO(request);
         GroupDTO created = groupService.createGroupUseCase(input);
 
-        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, null);
+        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, null, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
     public List<GroupResponse> getAll() {
         List<GroupDTO> groups = groupService.listGroupsUseCase();
-        return groups.stream()
-                .map(groupDTO -> {
-                    List<String> memberNames = userRepository.findAllByGroupId(groupDTO.id()).stream()
-                            .map(User::name)
-                            .toList();
-                    return RequestResponseMapper.domainDTOToResponse(groupDTO, memberNames);
-                })
-                .collect(Collectors.toList());
+
+        List<GroupResponse> response = groups.stream()
+                .map(group -> RequestResponseMapper.domainDTOToResponse(group, group.memberNames()))
+                .toList();
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
     public GroupResponse getById(@PathVariable Long id) {
-        List<GroupDTO> groups = groupService.listGroupsUseCase();
-        throw new RuntimeException("Group not found");
+        GroupDTO group = groupService.listGroupByIdUseCase(id);
+        GroupResponse response = RequestResponseMapper.domainDTOToResponse(group);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
 }

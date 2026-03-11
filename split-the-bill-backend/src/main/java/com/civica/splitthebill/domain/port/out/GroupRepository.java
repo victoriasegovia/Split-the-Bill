@@ -12,6 +12,5 @@ public interface GroupRepository {
     List<Group> findAll();
     List<User> findUsersByGroupId(Long groupId);
     void addUserToGroup(Long groupId, Long userId);
-    void removeUserFromGroup(Long groupId, Long userId);
 
 }

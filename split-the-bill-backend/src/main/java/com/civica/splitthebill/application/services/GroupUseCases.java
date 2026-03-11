@@ -47,4 +47,10 @@ public class GroupUseCases implements GroupService {
         groupRepository.addUserToGroup(groupId, userId);
     }
 
+    @Override
+    public GroupDTO listGroupUseCase() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'listGroupUseCase'");
+    }
+
 }

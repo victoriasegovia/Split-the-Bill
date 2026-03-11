@@ -14,7 +14,8 @@ public final class RequestResponseMapper {
         return new GroupResponse(
             groupDTO.id(),
             groupDTO.name(),
-            memberNames
+            memberNames,
+            groupDTO.expenseIds()
         );
     }
 

@@ -76,10 +76,4 @@ public class GroupPersistanceAdapter implements GroupRepository {
         jpaGroupRepository.save(groupEntity);
     }
 
-    @Override
-    public void removeUserFromGroup(Long groupId, Long userId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeUserFromGroup'");
-    }
-
 }
