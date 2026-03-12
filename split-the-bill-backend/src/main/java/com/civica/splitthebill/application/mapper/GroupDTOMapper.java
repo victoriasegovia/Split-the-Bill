@@ -23,7 +23,7 @@ public class GroupDTOMapper {
         return new GroupDTO(
                 group.id(),
                 group.name(),
-                group.membersIds(),
+                group.memberIds(),
                 group.expenseIds()
         );
     }

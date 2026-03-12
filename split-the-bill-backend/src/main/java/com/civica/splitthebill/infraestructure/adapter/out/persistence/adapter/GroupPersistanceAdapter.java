@@ -32,7 +32,7 @@ public class GroupPersistanceAdapter implements GroupRepository {
     @Override
     public Optional<Group> save(Group group) {
         
-        List<UserEntity> memberEntities = jpaUserRepository.findAllById(group.membersIds());
+        List<UserEntity> memberEntities = jpaUserRepository.findAllById(group.memberIds());
         List<ExpenseEntity> expenseEntities = jpaExpenseRepository.findAllByGroupId(group.id());
 
         GroupEntity groupEntity = GroupMapper.domaintoEntity(group, memberEntities, expenseEntities);

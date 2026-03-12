@@ -8,11 +8,11 @@ public class UserDTOMapper {
     public UserDTOMapper() {
     }
 
-    public static UserDTO domaintoDTO(User user) {
+    public static UserDTO domainToDTO(User user) {
         return new UserDTO(user.id(), user.name(), user.groupIds(), user.expenseIds());
     }
 
-    public static User DTOtoDomain(UserDTO userDTO) {
+    public static User DTOToDomain(UserDTO userDTO) {
         return new User(userDTO.id(),  userDTO.name(), userDTO.groupIds(), userDTO.expenseIds());
     }
 }

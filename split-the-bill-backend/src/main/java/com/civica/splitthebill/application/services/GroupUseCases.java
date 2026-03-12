@@ -3,7 +3,6 @@ package com.civica.splitthebill.application.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.boot.webmvc.autoconfigure.WebMvcProperties.Apiversion.Use;
 import org.springframework.stereotype.Service;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
@@ -46,9 +45,9 @@ public class GroupUseCases implements GroupService {
 
     @Override
     public GroupDTO listGroupByIdUseCase(Long groupId) {
-        if (groupId == null) {
-            throw new IllegalArgumentException("Group ID cannot be null");
-        }
+        
+        validateId(groupId);
+        
         Group group = groupRepository.findById(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
         return GroupDTOMapper.domainToDTO(group);
     }
@@ -56,12 +55,8 @@ public class GroupUseCases implements GroupService {
     @Override
     public void addUserToGroupUseCase(Long groupId, Long userId) {
 
-        if (groupId == null) {
-            throw new IllegalArgumentException("Group ID cannot be null");
-        }
-        if (userId == null) {
-            throw new IllegalArgumentException("User ID cannot be null");
-        }
+        validateId(groupId);
+        validateId(userId);
 
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(() -> new IllegalArgumentException("Group not found: " + groupId));
@@ -69,7 +64,7 @@ public class GroupUseCases implements GroupService {
         userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
 
-        List<Long> updatedMembers = new ArrayList<>(group.membersIds());
+        List<Long> updatedMembers = new ArrayList<>(group.memberIds());
         updatedMembers.add(userId);
 
         Group updatedGroup = new Group(group.id(), group.name(), updatedMembers, group.expenseIds());
@@ -78,11 +73,17 @@ public class GroupUseCases implements GroupService {
 
     @Override
     public List<String> listGroupMembersUseCase(Long groupId) {
-        if (groupId == null) {
-            throw new IllegalArgumentException("Group ID cannot be null");
-        }
+        
+        validateId(groupId);
+
         List<User> users = groupRepository.findUsersByGroupId(groupId);
         return users.stream().map(User::name).toList();
+    }
+
+    private void validateId(Long id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID cannot be null");
+        }
     }
 
 }
