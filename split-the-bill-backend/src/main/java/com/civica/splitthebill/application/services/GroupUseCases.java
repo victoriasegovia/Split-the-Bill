@@ -53,25 +53,6 @@ public class GroupUseCases implements GroupService {
     }
 
     @Override
-    public void addUserToGroupUseCase(Long groupId, Long userId) {
-
-        validateId(groupId);
-        validateId(userId);
-
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new IllegalArgumentException("Group not found: " + groupId));
-
-        userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
-
-        List<Long> updatedMembers = new ArrayList<>(group.memberIds());
-        updatedMembers.add(userId);
-
-        Group updatedGroup = new Group(group.id(), group.name(), updatedMembers, group.expenseIds());
-        groupRepository.save(updatedGroup);
-    }
-
-    @Override
     public List<String> listGroupMembersUseCase(Long groupId) {
         
         validateId(groupId);

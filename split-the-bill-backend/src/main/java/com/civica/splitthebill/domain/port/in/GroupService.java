@@ -10,6 +10,5 @@ public interface GroupService {
     List<GroupDTO> listGroupsUseCase();
     List<String> listGroupMembersUseCase(Long groupId);
     GroupDTO listGroupByIdUseCase(Long groupId);
-    void addUserToGroupUseCase(Long groupId, Long userId);
 
 }
