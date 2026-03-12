@@ -31,6 +31,7 @@ public class GroupPersistanceAdapter implements GroupRepository {
 
     @Override
     public Optional<Group> save(Group group) {
+        
         List<UserEntity> memberEntities = jpaUserRepository.findAllById(group.membersIds());
         List<ExpenseEntity> expenseEntities = jpaExpenseRepository.findAllByGroupId(group.id());
 
@@ -63,16 +64,6 @@ public class GroupPersistanceAdapter implements GroupRepository {
                 .stream()
                 .map(UserMapper::entitytoDomain)
                 .toList();
-    }
-
-    @Override
-    public void addUserToGroup(Long groupId, Long userId) {
-
-        UserEntity userEntity = jpaUserRepository.findById(userId).orElse(null);
-        GroupEntity groupEntity = jpaGroupRepository.findById(groupId).orElse(null);
-
-        groupEntity.getMembers().add(userEntity);
-        jpaGroupRepository.save(groupEntity);
     }
 
     @Override

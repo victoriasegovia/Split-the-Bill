@@ -1,5 +1,6 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -22,10 +23,10 @@ public class GroupEntity {
         joinColumns = @JoinColumn(name = "group_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<UserEntity> members;
+    private List<UserEntity> members = new ArrayList<>();
 
     @OneToMany(mappedBy = "group")
-    private List<ExpenseEntity> expenses;
+    private List<ExpenseEntity> expenses = new ArrayList<>();
 
     public GroupEntity() {}
 

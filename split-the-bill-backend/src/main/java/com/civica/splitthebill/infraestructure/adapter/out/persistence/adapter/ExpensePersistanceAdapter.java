@@ -16,17 +16,17 @@ public class ExpensePersistanceAdapter implements ExpenseRespository {
     public ExpensePersistanceAdapter(JpaExpenseRepository jpaExpenseRepository) {
         this.jpaExpenseRepository = jpaExpenseRepository;
     }
-    
+
     @Override
-    public Optional<Expense> save(Long groupId, Expense expense) {
+    public List<Expense> findAllByGroupId(Long groupId) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+        throw new UnsupportedOperationException("Unimplemented method 'findAllInGroup'");
     }
 
     @Override
-    public List<Expense> findAllInGroup(Long groupId) {
+    public Optional<Expense> save(Expense expense) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllInGroup'");
+        throw new UnsupportedOperationException("Unimplemented method 'save'");
     }
     
 }

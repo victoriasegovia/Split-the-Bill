@@ -1,5 +1,7 @@
 package com.civica.splitthebill.infraestructure.config;
 
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +19,8 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        groupRepository.save(new Group(null, "Viaje a las Islas Canarias", null, null));
-        groupRepository.save(new Group(null, "Cena de navidad", null, null));
-        groupRepository.save(new Group(null, "Cumpleanos de Marta", null, null));
+        groupRepository.save(new Group(null, "Viaje a las Islas Canarias", List.of(), List.of()));
+        groupRepository.save(new Group(null, "Cena de navidad", List.of(), List.of()));
+        groupRepository.save(new Group(null, "Cumpleanos de Marta", List.of(), List.of()));
     }
 }

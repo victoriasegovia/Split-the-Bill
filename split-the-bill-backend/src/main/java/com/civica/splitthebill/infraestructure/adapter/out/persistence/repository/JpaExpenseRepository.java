@@ -6,5 +6,4 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.Ex
 
 public interface JpaExpenseRepository extends JpaRepository <ExpenseEntity, Long> {
     List<ExpenseEntity> findAllByGroupId(Long groupId);
-    List<ExpenseEntity> findAllById(List<Long> ids);
 }

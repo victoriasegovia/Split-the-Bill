@@ -12,4 +12,8 @@ import { CommonModule } from '@angular/common';
 })
 export class GroupCard {
   @Input() group!: Group;
+
+  ngOnInit() {
+    console.log(this.group); // aquí funciona correctamente
+  }
 }

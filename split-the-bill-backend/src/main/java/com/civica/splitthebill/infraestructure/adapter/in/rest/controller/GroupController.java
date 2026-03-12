@@ -25,7 +25,7 @@ public class GroupController {
         GroupDTO input = RequestResponseMapper.requestToDomainDTO(request);
         GroupDTO created = groupService.createGroupUseCase(input);
 
-        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, null);
+        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, List.of());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

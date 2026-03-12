@@ -6,6 +6,6 @@ import java.util.Optional;
 import com.civica.splitthebill.domain.model.Expense;
 
 public interface ExpenseRespository {
-    Optional<Expense> save(Long groupId, Expense expense);
-    List<Expense> findAllInGroup(Long groupId);
+    Optional<Expense> save(Expense expense);
+    List<Expense> findAllByGroupId(Long groupId);
 }

@@ -1,5 +1,6 @@
 package com.civica.splitthebill.application.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.webmvc.autoconfigure.WebMvcProperties.Apiversion.Use;
@@ -32,7 +33,8 @@ public class GroupUseCases implements GroupService {
         }
 
         Group group = GroupDTOMapper.dtoToDomain(groupDTO);
-        Group groupCreated = groupRepository.save(group).orElseThrow(() -> new RuntimeException("Failed to save group"));
+        Group groupCreated = groupRepository.save(group)
+                .orElseThrow(() -> new RuntimeException("Failed to save group"));
 
         return GroupDTOMapper.domainToDTO(groupCreated);
     }
@@ -53,13 +55,25 @@ public class GroupUseCases implements GroupService {
 
     @Override
     public void addUserToGroupUseCase(Long groupId, Long userId) {
+
         if (groupId == null) {
             throw new IllegalArgumentException("Group ID cannot be null");
         }
         if (userId == null) {
             throw new IllegalArgumentException("User ID cannot be null");
         }
-        groupRepository.addUserToGroup(groupId, userId);
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new IllegalArgumentException("Group not found: " + groupId));
+
+        userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
+
+        List<Long> updatedMembers = new ArrayList<>(group.membersIds());
+        updatedMembers.add(userId);
+
+        Group updatedGroup = new Group(group.id(), group.name(), updatedMembers, group.expenseIds());
+        groupRepository.save(updatedGroup);
     }
 
     @Override

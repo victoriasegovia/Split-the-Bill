@@ -1,5 +1,6 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
 
@@ -15,10 +16,10 @@ public class UserEntity {
     private String name;
 
     @ManyToMany(mappedBy = "members")
-    private List<GroupEntity> groups;
+    private List<GroupEntity> groups = new ArrayList<>();;
 
     @OneToMany(mappedBy = "payer")
-    private List<ExpenseEntity> expenses;
+    private List<ExpenseEntity> expenses = new ArrayList<>();;
 
     public UserEntity(Long id, String name, List<GroupEntity> groups, List<ExpenseEntity> expenses) {
         this.id = id;

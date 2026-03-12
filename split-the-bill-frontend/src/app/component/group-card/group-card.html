@@ -1,7 +1,17 @@
 <div class="card shadow-sm hover-scale">
     <div class="card-body">
         <h5 class="card-title">{{ group.name }}</h5>
-        <span class="me-2 badge bg-success">usuario</span>
+
+        <p *ngIf="group?.memberNames?.length">
+            <span *ngFor="let member of group.memberNames; let last = last">
+                {{ member }}<span *ngIf="!last">, </span>
+            </span>
+        </p>
+
+        <p *ngIf="group?.memberNames?.length === 0">
+            Sin miembros
+        </p>
+
     </div>
     <div class="d-flex justify-content-end">
         <button class="btn btn-primary m-2">Ver</button>
