@@ -2,6 +2,9 @@ package com.civica.splitthebill.application.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.function.LongPredicate;
+import java.util.function.Supplier;
 
 import org.springframework.stereotype.Service;
 
@@ -26,6 +29,7 @@ public class GroupUseCases implements GroupService {
 
     @Override
     public GroupDTO createGroupUseCase(GroupDTO groupDTO) {
+
         Group group = GroupDTOMapper.dtoToDomain(groupDTO);
         Group groupCreated = groupRepository.save(group)
                 .orElseThrow(() -> new RuntimeException("Failed to save group"));
@@ -40,24 +44,19 @@ public class GroupUseCases implements GroupService {
 
     @Override
     public GroupDTO listGroupByIdUseCase(Long groupId) {
-        
-        validateId(groupId);
-        
-        Group group = groupRepository.findById(groupId).orElseThrow(() -> new RuntimeException("Group not found"));
-        return GroupDTOMapper.domainToDTO(group);
+
+        Objects.requireNonNull(groupId, "Group Id cannot be null");
+        return groupRepository.findById(groupId)
+                .map(GroupDTOMapper::domainToDTO)
+                .orElseThrow(() -> new RuntimeException("Group not found with id: " + groupId));
     }
 
     @Override
     public List<String> listGroupMembersUseCase(Long groupId) {
-        
-        validateId(groupId);
 
-        List<User> users = groupRepository.findUsersByGroupId(groupId);
-        return users.stream().map(User::name).toList();
-    }
-
-    private void validateId(Long id) {
-        if (id == null) throw new IllegalArgumentException("ID cannot be null");
+        Objects.requireNonNull(groupId, "Group Id cannot be null");
+        return groupRepository.findUsersByGroupId(groupId).stream()
+                .map(User::name).toList();
     }
 
 }
