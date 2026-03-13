@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
 import com.civica.splitthebill.application.mapper.GroupDTOMapper;
-import com.civica.splitthebill.domain.exception.DuplicateGroupNameException;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.in.GroupService;
@@ -27,10 +26,6 @@ public class GroupUseCases implements GroupService {
 
     @Override
     public GroupDTO createGroupUseCase(GroupDTO groupDTO) {
-        if (groupRepository.findByName(groupDTO.name()).isPresent()) {
-            throw new DuplicateGroupNameException(groupDTO.name());
-        }
-
         Group group = GroupDTOMapper.dtoToDomain(groupDTO);
         Group groupCreated = groupRepository.save(group)
                 .orElseThrow(() -> new RuntimeException("Failed to save group"));
@@ -62,9 +57,7 @@ public class GroupUseCases implements GroupService {
     }
 
     private void validateId(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("ID cannot be null");
-        }
+        if (id == null) throw new IllegalArgumentException("ID cannot be null");
     }
 
 }

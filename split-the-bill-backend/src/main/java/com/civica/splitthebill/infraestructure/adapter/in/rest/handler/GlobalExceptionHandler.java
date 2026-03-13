@@ -8,7 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import com.civica.splitthebill.domain.exception.DuplicateGroupNameException;
+import com.civica.splitthebill.domain.exception.DuplicateExpenseInGroupException;
+import com.civica.splitthebill.domain.exception.DuplicateUserInGroupException;
 
 /**
  * GlobalExceptionHandler
@@ -74,7 +75,8 @@ public class GlobalExceptionHandler {
      * Manejo de excepciones de negocio (dominio)
      */
     @ExceptionHandler({
-            DuplicateGroupNameException.class
+        DuplicateUserInGroupException.class,
+        DuplicateExpenseInGroupException.class
     })
     public ResponseEntity<Map<String, Object>> handleBusinessExceptions(
             RuntimeException ex,
@@ -86,8 +88,8 @@ public class GlobalExceptionHandler {
         String field = "unknown";
 
         // Extraemos el campo dependiendo del tipo de excepción
-        if (ex instanceof DuplicateGroupNameException e) {
-            field = e.getMessage();
+        if (ex instanceof ExceptionHandler e) {
+            // field = e.getMessage();
         }
 
         errors.computeIfAbsent(field, k -> new ArrayList<>())
