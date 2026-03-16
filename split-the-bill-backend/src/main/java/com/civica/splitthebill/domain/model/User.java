@@ -1,20 +1,52 @@
 package com.civica.splitthebill.domain.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.LongPredicate;
+import java.util.function.Supplier;
+
+import com.civica.splitthebill.domain.exception.DuplicateUserInGroupException;
+import com.civica.splitthebill.domain.exception.DuplicateExpenseInUserException;
 
 public record User(
         Long id,
         String name,
-        List<Long> groupIds,
-        List<Long> expenseIds
+        Set<Long> groupIds,
+        Set<Long> expenseIds
         )
 {
     public User {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("User name cannot be null or blank");
-        }
-        if (groupIds == null) {
-            throw new IllegalArgumentException("User groupIds cannot be null");
-        }
+        Objects.requireNonNull(id, "User Id cannot be null.");
+        groupIds = Set.copyOf(Objects.requireNonNullElse(groupIds, Set.of()));
+        expenseIds = Set.copyOf(Objects.requireNonNullElse(expenseIds, Set.of()));
     }
+
+    public User addGroup (Long groupId) {
+        checkExclusivity(groupId, groupIds::contains, () -> new DuplicateUserInGroupException(this.id, groupId));
+        
+        Set<Long> updatedGroup = new HashSet<>(this.groupIds);
+        updatedGroup.add(groupId);
+
+        return new User(this.id, this.name, updatedGroup, this.expenseIds);
+    }
+
+    public User addExpense (Long expenseId) {
+        checkExclusivity(expenseId, expenseIds::contains, () -> new DuplicateExpenseInUserException(this.id, expenseId));
+        
+        Set<Long> updateExpense = new HashSet<>(this.expenseIds);
+        updateExpense.add(expenseId);
+
+        return new User(this.id, this.name, this.groupIds, updateExpense);
+    }
+
+    private void checkExclusivity(Long id, LongPredicate condition, Supplier<RuntimeException> exception) {
+    Objects.requireNonNull(id, "Id cannot be null");
+    Optional.of(id)
+        .filter(condition::test)
+        .ifPresent(val -> {
+          throw exception.get();
+        });
+  }
 }

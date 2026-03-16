@@ -1,5 +1,8 @@
 package com.civica.splitthebill.domain.model;
 
+import java.util.Objects;
+import java.util.function.Supplier;
+
 public record Expense(
         Long id,
         String title,
@@ -9,17 +12,15 @@ public record Expense(
         ) {
 
     public Expense {
-        if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("Expense title cannot be null or blank");
-        }
-        if (payerId == null) {
-            throw new IllegalArgumentException("Expense payer cannot be null");
-        }
-        if (groupId == null) {
-            throw new IllegalArgumentException("Expense group cannot be null");
-        }
-        if (totalAmount <= 0) {
-            throw new IllegalArgumentException("Expense total amount must be a positive number");
-        }
+        Objects.requireNonNull(title, "Group name cannot be null");
+        Objects.requireNonNull(payerId, "Payer Id cannot be null");
+        Objects.requireNonNull(groupId, "Group Id cannot be null");
+
+        ensurePositive(totalAmount > 0, () -> new IllegalArgumentException("Total amount must be positive"));
     }
+
+    private void ensurePositive (boolean condition, Supplier<RuntimeException> exception) {
+        if (!condition) throw exception.get();
+    }
+
 }

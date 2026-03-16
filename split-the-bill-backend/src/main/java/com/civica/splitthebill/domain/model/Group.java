@@ -1,8 +1,8 @@
 package com.civica.splitthebill.domain.model;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.LongPredicate;
 import java.util.function.Supplier;
@@ -18,8 +18,8 @@ public record Group(
 
   public Group {
     Objects.requireNonNull(name, "Group name cannot be null");
-    memberIds = Set.copyOf(memberIds != null ? memberIds : Set.of());
-    expenseIds = Set.copyOf(expenseIds != null ? expenseIds : Set.of());
+    memberIds = Set.copyOf(Objects.requireNonNullElse(memberIds, Set.of()));
+    expenseIds = Set.copyOf(Objects.requireNonNullElse(expenseIds, Set.of()));
   }
 
   public Group addMember(Long memberId) {
@@ -44,7 +44,10 @@ public record Group(
 
   private void checkExclusivity(Long id, LongPredicate condition, Supplier<RuntimeException> exception) {
     Objects.requireNonNull(id, "Id cannot be null");
-    if (condition.test(id))
-      throw exception.get();
+    Optional.of(id)
+        .filter(condition::test)
+        .ifPresent(val -> {
+          throw exception.get();
+        });
   }
 }
