@@ -9,7 +9,6 @@ public record GroupRequest(
         Long id,
         
         @NotBlank
-        @Size(min = 3, max = 50)
         String name,
 
         Set<Long> membersIds,

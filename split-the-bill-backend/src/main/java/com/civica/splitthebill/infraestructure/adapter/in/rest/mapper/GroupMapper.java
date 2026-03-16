@@ -1,42 +1,69 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.mapper;
 
-import java.util.List;
+import java.util.Collections;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.Objects;
 
-import org.springframework.stereotype.Component;
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
 import com.civica.splitthebill.domain.model.Group;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 
-@Component
 public final class GroupMapper {
 
-    private GroupMapper() {
-    }
-
-    public static Group entitytoDomain(GroupEntity groupEntity) {
-
-        Set<Long> membersIds = groupEntity.getMembers().stream()
-                .map((UserEntity u) -> u.getId())
-                .collect(Collectors.toSet());
-
-        Set<Long> expenseIds = groupEntity.getExpenses().stream()
+    public static Group entitytoDomain(GroupEntity entity) {
+        return new Group(
+            entity.getId(),
+            entity.getName(),
+            Optional.ofNullable(entity.getMembers())
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(UserEntity::getId)
+                .collect(Collectors.toSet()),
+            Optional.ofNullable(entity.getExpenses())
+                .orElse(Collections.emptySet())
+                .stream()
                 .map(ExpenseEntity::getId)
-                .collect(Collectors.toSet());
-        
-        return new Group(groupEntity.getId(), groupEntity.getName(), membersIds, expenseIds);
+                .collect(Collectors.toSet())
+        );
     }
 
-    public static GroupEntity domaintoEntity(Group group, Set<UserEntity> members, Set<ExpenseEntity> expenses) {
+    public static GroupEntity domaintoEntity(Group group) {
+        return new GroupEntity(
+            group.id(),
+            group.name(),
+            mapMemberIdsToProxies(group.memberIds()),
+            mapExpenseIdsToProxies(group.expenseIds())
+        );
+    }
 
-        GroupEntity groupEntity = new GroupEntity();
-        groupEntity.setId(group.id());
-        groupEntity.setName(group.name());
-        groupEntity.setMembers(members);
-        groupEntity.setExpenses(expenses);
+    private static Set<UserEntity> mapMemberIdsToProxies(Set<Long> ids) {
+        return Optional.ofNullable(ids)
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(GroupMapper::createUserProxy)
+                .collect(Collectors.toSet());
+    }
 
-        return groupEntity;
+    private static Set<ExpenseEntity> mapExpenseIdsToProxies(Set<Long> ids) {
+        return Optional.ofNullable(ids)
+                .orElse(Collections.emptySet())
+                .stream()
+                .map(GroupMapper::createExpenseProxy)
+                .collect(Collectors.toSet());
+    }
+
+    private static UserEntity createUserProxy(Long id) {
+        UserEntity user = new UserEntity();
+        user.setId(id);
+        return user;
+    }
+
+    private static ExpenseEntity createExpenseProxy(Long id) {
+        ExpenseEntity expense = new ExpenseEntity();
+        expense.setId(id);
+        return expense;
     }
 }

@@ -3,7 +3,6 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.civica.splitthebill.domain.model.Group;
@@ -11,7 +10,6 @@ import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.UserMapper;
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;
@@ -68,9 +66,8 @@ public class GroupPersistanceAdapter implements GroupRepository {
     public Set<User> findUsersByGroupId(Long groupId) {
         List<UserEntity> users = jpaUserRepository.findByGroups_Id(groupId);
 
-        return users
-                .stream()
-                .map(UserMapper::entitytoDomain)
+        return users.stream()
+                .map(UserMapper::entityToDomain)
                 .collect(Collectors.toSet());
     }
 

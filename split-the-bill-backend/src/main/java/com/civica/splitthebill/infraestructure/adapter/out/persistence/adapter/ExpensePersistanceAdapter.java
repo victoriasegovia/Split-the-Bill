@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.domain.port.out.ExpenseRespository;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.ExpenseMapper;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,14 +21,25 @@ public class ExpensePersistanceAdapter implements ExpenseRespository {
 
     @Override
     public List<Expense> findAllByGroupId(Long groupId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllInGroup'");
+        List<ExpenseEntity> expenseEntities = jpaExpenseRepository.findAllByGroupId(groupId);
+                
+        return expenseEntities.stream()
+                .map(ExpenseMapper::entityToDomain)
+                .toList();
     }
 
     @Override
     public Optional<Expense> save(Expense expense) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'save'");
+
+        ExpenseEntity expenseEntity = ExpenseMapper.domainToEntity(expense);
+
+        expenseEntity.setId(expense.id());
+        expenseEntity.setTitle(expense.title());
+        expenseEntity.setTotalAmount(expense.totalAmount());
+
+        ExpenseEntity savedExpense = jpaExpenseRepository.save(expenseEntity);
+
+        return Optional.of(ExpenseMapper.entityToDomain(savedExpense));
     }
-    
+
 }

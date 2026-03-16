@@ -17,7 +17,7 @@ public class ExpenseDTOMapper {
                 expense.totalAmount());
     }
 
-    public static Expense DTOToDomain(ExpenseDTO expenseDTO) {
+    public static Expense dtoToDomain(ExpenseDTO expenseDTO) {
         return new Expense(
                 expenseDTO.id(),
                 expenseDTO.title(),

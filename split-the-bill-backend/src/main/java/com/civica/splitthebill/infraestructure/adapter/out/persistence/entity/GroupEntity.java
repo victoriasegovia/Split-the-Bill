@@ -30,10 +30,11 @@ public class GroupEntity {
 
     public GroupEntity() {}
 
-    public GroupEntity(Long id, String name, Set<UserEntity> members) {
+    public GroupEntity(Long id, String name, Set<UserEntity> members, Set<ExpenseEntity> expenses) {
         this.id = id;
         this.name = name;
         this.members = members;
+        this.expenses = expenses;
     }
 
     public Long getId() {

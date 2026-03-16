@@ -1,14 +1,9 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.dto;
 
-import org.springframework.stereotype.Component;
 import com.civica.splitthebill.application.dto.GroupDTO;
 import java.util.Set;
 
-@Component
 public final class RequestResponseMapper {
-
-    private RequestResponseMapper() {
-    }
 
     public static GroupResponse domainDTOToResponse(GroupDTO groupDTO, Set<String> memberNames) {
         return new GroupResponse(

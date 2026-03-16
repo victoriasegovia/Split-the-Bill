@@ -37,20 +37,20 @@ public class UserPersistanceAdapter implements UserRepository {
         UserEntity userEntity = new UserEntity(user.id(), user.name(), Set.copyOf(groups), Set.copyOf(expenses));
         jpaUserRepository.save(userEntity);
 
-        return Optional.of(UserMapper.entitytoDomain(userEntity));
+        return Optional.of(UserMapper.entityToDomain(userEntity));
     }
 
     @Override
     public Optional<User> findById(Long userId) {
         Optional<UserEntity> userEntity = jpaUserRepository.findById(userId);
-        return userEntity.map(UserMapper::entitytoDomain);
+        return userEntity.map(UserMapper::entityToDomain);
     }
 
     @Override
     public List<User> findAllByGroupId(Long groupId) {
         List<UserEntity> userEntities = jpaUserRepository.findByGroups_Id(groupId);
         return userEntities.stream()
-                .map(UserMapper::entitytoDomain)
+                .map(UserMapper::entityToDomain)
                 .toList();
     }
     
