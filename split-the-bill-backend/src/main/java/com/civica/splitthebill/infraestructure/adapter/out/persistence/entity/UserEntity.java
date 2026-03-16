@@ -1,7 +1,7 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,12 +16,12 @@ public class UserEntity {
     private String name;
 
     @ManyToMany(mappedBy = "members")
-    private List<GroupEntity> groups = new ArrayList<>();;
+    private Set<GroupEntity> groups = new HashSet<>();
 
     @OneToMany(mappedBy = "payer")
-    private List<ExpenseEntity> expenses = new ArrayList<>();;
+    private Set<ExpenseEntity> expenses = new HashSet<>();
 
-    public UserEntity(Long id, String name, List<GroupEntity> groups, List<ExpenseEntity> expenses) {
+    public UserEntity(Long id, String name, Set<GroupEntity> groups, Set<ExpenseEntity> expenses) {
         this.id = id;
         this.name = name;
         this.groups = groups;
@@ -46,19 +46,19 @@ public class UserEntity {
         this.name = name;
     }
 
-    public List<GroupEntity> getGroups() {
+    public Set<GroupEntity> getGroups() {
         return groups;
     }
 
-    public void setGroups(List<GroupEntity> groups) {
+    public void setGroups(Set<GroupEntity> groups) {
         this.groups = groups;
     }
 
-    public List<ExpenseEntity> getExpenses() {
+    public Set<ExpenseEntity> getExpenses() {
         return expenses;
     }
 
-    public void setExpenses(List<ExpenseEntity> expenses) {
+    public void setExpenses(Set<ExpenseEntity> expenses) {
         this.expenses = expenses;
     }
 }

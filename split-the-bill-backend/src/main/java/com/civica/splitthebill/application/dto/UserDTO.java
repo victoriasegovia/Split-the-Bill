@@ -1,12 +1,12 @@
 package com.civica.splitthebill.application.dto;
 
-import java.util.List;
+import java.util.Set;
 
 public record UserDTO(
     
     Long id,
     String name,
-    List<Long> groupIds,
-    List<Long> expenseIds
+    Set<Long> groupIds,
+    Set<Long> expenseIds
 
 ) {}

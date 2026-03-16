@@ -2,7 +2,7 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
@@ -34,7 +34,7 @@ public class UserPersistanceAdapter implements UserRepository {
         List<GroupEntity> groups = jpaGroupRepository.findAllById(user.groupIds());
         List<ExpenseEntity> expenses = jpaExpenseRepository.findAllById(user.expenseIds());
 
-        UserEntity userEntity = new UserEntity(user.id(), user.name(), groups, expenses);
+        UserEntity userEntity = new UserEntity(user.id(), user.name(), Set.copyOf(groups), Set.copyOf(expenses));
         jpaUserRepository.save(userEntity);
 
         return Optional.of(UserMapper.entitytoDomain(userEntity));
@@ -51,7 +51,7 @@ public class UserPersistanceAdapter implements UserRepository {
         List<UserEntity> userEntities = jpaUserRepository.findByGroups_Id(groupId);
         return userEntities.stream()
                 .map(UserMapper::entitytoDomain)
-                .collect(Collectors.toList());
+                .toList();
     }
     
 }

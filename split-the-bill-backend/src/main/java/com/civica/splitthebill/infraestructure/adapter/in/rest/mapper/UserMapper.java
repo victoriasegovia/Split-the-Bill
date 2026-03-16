@@ -4,7 +4,9 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.Gr
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
 
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.civica.splitthebill.domain.model.User;
 
 public final class UserMapper {
@@ -12,29 +14,26 @@ public final class UserMapper {
     public UserMapper() {
     }
 
-    public static UserEntity domaintoEntity(User user, List<GroupEntity> groups, List<ExpenseEntity> expenses) {
+    public static UserEntity domaintoEntity(User user, Set<GroupEntity> groups, Set<ExpenseEntity> expenses) {
         return new UserEntity(user.id(), user.name(), groups, expenses);
     }
 
     public static User entitytoDomain(UserEntity entity) {
 
-        List<Long> groupIds = entity.getGroups()
+        Set<Long> groupIds = entity.getGroups()
                 .stream()
                 .map(GroupEntity::getId)
-                .toList();
+                .collect(Collectors.toSet());
 
-        List<Long> expenseIds = entity.getExpenses()
+        Set<Long> expenseIds = entity.getExpenses()
                 .stream()
                 .map(ExpenseEntity::getId)
-                .toList();
+                .collect(Collectors.toSet());
 
-        User user = new User(
+        return new User(
                 entity.getId(),
                 entity.getName(),
                 groupIds,
-                expenseIds
-        );
-
-        return user;
+                expenseIds);
     }
 }
