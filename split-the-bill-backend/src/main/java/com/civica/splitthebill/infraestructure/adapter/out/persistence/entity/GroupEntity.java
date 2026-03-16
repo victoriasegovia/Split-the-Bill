@@ -1,7 +1,7 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.*;
 
@@ -23,14 +23,14 @@ public class GroupEntity {
         joinColumns = @JoinColumn(name = "group_id"),
         inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<UserEntity> members = new ArrayList<>();
+    private Set<UserEntity> members = new HashSet<>();
 
     @OneToMany(mappedBy = "group")
-    private List<ExpenseEntity> expenses = new ArrayList<>();
+    private Set<ExpenseEntity> expenses = new HashSet<>();
 
     public GroupEntity() {}
 
-    public GroupEntity(Long id, String name, List<UserEntity> members) {
+    public GroupEntity(Long id, String name, Set<UserEntity> members) {
         this.id = id;
         this.name = name;
         this.members = members;
@@ -52,19 +52,19 @@ public class GroupEntity {
         this.name = name;
     }
 
-    public List<UserEntity> getMembers() {
+    public Set<UserEntity> getMembers() {
         return members;
     }
 
-    public void setMembers(List<UserEntity> members) {
+    public void setMembers(Set<UserEntity> members) {
         this.members = members;
     }
 
-    public List<ExpenseEntity> getExpenses() {
+    public Set<ExpenseEntity> getExpenses() {
         return expenses;
     }
 
-    public void setExpenses(List<ExpenseEntity> expenses) {
+    public void setExpenses(Set<ExpenseEntity> expenses) {
         this.expenses = expenses;
     }
 

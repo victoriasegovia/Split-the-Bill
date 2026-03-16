@@ -1,11 +1,11 @@
 package com.civica.splitthebill.application.dto;
 
-import java.util.List;
+import java.util.Set;
 
 public record GroupDTO(
 
     Long id,
     String name,
-    List<Long> membersIds,
-    List<Long> expenseIds
+    Set<Long> membersIds,
+    Set<Long> expenseIds
 ) {}

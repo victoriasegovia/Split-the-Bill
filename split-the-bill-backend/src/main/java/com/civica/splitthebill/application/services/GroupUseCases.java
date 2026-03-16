@@ -1,10 +1,9 @@
 package com.civica.splitthebill.application.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.LongPredicate;
-import java.util.function.Supplier;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -14,17 +13,14 @@ import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.in.GroupService;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
-import com.civica.splitthebill.domain.port.out.UserRepository;
 
 @Service
 public class GroupUseCases implements GroupService {
 
     private final GroupRepository groupRepository;
-    private final UserRepository userRepository;
 
-    public GroupUseCases(GroupRepository groupRepository, UserRepository userRepository) {
+    public GroupUseCases(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -52,11 +48,12 @@ public class GroupUseCases implements GroupService {
     }
 
     @Override
-    public List<String> listGroupMembersUseCase(Long groupId) {
+    public Set<String> listGroupMembersUseCase(Long groupId) {
 
         Objects.requireNonNull(groupId, "Group Id cannot be null");
         return groupRepository.findUsersByGroupId(groupId).stream()
-                .map(User::name).toList();
+                .map(User::name)
+                .collect(Collectors.toSet());
     }
 
 }

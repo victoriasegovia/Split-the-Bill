@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -25,7 +26,7 @@ public class GroupController {
         GroupDTO input = RequestResponseMapper.requestToDomainDTO(request);
         GroupDTO created = groupService.createGroupUseCase(input);
 
-        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, List.of());
+        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, Set.of());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -36,7 +37,7 @@ public class GroupController {
         
         List<GroupResponse> response = groups.stream()
                 .map(group -> {
-                    List<String> memberNames = groupService.listGroupMembersUseCase(group.id());
+                    Set<String> memberNames = groupService.listGroupMembersUseCase(group.id());
                     GroupResponse groupResponse = RequestResponseMapper.domainDTOToResponse(group, memberNames);
                     return groupResponse;
                 })
@@ -49,7 +50,7 @@ public class GroupController {
     public ResponseEntity<GroupResponse> getById(@PathVariable Long id) {
 
         GroupDTO group = groupService.listGroupByIdUseCase(id);
-        List<String> memberNames = groupService.listGroupMembersUseCase(id);
+        Set<String> memberNames = groupService.listGroupMembersUseCase(id);
         GroupResponse response = RequestResponseMapper.domainDTOToResponse(group, memberNames);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

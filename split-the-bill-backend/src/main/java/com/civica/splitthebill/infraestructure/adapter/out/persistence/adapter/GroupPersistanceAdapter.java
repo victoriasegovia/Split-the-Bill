@@ -2,6 +2,9 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
@@ -23,7 +26,8 @@ public class GroupPersistanceAdapter implements GroupRepository {
     private final JpaUserRepository jpaUserRepository;
     private final JpaExpenseRepository jpaExpenseRepository;
 
-    public GroupPersistanceAdapter(JpaGroupRepository jpaGroupRepository, JpaUserRepository jpaUserRepository, JpaExpenseRepository jpaExpenseRepository) {
+    public GroupPersistanceAdapter(JpaGroupRepository jpaGroupRepository, JpaUserRepository jpaUserRepository,
+            JpaExpenseRepository jpaExpenseRepository) {
         this.jpaGroupRepository = jpaGroupRepository;
         this.jpaUserRepository = jpaUserRepository;
         this.jpaExpenseRepository = jpaExpenseRepository;
@@ -31,11 +35,17 @@ public class GroupPersistanceAdapter implements GroupRepository {
 
     @Override
     public Optional<Group> save(Group group) {
-        
-        List<UserEntity> memberEntities = jpaUserRepository.findAllById(group.memberIds());
-        List<ExpenseEntity> expenseEntities = jpaExpenseRepository.findAllByGroupId(group.id());
+        GroupEntity groupEntity = jpaGroupRepository.findById(group.id())
+                .orElseGet(GroupEntity::new);
 
-        GroupEntity groupEntity = GroupMapper.domaintoEntity(group, memberEntities, expenseEntities);
+        groupEntity.setId(group.id());
+        groupEntity.setName(group.name());
+
+        List<UserEntity> memberEntities = jpaUserRepository.findAllById(group.memberIds());
+
+        groupEntity.getMembers().clear();
+        groupEntity.getMembers().addAll(memberEntities);
+
         GroupEntity savedEntity = jpaGroupRepository.save(groupEntity);
 
         return Optional.of(GroupMapper.entitytoDomain(savedEntity));
@@ -48,22 +58,20 @@ public class GroupPersistanceAdapter implements GroupRepository {
     }
 
     @Override
-    public List<Group> findAll() {
+    public Set<Group> findAll() {
         return jpaGroupRepository.findAll().stream()
                 .map(GroupMapper::entitytoDomain)
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     @Override
-    public List<User> findUsersByGroupId(Long groupId) {
-        Optional<GroupEntity> groupEntity = jpaGroupRepository.findById(groupId);
+    public Set<User> findUsersByGroupId(Long groupId) {
+        List<UserEntity> users = jpaUserRepository.findByGroups_Id(groupId);
 
-        return groupEntity
-                .map(GroupEntity::getMembers)
-                .orElse(List.of())
+        return users
                 .stream()
                 .map(UserMapper::entitytoDomain)
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     @Override

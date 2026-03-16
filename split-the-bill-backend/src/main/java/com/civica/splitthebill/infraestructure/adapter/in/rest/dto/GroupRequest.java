@@ -2,7 +2,7 @@ package com.civica.splitthebill.infraestructure.adapter.in.rest.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import java.util.List;
+import java.util.Set;
 
 public record GroupRequest(
 
@@ -12,8 +12,8 @@ public record GroupRequest(
         @Size(min = 3, max = 50)
         String name,
 
-        List<Long> membersIds,
+        Set<Long> membersIds,
 
-        List<Long> expenseIds
+        Set<Long> expenseIds
 ) {
 }

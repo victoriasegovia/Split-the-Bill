@@ -1,13 +1,13 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.dto;
 
-import java.util.List;
+import java.util.Set;
 
 public record GroupResponse(
 
         Long id,
         String name,
-        List<String> memberNames,
-        List<Long> memberIds
+        Set<String> memberNames,
+        Set<Long> memberIds
 
 ) {
 }
