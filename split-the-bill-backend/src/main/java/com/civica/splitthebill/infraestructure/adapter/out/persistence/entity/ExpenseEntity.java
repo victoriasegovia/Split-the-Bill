@@ -26,6 +26,8 @@ public class ExpenseEntity {
 
     public ExpenseEntity() {}
 
+    public ExpenseEntity(Long id) { this.id = id; }
+
     public ExpenseEntity(Long id, String title, UserEntity payer, GroupEntity group, double totalAmount) {
         this.id = id;
         this.title = title;

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.civica.splitthebill.application.dto.UserDTO;
 import com.civica.splitthebill.application.mapper.UserDTOMapper;
-import com.civica.splitthebill.domain.exception.DuplicateUserInGroupException;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.in.UserService;

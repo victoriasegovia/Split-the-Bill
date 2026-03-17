@@ -8,8 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import com.civica.splitthebill.domain.exception.DuplicateExpenseInGroupException;
-import com.civica.splitthebill.domain.exception.DuplicateUserInGroupException;
+import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
 
 /**
  * GlobalExceptionHandler
@@ -75,8 +74,7 @@ public class GlobalExceptionHandler {
      * Manejo de excepciones de negocio (dominio)
      */
     @ExceptionHandler({
-        DuplicateUserInGroupException.class,
-        DuplicateExpenseInGroupException.class
+        EntityAlreadyAssignedException.class
     })
     public ResponseEntity<Map<String, Object>> handleBusinessExceptions(
             RuntimeException ex,

@@ -7,8 +7,7 @@ import java.util.Set;
 import java.util.function.LongPredicate;
 import java.util.function.Supplier;
 
-import com.civica.splitthebill.domain.exception.DuplicateExpenseInGroupException;
-import com.civica.splitthebill.domain.exception.DuplicateUserInGroupException;
+import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
 
 public record Group(
     Long id,
@@ -22,9 +21,11 @@ public record Group(
     expenseIds = Set.copyOf(Objects.requireNonNullElse(expenseIds, Set.of()));
   }
 
+  public Group (String name) {this(null, name, Set.of(), Set.of()); }
+
   public Group addMember(Long memberId) {
     checkExclusivity(memberId, memberIds::contains,
-        () -> new DuplicateUserInGroupException(memberId, this.id));
+        () -> new EntityAlreadyAssignedException( memberId, "User", this.id, "Group"));
 
     Set<Long> updatedMembers = new HashSet<>(this.memberIds);
     updatedMembers.add(memberId);
@@ -34,7 +35,7 @@ public record Group(
 
   public Group addExpense(Long expenseId) {
     checkExclusivity(expenseId, expenseIds::contains,
-        () -> new DuplicateExpenseInGroupException(expenseId, this.id));
+        () -> new EntityAlreadyAssignedException( expenseId, "Expense", this.id, "Group"));
 
     Set<Long> updatedExpenses = new HashSet<>(this.expenseIds);
     updatedExpenses.add(expenseId);
@@ -44,10 +45,7 @@ public record Group(
 
   private void checkExclusivity(Long id, LongPredicate condition, Supplier<RuntimeException> exception) {
     Objects.requireNonNull(id, "Id cannot be null");
-    Optional.of(id)
-        .filter(condition::test)
-        .ifPresent(val -> {
-          throw exception.get();
-        });
+    if (condition.test(id)) { throw exception.get(); }
   }
+  
 }

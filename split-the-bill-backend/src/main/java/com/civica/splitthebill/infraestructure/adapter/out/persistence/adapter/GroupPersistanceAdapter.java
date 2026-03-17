@@ -1,9 +1,8 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
@@ -12,7 +11,6 @@ import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupMappe
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.UserMapper;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaGroupRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaUserRepository;
 import org.springframework.stereotype.Repository;
@@ -22,13 +20,10 @@ public class GroupPersistanceAdapter implements GroupRepository {
 
     private final JpaGroupRepository jpaGroupRepository;
     private final JpaUserRepository jpaUserRepository;
-    private final JpaExpenseRepository jpaExpenseRepository;
 
-    public GroupPersistanceAdapter(JpaGroupRepository jpaGroupRepository, JpaUserRepository jpaUserRepository,
-            JpaExpenseRepository jpaExpenseRepository) {
+    public GroupPersistanceAdapter(JpaGroupRepository jpaGroupRepository, JpaUserRepository jpaUserRepository) {
         this.jpaGroupRepository = jpaGroupRepository;
         this.jpaUserRepository = jpaUserRepository;
-        this.jpaExpenseRepository = jpaExpenseRepository;
     }
 
     @Override
@@ -56,26 +51,24 @@ public class GroupPersistanceAdapter implements GroupRepository {
     }
 
     @Override
-    public Set<Group> findAll() {
+    public List<Group> findAll() {
         return jpaGroupRepository.findAll().stream()
                 .map(GroupMapper::entitytoDomain)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     @Override
-    public Set<User> findUsersByGroupId(Long groupId) {
+    public List<User> findUsersByGroupId(Long groupId) {
         List<UserEntity> users = jpaUserRepository.findByGroups_Id(groupId);
 
         return users.stream()
                 .map(UserMapper::entityToDomain)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     @Override
     public Optional<Group> findById(Long id) {
-        if (id == null) {
-            throw new IllegalArgumentException("Group ID cannot be null");
-        }
+        Objects.requireNonNull("Id cannot be null");
         Optional<GroupEntity> groupEntity = jpaGroupRepository.findById(id);
         return groupEntity.map(GroupMapper::entitytoDomain);
     }

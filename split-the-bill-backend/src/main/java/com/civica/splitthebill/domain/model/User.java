@@ -7,8 +7,7 @@ import java.util.Set;
 import java.util.function.LongPredicate;
 import java.util.function.Supplier;
 
-import com.civica.splitthebill.domain.exception.DuplicateUserInGroupException;
-import com.civica.splitthebill.domain.exception.DuplicateExpenseInUserException;
+import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
 
 public record User(
         Long id,
@@ -24,7 +23,7 @@ public record User(
     }
 
     public User addGroup (Long groupId) {
-        checkExclusivity(groupId, groupIds::contains, () -> new DuplicateUserInGroupException(this.id, groupId));
+        checkExclusivity(groupId, groupIds::contains, () -> new EntityAlreadyAssignedException(groupId, "Group", this.id,  "User"));
         
         Set<Long> updatedGroup = new HashSet<>(this.groupIds);
         updatedGroup.add(groupId);
@@ -33,7 +32,7 @@ public record User(
     }
 
     public User addExpense (Long expenseId) {
-        checkExclusivity(expenseId, expenseIds::contains, () -> new DuplicateExpenseInUserException(this.id, expenseId));
+        checkExclusivity(expenseId, expenseIds::contains, () -> new EntityAlreadyAssignedException(expenseId, "Expense", this.id,  "User"));
         
         Set<Long> updateExpense = new HashSet<>(this.expenseIds);
         updateExpense.add(expenseId);

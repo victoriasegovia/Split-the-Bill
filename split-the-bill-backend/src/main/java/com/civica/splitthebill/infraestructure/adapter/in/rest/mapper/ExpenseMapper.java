@@ -6,13 +6,15 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.Gr
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
 
 public class ExpenseMapper {
+    
+    private ExpenseMapper() {}
 
     public static ExpenseEntity domainToEntity(Expense expense) {
         return new ExpenseEntity(
             expense.id(),
             expense.title(),
-            createUserProxy(expense.payerId()),
-            createGroupProxy(expense.groupId()),
+            MapperUtils.createEntityProxy(expense.payerId(), UserEntity::new),
+            MapperUtils.createEntityProxy(expense.groupId(), GroupEntity::new),
             expense.totalAmount()
         );
     }
@@ -27,15 +29,4 @@ public class ExpenseMapper {
         );
     }
 
-    private static UserEntity createUserProxy(Long id) {
-        UserEntity userProxy = new UserEntity();
-        userProxy.setId(id);
-        return userProxy;
-    }
-
-    private static GroupEntity createGroupProxy(Long id) {
-        GroupEntity groupProxy = new GroupEntity();
-        groupProxy.setId(id);
-        return groupProxy;
-    }
 }
