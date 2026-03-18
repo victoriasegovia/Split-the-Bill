@@ -1,6 +1,6 @@
 package com.civica.splitthebill.application.services;
 
-import java.util.List;
+import java.util.Set;
 
 import com.civica.splitthebill.application.dto.UserDTO;
 import com.civica.splitthebill.application.mapper.UserDTOMapper;
@@ -37,7 +37,7 @@ public class UserUseCases implements UserService {
     }
 
     @Override
-    public List<UserDTO> listUsersInGroupUseCase(Long groupId) {
+    public Set<UserDTO> listUsersInGroupUseCase(Long groupId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'listUsersInGroupUseCase'");
     }

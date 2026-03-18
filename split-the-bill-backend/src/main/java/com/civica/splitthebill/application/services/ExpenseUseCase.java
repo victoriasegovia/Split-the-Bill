@@ -1,6 +1,6 @@
 package com.civica.splitthebill.application.services;
 
-import java.util.List;
+import java.util.Set;
 
 import com.civica.splitthebill.application.dto.ExpenseDTO;
 import com.civica.splitthebill.application.mapper.ExpenseDTOMapper;
@@ -37,8 +37,7 @@ public class ExpenseUseCase implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseDTO> listExpensesInGroupUseCase(Long groupId) {
+    public Set<ExpenseDTO> listExpensesInGroupUseCase(Long groupId) {
         throw new UnsupportedOperationException("Unimplemented method 'listExpensesInGroupUseCase'");
     }
-
 }

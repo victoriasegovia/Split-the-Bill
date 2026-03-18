@@ -1,11 +1,12 @@
 package com.civica.splitthebill.domain.port.in;
 
-import java.util.List;
+import java.util.Set;
+
 import com.civica.splitthebill.application.dto.ExpenseDTO;
 
 public interface ExpenseService {
     
     ExpenseDTO createExpenseInGroupUseCase(Long groupId, ExpenseDTO expenseDTO);
-    List<ExpenseDTO> listExpensesInGroupUseCase(Long groupId);
+    Set<ExpenseDTO> listExpensesInGroupUseCase(Long groupId);
 
 }

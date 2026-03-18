@@ -8,7 +8,8 @@ import com.civica.splitthebill.application.dto.GroupDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.Set;
 
 @RestController
@@ -31,17 +32,16 @@ public class GroupController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GroupResponse>> getAll() {
+    public ResponseEntity<Set<GroupResponse>> getAll() {
 
-        List<GroupDTO> groups = groupService.listGroupsUseCase();
+        Set<GroupDTO> groups = groupService.listGroupsUseCase();
         
-        List<GroupResponse> response = groups.stream()
+        Set<GroupResponse> response = groups.stream()
                 .map(group -> {
                     Set<String> memberNames = groupService.listGroupMembersUseCase(group.id());
-                    GroupResponse groupResponse = RequestResponseMapper.domainDTOToResponse(group, memberNames);
-                    return groupResponse;
+                    return RequestResponseMapper.domainDTOToResponse(group, memberNames);
                 })
-                .toList();
+                .collect(Collectors.toSet());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }

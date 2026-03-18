@@ -22,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
+import com.civica.splitthebill.application.services.GroupUseCases;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
 import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
@@ -40,7 +41,7 @@ class GroupServiceTest {
 
         GroupDTO inputDto = new GroupDTO(null, "Dinner in Granada", Set.of(), Set.of());
 
-        GroupDTO result = groupService.createGroupUseCase(inputDto);
+        GroupDTO result = groupUseCases.createGroupUseCase(inputDto);
         assertAll(
                 () -> assertNotNull(result.id()),
                 () -> assertEquals("Dinner in Granada", result.name()),
@@ -55,7 +56,7 @@ class GroupServiceTest {
 
         when(groupRepository.findByName("Repeated")).thenReturn(Optional.of(existingGroup));
         assertThrows(EntityAlreadyAssignedException.class, () -> {
-            groupService.createGroupUseCase(inputDto);
+            groupUseCases.createGroupUseCase(inputDto);
         });
         verify(groupRepository, never()).save(any());
     }
@@ -67,7 +68,7 @@ class GroupServiceTest {
                 new Group(2L, "Grupo B", Set.of(), Set.of()));
         when(groupRepository.findAll()).thenReturn(domainGroups);
 
-        Set<GroupDTO> result = groupService.listGroupsUseCase();
+        Set<GroupDTO> result = groupUseCases.listGroupsUseCase();
 
         assertAll(
                 () -> assertEquals(2, result.size()),

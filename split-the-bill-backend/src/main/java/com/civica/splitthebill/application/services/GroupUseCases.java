@@ -34,8 +34,10 @@ public class GroupUseCases implements GroupService {
     }
 
     @Override
-    public List<GroupDTO> listGroupsUseCase() {
-        return groupRepository.findAll().stream().map(GroupDTOMapper::domainToDTO).toList();
+    public Set<GroupDTO> listGroupsUseCase() {
+        return groupRepository.findAll().stream()
+        .map(GroupDTOMapper::domainToDTO)
+        .collect(Collectors.toSet());
     }
 
     @Override
