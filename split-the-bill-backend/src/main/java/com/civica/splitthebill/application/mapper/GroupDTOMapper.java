@@ -11,7 +11,7 @@ public class GroupDTOMapper {
     public static Group dtoToDomain(GroupDTO dto) {
 
         return new Group(
-                dto.id(),
+                dto.groupId(),
                 dto.name(),
                 dto.membersIds(),
                 dto.expenseIds()
@@ -21,7 +21,7 @@ public class GroupDTOMapper {
     public static GroupDTO domainToDTO(Group group) {
 
         return new GroupDTO(
-                group.id(),
+                group.groupId(),
                 group.name(),
                 group.memberIds(),
                 group.expenseIds()

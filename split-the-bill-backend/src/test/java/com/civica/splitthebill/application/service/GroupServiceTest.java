@@ -43,7 +43,7 @@ class GroupServiceTest {
 
         GroupDTO result = groupUseCases.createGroupUseCase(inputDto);
         assertAll(
-                () -> assertNotNull(result.id()),
+                () -> assertNotNull(result.groupId()),
                 () -> assertEquals("Dinner in Granada", result.name()),
                 () -> verify(groupRepository).save(any(Group.class)));
     }

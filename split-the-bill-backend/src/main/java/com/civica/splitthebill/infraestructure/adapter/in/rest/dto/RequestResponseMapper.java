@@ -7,7 +7,7 @@ public final class RequestResponseMapper {
 
     public static GroupResponse domainDTOToResponse(GroupDTO groupDTO, Set<String> memberNames) {
         return new GroupResponse(
-            groupDTO.id(),
+            groupDTO.groupId(),
             groupDTO.name(),
             memberNames,
             groupDTO.expenseIds()

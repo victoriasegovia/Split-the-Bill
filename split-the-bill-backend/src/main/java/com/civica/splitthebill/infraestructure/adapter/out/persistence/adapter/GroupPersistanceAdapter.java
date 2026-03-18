@@ -3,14 +3,17 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.GroupRepository;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.UserMapper;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaGroupRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaUserRepository;
 import org.springframework.stereotype.Repository;
@@ -20,24 +23,33 @@ public class GroupPersistanceAdapter implements GroupRepository {
 
     private final JpaGroupRepository jpaGroupRepository;
     private final JpaUserRepository jpaUserRepository;
+    private final JpaExpenseRepository jpaExpenseRepository;
 
-    public GroupPersistanceAdapter(JpaGroupRepository jpaGroupRepository, JpaUserRepository jpaUserRepository) {
+    public GroupPersistanceAdapter(JpaGroupRepository jpaGroupRepository, JpaUserRepository jpaUserRepository,
+            JpaExpenseRepository jpaExpenseRepository) {
         this.jpaGroupRepository = jpaGroupRepository;
         this.jpaUserRepository = jpaUserRepository;
+        this.jpaExpenseRepository = jpaExpenseRepository;
     }
 
     @Override
     public Optional<Group> save(Group group) {
-        GroupEntity groupEntity = jpaGroupRepository.findById(group.id())
-                .orElseGet(GroupEntity::new);
 
-        groupEntity.setId(group.id());
+        GroupEntity groupEntity = new GroupEntity();
+
+        groupEntity.setId(group.groupId());
         groupEntity.setName(group.name());
 
-        List<UserEntity> memberEntities = jpaUserRepository.findAllById(group.memberIds());
+        List<UserEntity> memberEntities = Optional.ofNullable(group.memberIds())
+                .map(jpaUserRepository::findAllById)
+                .orElseGet(List::of);
 
-        groupEntity.getMembers().clear();
+        List<ExpenseEntity> expenseEntities = Optional.ofNullable(group.expenseIds())
+                .map(jpaExpenseRepository::findAllById)
+                .orElseGet(List::of);
+
         groupEntity.getMembers().addAll(memberEntities);
+        groupEntity.getExpenses().addAll(expenseEntities);
 
         GroupEntity savedEntity = jpaGroupRepository.save(groupEntity);
 

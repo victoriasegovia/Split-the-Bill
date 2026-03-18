@@ -17,22 +17,14 @@ public final class GroupMapper {
         return new Group(
             entity.getId(),
             entity.getName(),
-            Optional.ofNullable(entity.getMembers())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(UserEntity::getId)
-                .collect(Collectors.toSet()),
-            Optional.ofNullable(entity.getExpenses())
-                .orElse(Collections.emptySet())
-                .stream()
-                .map(ExpenseEntity::getId)
-                .collect(Collectors.toSet())
+            MapperUtils.entitiesToIdSet(entity.getMembers(), UserEntity::getId),
+            MapperUtils.entitiesToIdSet(entity.getExpenses(), ExpenseEntity::getId)
         );
     }
 
     public static GroupEntity domaintoEntity(Group group) {
         return new GroupEntity(
-            group.id(),
+            group.groupId(),
             group.name(),
             MapperUtils.idsToEntityProxySet(group.memberIds(), UserEntity::new),
             MapperUtils.idsToEntityProxySet(group.expenseIds(), ExpenseEntity::new)

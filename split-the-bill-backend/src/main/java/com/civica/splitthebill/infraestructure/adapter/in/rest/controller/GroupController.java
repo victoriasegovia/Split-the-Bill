@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -38,7 +37,7 @@ public class GroupController {
         
         Set<GroupResponse> response = groups.stream()
                 .map(group -> {
-                    Set<String> memberNames = groupService.listGroupMembersUseCase(group.id());
+                    Set<String> memberNames = groupService.listGroupMembersUseCase(group.groupId());
                     return RequestResponseMapper.domainDTOToResponse(group, memberNames);
                 })
                 .collect(Collectors.toSet());

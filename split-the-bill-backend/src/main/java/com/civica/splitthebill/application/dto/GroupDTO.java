@@ -4,7 +4,7 @@ import java.util.Set;
 
 public record GroupDTO(
 
-    Long id,
+    Long groupId,
     String name,
     Set<Long> membersIds,
     Set<Long> expenseIds

@@ -11,8 +11,11 @@ public class GroupEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "group_id")
     private Long id;
+
+    @Id
+    @Column(name = "groupId", unique = true)
+    private Long groupId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -30,10 +33,9 @@ public class GroupEntity {
 
     public GroupEntity() {}
 
-    public GroupEntity(Long id) { this.id = id; }
-
-    public GroupEntity(Long id, String name, Set<UserEntity> members, Set<ExpenseEntity> expenses) {
+    public GroupEntity(Long id, Long groupId, String name, Set<UserEntity> members, Set<ExpenseEntity> expenses) {
         this.id = id;
+        this.groupId = id;
         this.name = name;
         this.members = members;
         this.expenses = expenses;
@@ -45,6 +47,14 @@ public class GroupEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     public String getName() {
