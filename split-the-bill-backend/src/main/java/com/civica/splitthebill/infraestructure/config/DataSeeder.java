@@ -6,14 +6,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.domain.port.out.GroupRepository;
+import com.civica.splitthebill.domain.port.out.GroupPortOut;
 
 @Component
 public class DataSeeder implements CommandLineRunner {
 
-    private final GroupRepository groupRepository;
+    private final GroupPortOut groupRepository;
 
-    public DataSeeder(GroupRepository groupRepository) {
+    public DataSeeder(GroupPortOut groupRepository) {
         this.groupRepository = groupRepository;
     }
 

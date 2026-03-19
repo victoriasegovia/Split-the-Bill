@@ -4,7 +4,7 @@ import com.civica.splitthebill.domain.model.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRepository {
+public interface UserPortOut {
 
     Optional<User> save(User user);
     Optional<User> findById(Long userId);

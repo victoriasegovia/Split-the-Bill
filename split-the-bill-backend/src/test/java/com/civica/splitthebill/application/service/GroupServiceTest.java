@@ -24,14 +24,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.civica.splitthebill.application.dto.GroupDTO;
 import com.civica.splitthebill.application.services.GroupUseCases;
 import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.domain.port.out.GroupRepository;
+import com.civica.splitthebill.domain.port.out.GroupPortOut;
 import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
 
 @ExtendWith(MockitoExtension.class)
 class GroupServiceTest {
 
     @Mock
-    private GroupRepository groupRepository;
+    private GroupPortOut groupRepository;
 
     @InjectMocks
     private GroupUseCases groupUseCases; // -> next task in jira

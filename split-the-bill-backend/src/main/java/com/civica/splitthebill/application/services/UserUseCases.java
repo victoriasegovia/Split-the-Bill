@@ -1,25 +1,28 @@
 package com.civica.splitthebill.application.services;
 
-import java.util.Optional;
+import java.util.Objects;
 import java.util.Set;
-import java.util.function.LongPredicate;
-import java.util.function.Supplier;
-
 import com.civica.splitthebill.application.dto.UserDTO;
 import com.civica.splitthebill.application.mapper.UserDTOMapper;
 import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.in.UserService;
-import com.civica.splitthebill.domain.port.out.GroupRepository;
-import com.civica.splitthebill.domain.port.out.UserRepository;
+import com.civica.splitthebill.domain.port.in.UserPortIn;
+import com.civica.splitthebill.domain.port.out.GroupPortOut;
+import com.civica.splitthebill.domain.port.out.UserPortOut;
 
-public class UserUseCases implements UserService {
+public class UserUseCases implements UserPortIn {
 
-    private final UserRepository userRepository;
-    private final GroupRepository groupRepository;
+    private static final String GROUP_NOT_FOUND = "Group not found";
+    private static final String ID_NOT_NULL = "Id cannot be null";
+    private static final String GROUP = "Group";
+    private static final String USER = "User";
+    private static final String FAIL_TO_SAVE_USER = "Failed to save user";
 
-    public UserUseCases(UserRepository userRepository, GroupRepository groupRepository) {
+    private final UserPortOut userRepository;
+    private final GroupPortOut groupRepository;
+
+    public UserUseCases(UserPortOut userRepository, GroupPortOut groupRepository) {
         this.userRepository = userRepository;
         this.groupRepository = groupRepository;
     }
@@ -27,42 +30,45 @@ public class UserUseCases implements UserService {
     @Override
     public UserDTO createUserUseCase(UserDTO userDTO, Long groupId) {
 
-        Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new RuntimeException("Group not found"));
-
+        Objects.requireNonNull(groupId, ID_NOT_NULL);
         User user = UserDTOMapper.DTOToDomain(userDTO);
-
-        checkExclusivity(user.id(), group.memberIds()::contains,
-                () -> new EntityAlreadyAssignedException(user.id(), "User", group.groupId(), "Group"));
+        groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
 
         Set<Long> userGroupList = user.groupIds();
         userGroupList.add(groupId);
 
-        User newUser = new User(user.id(), user.name(), userGroupList, user.expenseIds());
-
+        User newUser = new User(user.userId(), user.name(), userGroupList, user.expenseIds());
         User userCreated = userRepository.save(newUser)
-                .orElseThrow(() -> new RuntimeException("Failed to save user"));
+                .orElseThrow(() -> new RuntimeException(FAIL_TO_SAVE_USER));
 
-        Set<Long> groupUserList = group.memberIds();
-        groupUserList.add(user.id());
-        Group updatedGroup = new Group(group.groupId(), group.name(), groupUserList, group.expenseIds());
-
-        groupRepository.save(updatedGroup);
+        addUserToGroup(userCreated.userId(), groupId);
 
         return UserDTOMapper.domainToDTO(userCreated);
     }
 
     @Override
-    public Set<UserDTO> listUsersInGroupUseCase(Long groupId) {
-        throw new UnsupportedOperationException("Unimplemented method 'listUsersInGroupUseCase'");
+    public void addUserToGroup(Long userId, Long groupId) {
+
+        Objects.requireNonNull(groupId, ID_NOT_NULL);
+        Objects.requireNonNull(userId, ID_NOT_NULL);
+
+        Group group = groupRepository.findById(groupId)
+                .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
+
+        UseCaseUtils.checkExclusivity(userId, group.memberIds()::contains,
+                (() -> new EntityAlreadyAssignedException(userId, USER, group.groupId(), GROUP)));
+
+        Set<Long> newGroupMembers = group.memberIds();
+        newGroupMembers.add(userId);
+
+        Group newGroup = new Group(group.groupId(), group.name(), newGroupMembers, group.expenseIds());
+        groupRepository.save(newGroup);
     }
 
-    private void checkExclusivity(Long id, LongPredicate condition, Supplier<RuntimeException> exception) {
-        Optional.of(id)
-                .filter(condition::test)
-                .ifPresent(val -> {
-                    throw exception.get();
-                });
+    @Override
+    public Set<UserDTO> listUsersInGroupUseCase(Long groupId) {
+        throw new UnsupportedOperationException("Unimplemented method 'listUsersInGroupUseCase'");
     }
 
 }

@@ -2,7 +2,7 @@ package com.civica.splitthebill.application.dto;
 
 public record ExpenseDTO(
 
-        Long id,
+        Long expenseId,
         String title,
         Long payerId,
         Long groupId,

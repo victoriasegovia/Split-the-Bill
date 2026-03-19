@@ -1,45 +1,43 @@
 package com.civica.splitthebill.application.services;
 
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
-import java.util.function.LongPredicate;
-import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import com.civica.splitthebill.application.dto.ExpenseDTO;
 import com.civica.splitthebill.application.mapper.ExpenseDTOMapper;
-import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.domain.port.in.ExpenseService;
-import com.civica.splitthebill.domain.port.out.ExpenseRespository;
-import com.civica.splitthebill.domain.port.out.GroupRepository;
+import com.civica.splitthebill.domain.port.in.ExpensePortIn;
+import com.civica.splitthebill.domain.port.out.ExpensePortOut;
+import com.civica.splitthebill.domain.port.out.GroupPortOut;
 
-public class ExpenseUseCase implements ExpenseService {
+public class ExpenseUseCase implements ExpensePortIn {
 
-    private final ExpenseRespository expenseRepository;
-    private final GroupRepository groupRepository;
+    private static final String GROUP_NOT_FOUND = "Failed to find group.";
+    private static final String EXPENSE_NOT_SAVED = "Expense could not be saved.";
 
-    public ExpenseUseCase(ExpenseRespository expenseRepository, GroupRepository groupRepository) {
+    private final ExpensePortOut expenseRepository;
+    private final GroupPortOut groupRepository;
+
+    public ExpenseUseCase(ExpensePortOut expenseRepository, GroupPortOut groupRepository) {
         this.expenseRepository = expenseRepository;
         this.groupRepository = groupRepository;
     }
 
     @Override
     public ExpenseDTO createExpenseInGroupUseCase(ExpenseDTO expenseDTO) {
-        
+
         Expense expense = ExpenseDTOMapper.dtoToDomain(expenseDTO);
-        
         Group group = groupRepository.findById(expense.groupId())
-                .orElseThrow(() -> new RuntimeException("Failed to find group with id " + expense.groupId()));
+                .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
 
         Expense savedExpense = expenseRepository.save(expense)
-                .orElseThrow(() -> new RuntimeException("Expense could not be saved."));
+                .orElseThrow(() -> new RuntimeException(EXPENSE_NOT_SAVED));
 
-        checkExclusivity(savedExpense.id(), group.expenseIds()::contains, () -> new EntityAlreadyAssignedException(savedExpense.id(), "Expense", group.groupId(), "Group"));
-        
         Set<Long> newExpenseIds = group.expenseIds();
-        newExpenseIds.add(savedExpense.id());
-        
+        newExpenseIds.add(savedExpense.expenseId());
+
         Group updated = new Group(group.groupId(), group.name(), group.memberIds(), newExpenseIds);
         groupRepository.save(updated);
 
@@ -48,13 +46,13 @@ public class ExpenseUseCase implements ExpenseService {
 
     @Override
     public Set<ExpenseDTO> listExpensesInGroupUseCase(Long groupId) {
-        throw new UnsupportedOperationException("Unimplemented method 'listExpensesInGroupUseCase'");
+        return groupRepository.findById(groupId)
+                .stream()
+                .flatMap(group -> group.expenseIds().stream()) 
+                .map(expenseRepository::findById) 
+                .flatMap(Optional::stream) 
+                .map(ExpenseDTOMapper::domainToDTO) 
+                .collect(Collectors.toSet());
     }
 
-    private void checkExclusivity(Long id, LongPredicate condition, Supplier<RuntimeException> exception) {
-        Objects.requireNonNull(id, "Id cannot be null");
-        if (condition.test(id)) {
-            throw exception.get();
-        }
-    }
 }

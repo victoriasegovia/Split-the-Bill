@@ -1,6 +1,6 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
-import com.civica.splitthebill.domain.port.in.GroupService;
+import com.civica.splitthebill.domain.port.in.GroupPortIn;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.RequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupResponse;
@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/groups")
 public class GroupController {
 
-    private final GroupService groupService;
+    private final GroupPortIn groupService;
 
-    public GroupController(GroupService groupService) {
+    public GroupController(GroupPortIn groupService) {
         this.groupService = groupService;
     }
 

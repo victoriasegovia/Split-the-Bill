@@ -7,7 +7,7 @@ import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.out.UserRepository;
+import com.civica.splitthebill.domain.port.out.UserPortOut;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.UserMapper;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
@@ -17,7 +17,7 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.repositor
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaUserRepository;
 
 @Repository
-public class UserPersistanceAdapter implements UserRepository {
+public class UserPersistanceAdapter implements UserPortOut {
 
     private final JpaUserRepository jpaUserRepository;
     private final JpaGroupRepository jpaGroupRepository;

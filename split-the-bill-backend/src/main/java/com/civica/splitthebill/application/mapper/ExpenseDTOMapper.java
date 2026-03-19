@@ -10,7 +10,7 @@ public class ExpenseDTOMapper {
 
     public static ExpenseDTO domainToDTO(Expense expense) {
         return new ExpenseDTO(
-                expense.id(),
+                expense.expenseId(),
                 expense.title(),
                 expense.payerId(),
                 expense.groupId(),
@@ -19,7 +19,7 @@ public class ExpenseDTOMapper {
 
     public static Expense dtoToDomain(ExpenseDTO expenseDTO) {
         return new Expense(
-                expenseDTO.id(),
+                expenseDTO.expenseId(),
                 expenseDTO.title(),
                 expenseDTO.payerId(),
                 expenseDTO.groupId(),

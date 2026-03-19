@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.civica.splitthebill.application.dto.ExpenseDTO;
 
-public interface ExpenseService {
+public interface ExpensePortIn {
     
     ExpenseDTO createExpenseInGroupUseCase(ExpenseDTO expenseDTO);
     Set<ExpenseDTO> listExpensesInGroupUseCase(Long groupId);

@@ -4,7 +4,7 @@ import java.util.Set;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
 
-public interface GroupService {
+public interface GroupPortIn {
 
     GroupDTO createGroupUseCase(GroupDTO groupDTO);
     Set<GroupDTO> listGroupsUseCase();
