@@ -7,15 +7,16 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.Us
 import com.civica.splitthebill.domain.model.User;
 
 public final class UserMapper {
-    
-    private UserMapper() {}
+
+    private UserMapper() {
+    }
 
     public static UserEntity domainToEntity(User user) {
         return new UserEntity(
                 user.userId(),
                 user.name(),
-                MapperUtils.idsToEntityProxySet(user.groupIds(), GroupEntity::new),
-                MapperUtils.idsToEntityProxySet(user.expenseIds(), ExpenseEntity::new));
+                MapperUtils.idsToEntityProxySet(user.groupIds(), GroupEntity::createProxy),
+                MapperUtils.idsToEntityProxySet(user.expenseIds(), ExpenseEntity::createProxy));
     }
 
     public static User entityToDomain(UserEntity entity) {

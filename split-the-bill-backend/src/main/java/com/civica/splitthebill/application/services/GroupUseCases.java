@@ -1,6 +1,5 @@
 package com.civica.splitthebill.application.services;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -9,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
 import com.civica.splitthebill.application.mapper.GroupDTOMapper;
+import com.civica.splitthebill.domain.exception.EntityNotFoundException;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.in.GroupPortIn;
@@ -19,7 +19,7 @@ public class GroupUseCases implements GroupPortIn {
 
     private static final String FAIL_TO_SAVE_GROUP = "Failed to save group";
     private static final String ID_NOT_NULL = "Group Id cannot be null";
-    private static final String GROUP_NOT_FOUND = "Group not found";
+    private static final String GROUP = "Group";
 
     private final GroupPortOut groupRepository;
 
@@ -50,7 +50,7 @@ public class GroupUseCases implements GroupPortIn {
 
         return groupRepository.findById(groupId)
                 .map(GroupDTOMapper::domainToDTO)
-                .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException(groupId, GROUP));
     }
 
     @Override

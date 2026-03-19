@@ -1,7 +1,8 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Objects;
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,12 +17,12 @@ public class UserEntity {
     private String name;
 
     @ManyToMany(mappedBy = "members")
-    private Set<GroupEntity> groups = new HashSet<>();
+    private List<GroupEntity> groups = new ArrayList<>();
 
     @OneToMany(mappedBy = "payer")
-    private Set<ExpenseEntity> expenses = new HashSet<>();
+    private List<ExpenseEntity> expenses = new ArrayList<>();
 
-    public UserEntity(Long id, String name, Set<GroupEntity> groups, Set<ExpenseEntity> expenses) {
+    public UserEntity(Long id, String name, List<GroupEntity> groups, List<ExpenseEntity> expenses) {
         this.id = id;
         this.name = name;
         this.groups = groups;
@@ -30,7 +31,12 @@ public class UserEntity {
 
     protected UserEntity() {}
 
-    public UserEntity(Long id) { this.id = id; }
+    private UserEntity(Long id) { this.id = id; }
+
+    public static UserEntity createProxy(Long id) {
+        Objects.requireNonNull(id, "Id cannot be null");
+        return new UserEntity(id);
+    }
 
     public Long getId() {
         return id;
@@ -48,19 +54,19 @@ public class UserEntity {
         this.name = name;
     }
 
-    public Set<GroupEntity> getGroups() {
+    public List<GroupEntity> getGroups() {
         return groups;
     }
 
-    public void setGroups(Set<GroupEntity> groups) {
+    public void setGroups(List<GroupEntity> groups) {
         this.groups = groups;
     }
 
-    public Set<ExpenseEntity> getExpenses() {
+    public List<ExpenseEntity> getExpenses() {
         return expenses;
     }
 
-    public void setExpenses(Set<ExpenseEntity> expenses) {
+    public void setExpenses(List<ExpenseEntity> expenses) {
         this.expenses = expenses;
     }
 }

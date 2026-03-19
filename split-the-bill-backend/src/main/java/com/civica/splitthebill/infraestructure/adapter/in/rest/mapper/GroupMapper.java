@@ -26,8 +26,8 @@ public final class GroupMapper {
         return new GroupEntity(
             group.groupId(),
             group.name(),
-            MapperUtils.idsToEntityProxySet(group.memberIds(), UserEntity::new),
-            MapperUtils.idsToEntityProxySet(group.expenseIds(), ExpenseEntity::new)
+            MapperUtils.idsToEntityProxySet(group.memberIds(), UserEntity::createProxy),
+            MapperUtils.idsToEntityProxySet(group.expenseIds(), ExpenseEntity::createProxy)
         );
     }
 

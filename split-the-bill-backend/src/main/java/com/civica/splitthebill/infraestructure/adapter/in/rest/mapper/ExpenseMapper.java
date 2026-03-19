@@ -13,8 +13,8 @@ public class ExpenseMapper {
         return new ExpenseEntity(
             expense.expenseId(),
             expense.title(),
-            MapperUtils.createEntityProxy(expense.payerId(), UserEntity::new),
-            MapperUtils.createEntityProxy(expense.groupId(), GroupEntity::new),
+            MapperUtils.createEntityProxy(expense.payerId(), UserEntity::createProxy),
+            MapperUtils.createEntityProxy(expense.groupId(), GroupEntity::createProxy),
             expense.totalAmount()
         );
     }

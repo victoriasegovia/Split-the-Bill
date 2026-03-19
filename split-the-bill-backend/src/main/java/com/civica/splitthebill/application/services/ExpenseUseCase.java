@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.civica.splitthebill.application.dto.ExpenseDTO;
 import com.civica.splitthebill.application.mapper.ExpenseDTOMapper;
 import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
+import com.civica.splitthebill.domain.exception.EntityNotFoundException;
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.port.in.ExpensePortIn;
@@ -19,7 +20,6 @@ import com.civica.splitthebill.domain.port.out.GroupPortOut;
 @Service
 public class ExpenseUseCase implements ExpensePortIn {
 
-    private static final String GROUP_NOT_FOUND = "Failed to find group.";
     private static final String EXPENSE_NOT_SAVED = "Expense could not be saved.";
     private static final String ID_NOT_NULL = "Id cannot be null";
     private static final String GROUP = "Group";
@@ -38,7 +38,7 @@ public class ExpenseUseCase implements ExpensePortIn {
 
         Expense expense = ExpenseDTOMapper.dtoToDomain(expenseDTO);
         groupRepository.findById(expense.groupId())
-                .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException(expense.groupId(), GROUP));
 
         Expense savedExpense = expenseRepository.save(expense)
                 .orElseThrow(() -> new RuntimeException(EXPENSE_NOT_SAVED));
@@ -54,7 +54,7 @@ public class ExpenseUseCase implements ExpensePortIn {
         Objects.requireNonNull(groupId, ID_NOT_NULL);
 
         Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
+                .orElseThrow(() -> new EntityNotFoundException(groupId, GROUP));
         UseCaseUtils.checkExclusivity(expenseId, group.expenseIds()::contains, (() -> new EntityAlreadyAssignedException(expenseId, EXPENSE, groupId, GROUP)));
 
         Set<Long> newExpenseIds = new HashSet<>(group.expenseIds());

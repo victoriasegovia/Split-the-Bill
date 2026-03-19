@@ -1,5 +1,7 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -26,7 +28,7 @@ public class ExpenseEntity {
 
     protected ExpenseEntity() {}
 
-    public ExpenseEntity(Long id) { this.id = id; }
+    private ExpenseEntity(Long id) { this.id = id; }
 
     public ExpenseEntity(Long id, String title, UserEntity payer, GroupEntity group, double totalAmount) {
         this.id = id;
@@ -34,6 +36,11 @@ public class ExpenseEntity {
         this.payer = payer;
         this.group = group;
         this.totalAmount = totalAmount;
+    }
+
+    public static ExpenseEntity createProxy(Long id) {
+        Objects.requireNonNull(id, "Id cannot be null");
+        return new ExpenseEntity(id);
     }
 
     public Long getId() {

@@ -43,7 +43,7 @@ public class GroupController {
                 })
                 .collect(Collectors.toSet());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{id}")
@@ -53,7 +53,7 @@ public class GroupController {
         Set<String> memberNames = groupService.listGroupMembersUseCase(id);
         GroupResponse response = RequestResponseMapper.domainDTOToResponse(group, memberNames);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }
