@@ -12,7 +12,7 @@ public final class UserMapper {
 
     public static UserEntity domainToEntity(User user) {
         return new UserEntity(
-                user.id(),
+                user.userId(),
                 user.name(),
                 MapperUtils.idsToEntityProxySet(user.groupIds(), GroupEntity::new),
                 MapperUtils.idsToEntityProxySet(user.expenseIds(), ExpenseEntity::new));

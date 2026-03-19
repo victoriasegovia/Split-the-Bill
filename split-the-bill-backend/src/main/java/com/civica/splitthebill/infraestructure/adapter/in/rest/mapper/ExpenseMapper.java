@@ -11,7 +11,7 @@ public class ExpenseMapper {
 
     public static ExpenseEntity domainToEntity(Expense expense) {
         return new ExpenseEntity(
-            expense.id(),
+            expense.expenseId(),
             expense.title(),
             MapperUtils.createEntityProxy(expense.payerId(), UserEntity::new),
             MapperUtils.createEntityProxy(expense.groupId(), GroupEntity::new),

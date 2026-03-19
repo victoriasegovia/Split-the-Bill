@@ -1,5 +1,6 @@
 package com.civica.splitthebill.application.services;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import com.civica.splitthebill.application.dto.UserDTO;
@@ -35,7 +36,7 @@ public class UserUseCases implements UserPortIn {
         groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
 
-        Set<Long> userGroupList = user.groupIds();
+        Set<Long> userGroupList = new HashSet<>(user.groupIds());
         userGroupList.add(groupId);
 
         User newUser = new User(user.userId(), user.name(), userGroupList, user.expenseIds());
@@ -59,7 +60,7 @@ public class UserUseCases implements UserPortIn {
         UseCaseUtils.checkExclusivity(userId, group.memberIds()::contains,
                 (() -> new EntityAlreadyAssignedException(userId, USER, group.groupId(), GROUP)));
 
-        Set<Long> newGroupMembers = group.memberIds();
+        Set<Long> newGroupMembers = new HashSet<>(group.memberIds());
         newGroupMembers.add(userId);
 
         Group newGroup = new Group(group.groupId(), group.name(), newGroupMembers, group.expenseIds());

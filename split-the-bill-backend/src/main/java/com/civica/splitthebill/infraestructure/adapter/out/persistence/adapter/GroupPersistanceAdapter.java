@@ -21,6 +21,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GroupPersistanceAdapter implements GroupPortOut {
 
+    private static final String ID_NOT_NULL = "Id cannot be null";
+
     private final JpaGroupRepository jpaGroupRepository;
     private final JpaUserRepository jpaUserRepository;
     private final JpaExpenseRepository jpaExpenseRepository;
@@ -35,11 +37,6 @@ public class GroupPersistanceAdapter implements GroupPortOut {
     @Override
     public Optional<Group> save(Group group) {
 
-        GroupEntity groupEntity = new GroupEntity();
-
-        groupEntity.setId(group.groupId());
-        groupEntity.setName(group.name());
-
         List<UserEntity> memberEntities = Optional.ofNullable(group.memberIds())
                 .map(jpaUserRepository::findAllById)
                 .orElseGet(List::of);
@@ -48,8 +45,7 @@ public class GroupPersistanceAdapter implements GroupPortOut {
                 .map(jpaExpenseRepository::findAllById)
                 .orElseGet(List::of);
 
-        groupEntity.getMembers().addAll(memberEntities);
-        groupEntity.getExpenses().addAll(expenseEntities);
+        GroupEntity groupEntity = new GroupEntity(group.groupId(), group.name(), memberEntities, expenseEntities);
 
         GroupEntity savedEntity = jpaGroupRepository.save(groupEntity);
 
@@ -80,7 +76,7 @@ public class GroupPersistanceAdapter implements GroupPortOut {
 
     @Override
     public Optional<Group> findById(Long id) {
-        Objects.requireNonNull("Id cannot be null");
+        Objects.requireNonNull(id, ID_NOT_NULL);
         Optional<GroupEntity> groupEntity = jpaGroupRepository.findById(id);
         return groupEntity.map(GroupMapper::entitytoDomain);
     }

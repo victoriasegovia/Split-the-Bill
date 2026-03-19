@@ -23,6 +23,7 @@ public class GroupController {
 
     @PostMapping
     public ResponseEntity<GroupResponse> create(@RequestBody GroupRequest request) {
+        
         GroupDTO input = RequestResponseMapper.requestToDomainDTO(request);
         GroupDTO created = groupService.createGroupUseCase(input);
 

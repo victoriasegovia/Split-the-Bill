@@ -28,7 +28,7 @@ public class UserEntity {
         this.expenses = expenses;
     }
 
-    public UserEntity() {}
+    protected UserEntity() {}
 
     public UserEntity(Long id) { this.id = id; }
 

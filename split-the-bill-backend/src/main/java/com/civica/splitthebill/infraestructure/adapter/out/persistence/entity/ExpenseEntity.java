@@ -24,7 +24,7 @@ public class ExpenseEntity {
     @JoinColumn(name = "group_id", nullable = false)
     private GroupEntity group;
 
-    public ExpenseEntity() {}
+    protected ExpenseEntity() {}
 
     public ExpenseEntity(Long id) { this.id = id; }
 

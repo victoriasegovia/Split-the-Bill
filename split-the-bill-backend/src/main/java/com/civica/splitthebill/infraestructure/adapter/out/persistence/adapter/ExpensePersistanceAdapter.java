@@ -22,7 +22,7 @@ public class ExpensePersistanceAdapter implements ExpensePortOut {
     @Override
     public List<Expense> findAllByGroupId(Long groupId) {
         List<ExpenseEntity> expenseEntities = jpaExpenseRepository.findAllByGroupId(groupId);
-                
+
         return expenseEntities.stream()
                 .map(ExpenseMapper::entityToDomain)
                 .toList();
@@ -33,13 +33,20 @@ public class ExpensePersistanceAdapter implements ExpensePortOut {
 
         ExpenseEntity expenseEntity = ExpenseMapper.domainToEntity(expense);
 
-        expenseEntity.setId(expense.id());
+        expenseEntity.setId(expense.expenseId());
         expenseEntity.setTitle(expense.title());
         expenseEntity.setTotalAmount(expense.totalAmount());
 
         ExpenseEntity savedExpense = jpaExpenseRepository.save(expenseEntity);
 
         return Optional.of(ExpenseMapper.entityToDomain(savedExpense));
+    }
+
+    @Override
+    public Optional<Expense> findById(Long expenseId) {
+        Optional<ExpenseEntity> expense = jpaExpenseRepository.findById(expenseId);
+        return expense
+                .map(ExpenseMapper::entityToDomain);
     }
 
 }

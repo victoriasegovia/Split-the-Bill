@@ -34,7 +34,7 @@ public class UserPersistanceAdapter implements UserPortOut {
         List<GroupEntity> groups = jpaGroupRepository.findAllById(user.groupIds());
         List<ExpenseEntity> expenses = jpaExpenseRepository.findAllById(user.expenseIds());
 
-        UserEntity userEntity = new UserEntity(user.id(), user.name(), Set.copyOf(groups), Set.copyOf(expenses));
+        UserEntity userEntity = new UserEntity(user.userId(), user.name(), Set.copyOf(groups), Set.copyOf(expenses));
         jpaUserRepository.save(userEntity);
 
         return Optional.of(UserMapper.entityToDomain(userEntity));

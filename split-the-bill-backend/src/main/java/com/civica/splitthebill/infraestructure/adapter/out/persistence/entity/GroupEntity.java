@@ -1,8 +1,7 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.ArrayList;
+import java.util.List;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,29 +12,28 @@ public class GroupEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Id
-    @Column(name = "groupId", unique = true)
-    private Long groupId;
-
     @Column(name = "name", nullable = false)
     private String name;
 
     @ManyToMany
-    @JoinTable(
-        name = "group_users",
-        joinColumns = @JoinColumn(name = "group_id"),
-        inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<UserEntity> members = new HashSet<>();
+    @JoinTable(name = "group_users", joinColumns = @JoinColumn(name = "group_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<UserEntity> members = new ArrayList<>();
 
     @OneToMany(mappedBy = "group")
-    private Set<ExpenseEntity> expenses = new HashSet<>();
+    private List<ExpenseEntity> expenses = new ArrayList<>();
 
-    public GroupEntity() {}
+    protected GroupEntity() {
+    }
 
-    public GroupEntity(Long id, Long groupId, String name, Set<UserEntity> members, Set<ExpenseEntity> expenses) {
+    public GroupEntity(Long id) {
         this.id = id;
-        this.groupId = id;
+        this.name = name;
+        this.members = members;
+        this.expenses = expenses;
+    }
+
+    public GroupEntity(Long id, String name, List<UserEntity> members, List<ExpenseEntity> expenses) {
+        this.id = id;
         this.name = name;
         this.members = members;
         this.expenses = expenses;
@@ -49,14 +47,6 @@ public class GroupEntity {
         this.id = id;
     }
 
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
-
     public String getName() {
         return name;
     }
@@ -65,19 +55,19 @@ public class GroupEntity {
         this.name = name;
     }
 
-    public Set<UserEntity> getMembers() {
+    public List<UserEntity> getMembers() {
         return members;
     }
 
-    public void setMembers(Set<UserEntity> members) {
+    public void setMembers(List<UserEntity> members) {
         this.members = members;
     }
 
-    public Set<ExpenseEntity> getExpenses() {
+    public List<ExpenseEntity> getExpenses() {
         return expenses;
     }
 
-    public void setExpenses(Set<ExpenseEntity> expenses) {
+    public void setExpenses(List<ExpenseEntity> expenses) {
         this.expenses = expenses;
     }
 

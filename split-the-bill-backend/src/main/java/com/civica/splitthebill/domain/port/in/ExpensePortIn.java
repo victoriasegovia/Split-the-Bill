@@ -6,7 +6,8 @@ import com.civica.splitthebill.application.dto.ExpenseDTO;
 
 public interface ExpensePortIn {
     
-    ExpenseDTO createExpenseInGroupUseCase(ExpenseDTO expenseDTO);
+    ExpenseDTO createExpenseUseCase(ExpenseDTO expenseDTO);
     Set<ExpenseDTO> listExpensesInGroupUseCase(Long groupId);
+    void addExpenseToGroupUseCase(Long expenseId, Long groupId);
 
 }
