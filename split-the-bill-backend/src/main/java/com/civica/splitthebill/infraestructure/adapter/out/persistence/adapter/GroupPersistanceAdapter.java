@@ -35,7 +35,7 @@ public class GroupPersistanceAdapter implements GroupPortOut {
     }
 
     @Override
-    public Optional<Group> save(Group group) {
+    public Group save(Group group) {
 
         List<UserEntity> memberEntities = Optional.ofNullable(group.memberIds())
                 .map(jpaUserRepository::findAllById)
@@ -49,7 +49,7 @@ public class GroupPersistanceAdapter implements GroupPortOut {
 
         GroupEntity savedEntity = jpaGroupRepository.save(groupEntity);
 
-        return Optional.of(GroupMapper.entitytoDomain(savedEntity));
+        return GroupMapper.entitytoDomain(savedEntity);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ExpensePersistanceAdapter implements ExpensePortOut {
     }
 
     @Override
-    public Optional<Expense> save(Expense expense) {
+    public Expense save(Expense expense) {
 
         ExpenseEntity expenseEntity = ExpenseMapper.domainToEntity(expense);
 
@@ -39,7 +39,7 @@ public class ExpensePersistanceAdapter implements ExpensePortOut {
 
         ExpenseEntity savedExpense = jpaExpenseRepository.save(expenseEntity);
 
-        return Optional.of(ExpenseMapper.entityToDomain(savedExpense));
+        return ExpenseMapper.entityToDomain(savedExpense);
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface UserPortOut {
 
-    Optional<User> save(User user);
+    User save(User user);
     Optional<User> findById(Long userId);
     List<User> findAllByGroupId(Long groupId);
 

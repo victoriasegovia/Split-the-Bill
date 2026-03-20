@@ -9,10 +9,6 @@ public class UserDTOMapper {
     }
 
     public static UserDTO domainToDTO(User user) {
-        return new UserDTO(user.userId(), user.name(), user.groupIds(), user.expenseIds());
-    }
-
-    public static User DTOToDomain(UserDTO userDTO) {
-        return new User(userDTO.userId(),  userDTO.name(), userDTO.groupIds(), userDTO.expenseIds());
+        return new UserDTO(user.userId(), user.name(), user.expenseIds());
     }
 }

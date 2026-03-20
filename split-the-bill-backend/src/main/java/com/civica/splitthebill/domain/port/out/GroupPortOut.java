@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface GroupPortOut {
 
-    Optional<Group> save(Group group);
+    Group save(Group group);
     Optional<Group> findByName(String name);
     Optional<Group> findById(Long id);
     List<Group> findAll();

@@ -8,18 +8,18 @@ import org.springframework.stereotype.Service;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
 import com.civica.splitthebill.application.mapper.GroupDTOMapper;
-import com.civica.splitthebill.domain.exception.EntityNotFoundException;
+
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.in.GroupPortIn;
 import com.civica.splitthebill.domain.port.out.GroupPortOut;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class GroupUseCases implements GroupPortIn {
 
-    private static final String FAIL_TO_SAVE_GROUP = "Failed to save group";
-    private static final String ID_NOT_NULL = "Group Id cannot be null";
-    private static final String GROUP = "Group";
+    private static final String ID_NOT_NULL = "Id cannot be null";
 
     private final GroupPortOut groupRepository;
 
@@ -29,9 +29,8 @@ public class GroupUseCases implements GroupPortIn {
 
     @Override
     public GroupDTO createGroupUseCase(GroupDTO groupDTO) {
-        Group group = GroupDTOMapper.dtoToDomain(groupDTO);
-        Group groupCreated = groupRepository.save(group)
-                .orElseThrow(() -> new RuntimeException(FAIL_TO_SAVE_GROUP));
+        Group group = new Group(null, groupDTO.name(), Set.of(), Set.of());
+        Group groupCreated = groupRepository.save(group);
 
         return GroupDTOMapper.domainToDTO(groupCreated);
     }
@@ -50,7 +49,7 @@ public class GroupUseCases implements GroupPortIn {
 
         return groupRepository.findById(groupId)
                 .map(GroupDTOMapper::domainToDTO)
-                .orElseThrow(() -> new EntityNotFoundException(groupId, GROUP));
+                .orElseThrow(EntityNotFoundException::new);
     }
 
     @Override

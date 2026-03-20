@@ -1,47 +1,57 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
 import com.civica.splitthebill.domain.port.in.GroupPortIn;
-import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.RequestResponseMapper;
+import com.civica.splitthebill.domain.port.in.UserPortIn;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequestResponseMapper;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
+
+import jakarta.validation.Valid;
+
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupResponse;
 import com.civica.splitthebill.application.dto.GroupDTO;
+import com.civica.splitthebill.application.dto.UserDTO;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/groups")
 public class GroupController {
 
     private final GroupPortIn groupService;
+    private final UserPortIn userService;
 
-    public GroupController(GroupPortIn groupService) {
+    public GroupController(GroupPortIn groupService, UserPortIn userService) {
         this.groupService = groupService;
+        this.userService = userService;
     }
 
     @PostMapping
-    public ResponseEntity<GroupResponse> create(@RequestBody GroupRequest request) {
+    public ResponseEntity<GroupResponse> create(@Valid @RequestBody GroupRequest request) {
         
-        GroupDTO input = RequestResponseMapper.requestToDomainDTO(request);
+        GroupDTO input = GroupRequestResponseMapper.requestToDomainDTO(request);
         GroupDTO created = groupService.createGroupUseCase(input);
 
-        GroupResponse response = RequestResponseMapper.domainDTOToResponse(created, Set.of());
+        GroupResponse response = GroupRequestResponseMapper.domainDTOToResponse(created, Set.of());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping
-    public ResponseEntity<Set<GroupResponse>> getAll() {
+    public ResponseEntity<List<GroupResponse>> getAll() {
 
         Set<GroupDTO> groups = groupService.listGroupsUseCase();
         
-        Set<GroupResponse> response = groups.stream()
+        List<GroupResponse> response = groups.stream()
                 .map(group -> {
                     Set<String> memberNames = groupService.listGroupMembersUseCase(group.groupId());
-                    return RequestResponseMapper.domainDTOToResponse(group, memberNames);
+                    return GroupRequestResponseMapper.domainDTOToResponse(group, memberNames);
                 })
-                .collect(Collectors.toSet());
+                .toList();
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
@@ -51,9 +61,14 @@ public class GroupController {
 
         GroupDTO group = groupService.listGroupByIdUseCase(id);
         Set<String> memberNames = groupService.listGroupMembersUseCase(id);
-        GroupResponse response = RequestResponseMapper.domainDTOToResponse(group, memberNames);
+        GroupResponse response = GroupRequestResponseMapper.domainDTOToResponse(group, memberNames);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping("/{id}/users")
+    public ResponseEntity<UserEntity> getUsersByGroupId(@PathVariable Long groupId) {
+        Set<UserDTO> users = userService.listUsersInGroupUseCase(groupId);
+
+    }
 }

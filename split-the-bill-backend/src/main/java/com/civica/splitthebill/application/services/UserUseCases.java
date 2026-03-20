@@ -12,13 +12,13 @@ import com.civica.splitthebill.domain.port.in.UserPortIn;
 import com.civica.splitthebill.domain.port.out.GroupPortOut;
 import com.civica.splitthebill.domain.port.out.UserPortOut;
 
+import jakarta.persistence.EntityNotFoundException;
+
 public class UserUseCases implements UserPortIn {
 
     private static final String GROUP_NOT_FOUND = "Group not found";
-    private static final String ID_NOT_NULL = "Id cannot be null";
     private static final String GROUP = "Group";
     private static final String USER = "User";
-    private static final String FAIL_TO_SAVE_USER = "Failed to save user";
 
     private final UserPortOut userRepository;
     private final GroupPortOut groupRepository;
@@ -31,17 +31,14 @@ public class UserUseCases implements UserPortIn {
     @Override
     public UserDTO createUserUseCase(UserDTO userDTO, Long groupId) {
 
-        Objects.requireNonNull(groupId, ID_NOT_NULL);
-        User user = UserDTOMapper.DTOToDomain(userDTO);
         groupRepository.findById(groupId)
                 .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
 
-        Set<Long> userGroupList = new HashSet<>(user.groupIds());
+        Set<Long> userGroupList = new HashSet<>();
         userGroupList.add(groupId);
 
-        User newUser = new User(user.userId(), user.name(), userGroupList, user.expenseIds());
-        User userCreated = userRepository.save(newUser)
-                .orElseThrow(() -> new RuntimeException(FAIL_TO_SAVE_USER));
+        User newUser = new User(null, userDTO.name(), userGroupList, Set.of());
+        User userCreated = userRepository.save(newUser);
 
         addUserToGroup(userCreated.userId(), groupId);
 
@@ -51,11 +48,8 @@ public class UserUseCases implements UserPortIn {
     @Override
     public void addUserToGroup(Long userId, Long groupId) {
 
-        Objects.requireNonNull(groupId, ID_NOT_NULL);
-        Objects.requireNonNull(userId, ID_NOT_NULL);
-
         Group group = groupRepository.findById(groupId)
-                .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
+                .orElseThrow(EntityNotFoundException::new);
 
         UseCaseUtils.checkExclusivity(userId, group.memberIds()::contains,
                 (() -> new EntityAlreadyAssignedException(userId, USER, group.groupId(), GROUP)));

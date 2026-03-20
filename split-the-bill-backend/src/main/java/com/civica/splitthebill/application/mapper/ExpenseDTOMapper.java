@@ -16,14 +16,5 @@ public class ExpenseDTOMapper {
                 expense.groupId(),
                 expense.totalAmount());
     }
-
-    public static Expense dtoToDomain(ExpenseDTO expenseDTO) {
-        return new Expense(
-                expenseDTO.expenseId(),
-                expenseDTO.title(),
-                expenseDTO.payerId(),
-                expenseDTO.groupId(),
-                expenseDTO.totalAmount());
-    }
     
 }

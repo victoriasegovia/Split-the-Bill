@@ -6,7 +6,7 @@ import java.util.Optional;
 import com.civica.splitthebill.domain.model.Expense;
 
 public interface ExpensePortOut {
-    Optional<Expense> save(Expense expense);
+    Expense save(Expense expense);
     List<Expense> findAllByGroupId(Long groupId);
     Optional<Expense> findById(Long expenseId);
 }

@@ -6,7 +6,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
-import com.civica.splitthebill.domain.exception.EntityNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

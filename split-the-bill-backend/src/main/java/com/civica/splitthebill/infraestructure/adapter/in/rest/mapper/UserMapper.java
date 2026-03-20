@@ -8,8 +8,7 @@ import com.civica.splitthebill.domain.model.User;
 
 public final class UserMapper {
 
-    private UserMapper() {
-    }
+    private UserMapper() {}
 
     public static UserEntity domainToEntity(User user) {
         return new UserEntity(
