@@ -9,6 +9,6 @@ public class UserDTOMapper {
     }
 
     public static UserDTO domainToDTO(User user) {
-        return new UserDTO(user.userId(), user.name(), user.expenseIds());
+        return new UserDTO(user.userId(), user.name());
     }
 }

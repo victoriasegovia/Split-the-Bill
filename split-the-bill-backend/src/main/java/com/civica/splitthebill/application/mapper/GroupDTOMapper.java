@@ -1,8 +1,5 @@
 package com.civica.splitthebill.application.mapper;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-
 import com.civica.splitthebill.application.dto.GroupDTO;
 import com.civica.splitthebill.domain.model.Group;
 

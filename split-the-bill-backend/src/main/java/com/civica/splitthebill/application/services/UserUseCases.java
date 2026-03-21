@@ -1,8 +1,11 @@
 package com.civica.splitthebill.application.services;
 
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 import java.util.Set;
+
+import org.springframework.stereotype.Service;
+
 import com.civica.splitthebill.application.dto.UserDTO;
 import com.civica.splitthebill.application.mapper.UserDTOMapper;
 import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
@@ -14,9 +17,9 @@ import com.civica.splitthebill.domain.port.out.UserPortOut;
 
 import jakarta.persistence.EntityNotFoundException;
 
+@Service
 public class UserUseCases implements UserPortIn {
 
-    private static final String GROUP_NOT_FOUND = "Group not found";
     private static final String GROUP = "Group";
     private static final String USER = "User";
 
@@ -32,8 +35,8 @@ public class UserUseCases implements UserPortIn {
     public UserDTO createUserUseCase(UserDTO userDTO, Long groupId) {
 
         groupRepository.findById(groupId)
-                .orElseThrow(() -> new RuntimeException(GROUP_NOT_FOUND));
-
+                .orElseThrow(EntityNotFoundException::new);
+                
         Set<Long> userGroupList = new HashSet<>();
         userGroupList.add(groupId);
 
@@ -62,7 +65,7 @@ public class UserUseCases implements UserPortIn {
     }
 
     @Override
-    public Set<UserDTO> listUsersInGroupUseCase(Long groupId) {
+    public List<UserDTO> listUsersInGroupUseCase(Long groupId) {
         throw new UnsupportedOperationException("Unimplemented method 'listUsersInGroupUseCase'");
     }
 

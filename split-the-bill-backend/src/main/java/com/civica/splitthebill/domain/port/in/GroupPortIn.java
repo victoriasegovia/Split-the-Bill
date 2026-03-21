@@ -1,14 +1,13 @@
 package com.civica.splitthebill.domain.port.in;
 
-import java.util.Set;
-
+import java.util.List;
 import com.civica.splitthebill.application.dto.GroupDTO;
 
 public interface GroupPortIn {
 
     GroupDTO createGroupUseCase(GroupDTO groupDTO);
-    Set<GroupDTO> listGroupsUseCase();
-    Set<String> listGroupMembersUseCase(Long groupId);
+    List<GroupDTO> listGroupsUseCase();
+    List<String> listGroupMembersUseCase(Long groupId);
     GroupDTO listGroupByIdUseCase(Long groupId);
 
 }

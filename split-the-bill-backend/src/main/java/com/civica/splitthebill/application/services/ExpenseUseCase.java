@@ -1,10 +1,9 @@
 package com.civica.splitthebill.application.services;
 
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import com.civica.splitthebill.application.dto.ExpenseDTO;
@@ -22,7 +21,6 @@ import jakarta.persistence.EntityNotFoundException;
 @Service
 public class ExpenseUseCase implements ExpensePortIn {
 
-    private static final String ID_NOT_NULL = "Id cannot be null";
     private static final String GROUP = "Group";
     private static final String EXPENSE = "Expense";
 
@@ -38,7 +36,7 @@ public class ExpenseUseCase implements ExpensePortIn {
 
     @Override
     public ExpenseDTO createExpenseUseCase(ExpenseDTO expenseDTO) {
-        
+
         groupRepository.findById(expenseDTO.groupId())
                 .orElseThrow(EntityNotFoundException::new);
         userPortOut.findById(expenseDTO.payerId())
@@ -61,20 +59,17 @@ public class ExpenseUseCase implements ExpensePortIn {
 
         Set<Long> newExpenseIds = new HashSet<>(group.expenseIds());
         newExpenseIds.add(expenseId);
-        
+
         Group updated = new Group(group.groupId(), group.name(), group.memberIds(), newExpenseIds);
         groupRepository.save(updated);
     }
 
     @Override
-    public Set<ExpenseDTO> listExpensesInGroupUseCase(Long groupId) {
-        return groupRepository.findById(groupId)
+    public List<ExpenseDTO> listExpensesInGroupUseCase(Long groupId) {
+        return expenseRepository.findAllByGroupId(groupId)
                 .stream()
-                .flatMap(group -> group.expenseIds().stream())
-                .map(expenseRepository::findById)
-                .flatMap(Optional::stream)
                 .map(ExpenseDTOMapper::domainToDTO)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
 }

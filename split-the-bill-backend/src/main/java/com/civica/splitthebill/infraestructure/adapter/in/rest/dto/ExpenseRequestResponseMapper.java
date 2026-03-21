@@ -10,8 +10,9 @@ public final class ExpenseRequestResponseMapper {
         return new ExpenseResponse(
             expenseDTO.expenseId(),
             expenseDTO.title(),
+            expenseDTO.payerId(),
+            expenseDTO.groupId(),
             expenseDTO.totalAmount()
-            
         );
     }
 

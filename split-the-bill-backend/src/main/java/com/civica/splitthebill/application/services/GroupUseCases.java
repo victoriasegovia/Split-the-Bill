@@ -1,5 +1,6 @@
 package com.civica.splitthebill.application.services;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -36,11 +37,11 @@ public class GroupUseCases implements GroupPortIn {
     }
 
     @Override
-    public Set<GroupDTO> listGroupsUseCase() {
+    public List<GroupDTO> listGroupsUseCase() {
 
         return groupRepository.findAll().stream()
                 .map(GroupDTOMapper::domainToDTO)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
     @Override
@@ -53,12 +54,12 @@ public class GroupUseCases implements GroupPortIn {
     }
 
     @Override
-    public Set<String> listGroupMembersUseCase(Long groupId) {
+    public List<String> listGroupMembersUseCase(Long groupId) {
         Objects.requireNonNull(groupId, ID_NOT_NULL);
 
         return groupRepository.findUsersByGroupId(groupId).stream()
                 .map(User::name)
-                .collect(Collectors.toSet());
+                .toList();
     }
 
 }

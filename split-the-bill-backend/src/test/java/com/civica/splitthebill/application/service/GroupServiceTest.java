@@ -39,7 +39,7 @@ class GroupServiceTest {
     @Test
     void createGroup_HappyPath() {
 
-        GroupDTO inputDto = new GroupDTO(null, "Dinner in Granada", Set.of(), Set.of());
+        GroupDTO inputDto = new GroupDTO(null, "Dinner in Granada");
 
         GroupDTO result = groupUseCases.createGroupUseCase(inputDto);
         assertAll(
@@ -51,7 +51,7 @@ class GroupServiceTest {
     @Test
     void createGroup_NameDuplicated() {
 
-        GroupDTO inputDto = new GroupDTO(null, "Repeated", Set.of(), Set.of());
+        GroupDTO inputDto = new GroupDTO(null, "Repeated");
         Group existingGroup = new Group(1L, "Repeated", Set.of(), Set.of());
 
         when(groupRepository.findByName("Repeated")).thenReturn(Optional.of(existingGroup));
@@ -68,7 +68,7 @@ class GroupServiceTest {
                 new Group(2L, "Grupo B", Set.of(), Set.of()));
         when(groupRepository.findAll()).thenReturn(domainGroups);
 
-        Set<GroupDTO> result = groupUseCases.listGroupsUseCase();
+        List<GroupDTO> result = groupUseCases.listGroupsUseCase();
 
         assertAll(
                 () -> assertEquals(2, result.size()),

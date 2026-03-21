@@ -7,4 +7,8 @@ public record ExpenseResponse(
         @NotNull
         String title,
         @NotNull
+        Long payerId,
+        @NotNull
+        Long groupId,
+        @NotNull
         double totalAmount) {}

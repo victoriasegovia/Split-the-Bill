@@ -1,9 +1,13 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.mapper;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import org.hibernate.Hibernate;
 
 public class MapperUtils {
 
@@ -11,9 +15,12 @@ public class MapperUtils {
     }
 
     public static <E, K> Set<K> entitiesToIdSet(List<E> entities, Function<E, K> idExtractor) {
-        return entities.stream()
-                .map(idExtractor)
-                .collect(Collectors.toSet());
+        return Optional.ofNullable(entities)
+            .filter(Hibernate::isInitialized)
+            .stream()
+            .flatMap(Collection::stream)
+            .map(idExtractor)
+            .collect(Collectors.toSet());
     }
 
     public static <E, K> List<E> idsToEntityProxySet(Set<K> ids, Function<K, E> entityCreation) {
