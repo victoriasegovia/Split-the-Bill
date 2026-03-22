@@ -42,6 +42,7 @@ public class ExpenseUseCase implements ExpensePortIn {
         userPortOut.findById(expenseDTO.payerId())
                 .orElseThrow(EntityNotFoundException::new);
 
+        
         Expense newExpense = new Expense(null, expenseDTO.title(), expenseDTO.payerId(), expenseDTO.groupId(), expenseDTO.totalAmount());
         Expense savedExpense = expenseRepository.save(newExpense);
 

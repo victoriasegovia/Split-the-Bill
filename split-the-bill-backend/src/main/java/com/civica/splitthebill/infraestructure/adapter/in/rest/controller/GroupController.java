@@ -24,7 +24,9 @@ import java.util.Objects;
 
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseRequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseResponse;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.UserResponse;
+import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.UserRequest;
 
 @RestController
 @RequestMapping("/api/groups")
@@ -68,12 +70,12 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<GroupResponse> getById(@PathVariable Long id) {
-        Objects.requireNonNull(id, ID_NOT_NULL);
+    @GetMapping("/{groupId}")
+    public ResponseEntity<GroupResponse> getById(@PathVariable Long groupId) {
+        Objects.requireNonNull(groupId, ID_NOT_NULL);
 
-        GroupDTO group = groupService.listGroupByIdUseCase(id);
-        List<String> memberNames = groupService.listGroupMembersUseCase(id);
+        GroupDTO group = groupService.listGroupByIdUseCase(groupId);
+        List<String> memberNames = groupService.listGroupMembersUseCase(groupId);
         GroupResponse response = GroupRequestResponseMapper.domainDTOToResponse(group, memberNames);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -92,6 +94,18 @@ public class GroupController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @PostMapping("/{groupId}/users")
+    public ResponseEntity<UserResponse> createUsersByGroupId(@PathVariable Long groupId, @Valid @RequestBody UserRequest request) {
+        Objects.requireNonNull(groupId, ID_NOT_NULL);
+
+        UserDTO input = UserRequestResponseMapper.requestToDomainDTO(request);
+        UserDTO created = userService.createUserUseCase(input, groupId);
+
+        UserResponse response = UserRequestResponseMapper.domainDTOToResponse(created);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
     @GetMapping("/{groupId}/expenses")
     public ResponseEntity<List<ExpenseResponse>> getExpensesByGroupId(@PathVariable Long groupId) {
         Objects.requireNonNull(groupId, ID_NOT_NULL);
@@ -103,4 +117,17 @@ public class GroupController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @PostMapping("/{groupId}/expenses")
+    public ResponseEntity<ExpenseResponse> createExpenseByGroupId(@PathVariable Long groupId, @Valid @RequestBody ExpenseRequest request) {
+        Objects.requireNonNull(groupId, ID_NOT_NULL);
+
+        ExpenseDTO input = ExpenseRequestResponseMapper.requestToDomainDTO(request);
+        ExpenseDTO created = expenseService.createExpenseUseCase(input);
+
+        ExpenseResponse response = ExpenseRequestResponseMapper.domainDTOToResponse(created);
+        
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
 }

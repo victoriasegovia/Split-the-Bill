@@ -1,6 +1,7 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -8,4 +9,5 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.Us
 
 public interface JpaUserRepository extends JpaRepository<UserEntity, Long> {
     List<UserEntity> findByGroups_Id(Long groupId);
+    Optional<UserEntity> findByIdAndGroups_Id(Long id, Long groupId);
 }

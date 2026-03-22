@@ -47,6 +47,12 @@ public class UserPersistanceAdapter implements UserPortOut {
     }
 
     @Override
+    public Optional<User> findByIdInGroup(Long id, Long groupId) {
+        Optional<UserEntity> userEntity = jpaUserRepository.findByIdAndGroups_Id(id, groupId);
+        return userEntity.map(UserMapper::entityToDomain);
+    }
+
+    @Override
     public List<User> findAllByGroupId(Long groupId) {
         List<UserEntity> userEntities = jpaUserRepository.findByGroups_Id(groupId);
         return userEntities.stream()

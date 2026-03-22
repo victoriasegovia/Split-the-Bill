@@ -36,7 +36,7 @@ public class UserUseCases implements UserPortIn {
 
         groupRepository.findById(groupId)
                 .orElseThrow(EntityNotFoundException::new);
-                
+
         Set<Long> userGroupList = new HashSet<>();
         userGroupList.add(groupId);
 
@@ -66,7 +66,9 @@ public class UserUseCases implements UserPortIn {
 
     @Override
     public List<UserDTO> listUsersInGroupUseCase(Long groupId) {
-        throw new UnsupportedOperationException("Unimplemented method 'listUsersInGroupUseCase'");
+        return userRepository.findAllByGroupId(groupId).stream()
+                .map(UserDTOMapper::domainToDTO)
+                .toList();
     }
 
 }
