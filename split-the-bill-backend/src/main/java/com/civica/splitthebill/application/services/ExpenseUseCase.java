@@ -2,7 +2,6 @@ package com.civica.splitthebill.application.services;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -42,7 +41,6 @@ public class ExpenseUseCase implements ExpensePortIn {
         userPortOut.findById(expenseDTO.payerId())
                 .orElseThrow(EntityNotFoundException::new);
 
-        
         Expense newExpense = new Expense(null, expenseDTO.title(), expenseDTO.payerId(), expenseDTO.groupId(), expenseDTO.totalAmount());
         Expense savedExpense = expenseRepository.save(newExpense);
 
@@ -56,12 +54,13 @@ public class ExpenseUseCase implements ExpensePortIn {
 
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(EntityNotFoundException::new);
-        UseCaseUtils.checkExclusivity(expenseId, group.expenseIds()::contains, (() -> new EntityAlreadyAssignedException(expenseId, EXPENSE, groupId, GROUP)));
 
-        Set<Long> newExpenseIds = new HashSet<>(group.expenseIds());
-        newExpenseIds.add(expenseId);
+        Set<Long> expenseIds = new HashSet<>(group.expenseIds());
+        UseCaseUtils.checkExclusivity(expenseId, expenseIds::contains, (() -> new EntityAlreadyAssignedException(expenseId, EXPENSE, groupId, GROUP)));
 
-        Group updated = new Group(group.groupId(), group.name(), group.memberIds(), newExpenseIds);
+        expenseIds.add(expenseId);
+
+        Group updated = new Group(group.groupId(), group.name(), group.memberIds(), expenseIds);
         groupRepository.save(updated);
     }
 

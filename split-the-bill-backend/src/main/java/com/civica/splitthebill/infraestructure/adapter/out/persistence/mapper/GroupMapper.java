@@ -1,9 +1,7 @@
 package com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;

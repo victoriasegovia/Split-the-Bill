@@ -46,12 +46,12 @@ class GroupExpenseControllerTest {
 
         mockMvc.perform(post("/api/groups/" + groupId + "/expenses")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content("{" +
-                        "\"title\": \"Cena\", " +
-                        "\"payerId\": 10, " +
-                        "\"groupId\": 1, " +
-                        "\"totalAmount\": 50.0" +
-                        "}"))
+                .content("{"
+                        + "\"title\": \"Cena\", "
+                        + "\"payerId\": 10, "
+                        + "\"groupId\": 1, "
+                        + "\"totalAmount\": 50.0"
+                        + "}"))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.expenseId").value(100))
                 .andExpect(jsonPath("$.title").value("Cena"))

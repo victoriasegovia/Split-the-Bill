@@ -11,4 +11,4 @@ public record ExpenseRequest(
         @NotNull
         Long groupId,
         @NotNull
-        double totalAmount) {}
+        Double totalAmount) {}
