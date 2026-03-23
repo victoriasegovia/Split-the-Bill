@@ -28,7 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@Transactional
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 class ExpenseIntegrationIT {
 
@@ -71,7 +70,7 @@ class ExpenseIntegrationIT {
         
         Set<Long> userGroups = new HashSet<>();
         userGroups.add(group.groupId());
-        
+
         User payer = userRepository.save(new User(null, "Victoria", userGroups, new HashSet<>()));
 
         String expenseRequest = String.format("""
