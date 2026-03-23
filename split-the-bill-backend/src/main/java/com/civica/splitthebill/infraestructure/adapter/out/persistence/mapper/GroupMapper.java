@@ -1,4 +1,4 @@
-package com.civica.splitthebill.infraestructure.adapter.in.rest.mapper;
+package com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper;
 
 import java.util.Collections;
 import java.util.HashSet;

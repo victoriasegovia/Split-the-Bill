@@ -1,4 +1,4 @@
-package com.civica.splitthebill.infraestructure.adapter.in.rest.mapper;
+package com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper;
 
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;

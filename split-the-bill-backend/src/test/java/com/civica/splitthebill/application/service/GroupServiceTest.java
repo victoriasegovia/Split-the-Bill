@@ -1,40 +1,34 @@
 package com.civica.splitthebill.application.service;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.Mockito;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
 import com.civica.splitthebill.application.services.GroupUseCases;
 import com.civica.splitthebill.domain.model.Group;
+import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.GroupPortOut;
-import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
 
-@ExtendWith(MockitoExtension.class)
+import jakarta.persistence.EntityNotFoundException;
+
 class GroupServiceTest {
 
-    @Mock
     private GroupPortOut groupRepository;
+    private GroupUseCases groupUseCases;
 
-    @InjectMocks
-    private GroupUseCases groupUseCases; // -> next task in jira
+    @BeforeEach
+    void setUp() {
+        this.groupRepository = Mockito.mock(GroupPortOut.class);
+        this.groupUseCases = new GroupUseCases(groupRepository);
+    }
 
     @Test
     void createGroup_HappyPath() {
@@ -42,37 +36,67 @@ class GroupServiceTest {
         GroupDTO inputDto = new GroupDTO(null, "Dinner in Granada");
 
         GroupDTO result = groupUseCases.createGroupUseCase(inputDto);
+
         assertAll(
                 () -> assertNotNull(result.groupId()),
                 () -> assertEquals("Dinner in Granada", result.name()),
-                () -> verify(groupRepository).save(any(Group.class)));
+                () -> Mockito.verify(groupRepository).save(any(Group.class)));
     }
 
     @Test
-    void createGroup_NameDuplicated() {
+    void listGroupById_ShouldReturnGroup_WhenExists() {
 
-        GroupDTO inputDto = new GroupDTO(null, "Repeated");
-        Group existingGroup = new Group(1L, "Repeated", Set.of(), Set.of());
+        Long id = 1L;
+        Group existingGroup = new Group(id, "Cena", Set.of(), Set.of());
 
-        when(groupRepository.findByName("Repeated")).thenReturn(Optional.of(existingGroup));
-        assertThrows(EntityAlreadyAssignedException.class, () -> {
-            groupUseCases.createGroupUseCase(inputDto);
+        Mockito.when(groupRepository.findById(id)).thenReturn(Optional.of(existingGroup));
+
+        GroupDTO result = groupUseCases.listGroupByIdUseCase(id);
+
+        assertEquals("Cena", result.name());
+        assertEquals(id, result.groupId());
+    }
+
+    @Test
+    void listGroupById_ShouldThrowException_WhenNotFound() {
+
+        Long id = 99L;
+        Mockito.when(groupRepository.findById(id)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            groupUseCases.listGroupByIdUseCase(id);
         });
-        verify(groupRepository, never()).save(any());
     }
 
     @Test
-    void listGroups_HappyPath() {
-        List<Group> domainGroups = List.of(
-                new Group(1L, "Grupo A", Set.of(), Set.of()),
-                new Group(2L, "Grupo B", Set.of(), Set.of()));
-        when(groupRepository.findAll()).thenReturn(domainGroups);
+    void listGroupMembers_ShouldReturnNamesList() {
 
-        List<GroupDTO> result = groupUseCases.listGroupsUseCase();
+        Long groupId = 1L;
+
+        List<User> mockUsers = List.of(
+                new User(10L, "Alice", Set.of(), Set.of()),
+                new User(11L, "Bob", Set.of(), Set.of()));
+
+        Mockito.when(groupRepository.findUsersByGroupId(groupId)).thenReturn(mockUsers);
+
+        List<String> result = groupUseCases.listGroupMembersUseCase(groupId);
 
         assertAll(
                 () -> assertEquals(2, result.size()),
-                () -> verify(groupRepository).findAll());
+                () -> assertTrue(result.contains("Alice")),
+                () -> assertTrue(result.contains("Bob")),
+                () -> Mockito.verify(groupRepository).findUsersByGroupId(groupId));
+    }
+
+    @Test
+    void listGroupById_ShouldThrowException_WhenIdIsNull() {
+
+        NullPointerException exception = assertThrows(NullPointerException.class, () -> {
+            groupUseCases.listGroupByIdUseCase(null);
+        });
+
+        assertEquals("Id cannot be null", exception.getMessage());
+        Mockito.verifyNoInteractions(groupRepository);
     }
 
 }

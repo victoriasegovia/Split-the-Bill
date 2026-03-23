@@ -8,11 +8,11 @@ import java.util.Set;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.GroupPortOut;
-import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.GroupMapper;
-import com.civica.splitthebill.infraestructure.adapter.in.rest.mapper.UserMapper;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.GroupMapper;
+import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.UserMapper;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaGroupRepository;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaUserRepository;
@@ -20,8 +20,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class GroupPersistanceAdapter implements GroupPortOut {
-
-    private static final String ID_NOT_NULL = "Id cannot be null";
 
     private final JpaGroupRepository jpaGroupRepository;
     private final JpaUserRepository jpaUserRepository;
@@ -76,7 +74,6 @@ public class GroupPersistanceAdapter implements GroupPortOut {
 
     @Override
     public Optional<Group> findById(Long id) {
-        Objects.requireNonNull(id, ID_NOT_NULL);
         Optional<GroupEntity> groupEntity = jpaGroupRepository.findById(id);
         return groupEntity.map(GroupMapper::entitytoDomain);
     }

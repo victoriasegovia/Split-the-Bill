@@ -19,7 +19,7 @@ public final class GroupRequestResponseMapper {
 
     public static GroupDTO requestToDomainDTO(GroupRequest groupRequest) {
         return new GroupDTO(
-            groupRequest.id(),
+            groupRequest.groupId(),
             groupRequest.name()
         );
     }
