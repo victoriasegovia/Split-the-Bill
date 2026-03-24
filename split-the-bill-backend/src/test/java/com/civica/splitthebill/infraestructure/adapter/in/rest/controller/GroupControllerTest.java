@@ -2,10 +2,13 @@ package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -24,7 +27,7 @@ class GroupControllerTest {
     @BeforeEach
     void setUp() {
  
-        this.groupService = mock(GroupPortIn.class);
+        this.groupService = Mockito.mock(GroupPortIn.class);
 
         GroupController groupController = new GroupController(groupService);
 

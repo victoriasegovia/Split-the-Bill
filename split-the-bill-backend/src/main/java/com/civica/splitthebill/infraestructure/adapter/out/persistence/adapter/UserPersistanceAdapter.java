@@ -23,7 +23,8 @@ public class UserPersistanceAdapter implements UserPortOut {
     private final JpaGroupRepository jpaGroupRepository;
     private final JpaExpenseRepository jpaExpenseRepository;
 
-    public UserPersistanceAdapter(JpaUserRepository jpaUserRepository, JpaGroupRepository jpaGroupRepository, JpaExpenseRepository jpaExpenseRepository) {
+    public UserPersistanceAdapter(JpaUserRepository jpaUserRepository, JpaGroupRepository jpaGroupRepository,
+            JpaExpenseRepository jpaExpenseRepository) {
         this.jpaUserRepository = jpaUserRepository;
         this.jpaExpenseRepository = jpaExpenseRepository;
         this.jpaGroupRepository = jpaGroupRepository;
@@ -31,6 +32,7 @@ public class UserPersistanceAdapter implements UserPortOut {
 
     @Override
     public User save(User user) {
+
         List<GroupEntity> groups = jpaGroupRepository.findAllById(user.groupIds());
         List<ExpenseEntity> expenses = jpaExpenseRepository.findAllById(user.expenseIds());
 
@@ -59,5 +61,5 @@ public class UserPersistanceAdapter implements UserPortOut {
                 .map(UserMapper::entityToDomain)
                 .toList();
     }
-    
+
 }
