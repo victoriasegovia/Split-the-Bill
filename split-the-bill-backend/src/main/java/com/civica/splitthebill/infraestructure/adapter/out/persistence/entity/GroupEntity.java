@@ -16,7 +16,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "groups_table")
+@Table(name = "groups")
 public class GroupEntity {
 
     @Id
