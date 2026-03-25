@@ -34,7 +34,9 @@ class GroupServiceTest {
     void createGroup_HappyPath() {
 
         GroupDTO inputDto = new GroupDTO(null, "Dinner in Granada");
-
+        Group savedGroup = new Group(1L, "Dinner in Granada", Set.of(), Set.of());
+        
+        Mockito.when(groupRepository.save(any(Group.class))).thenReturn(savedGroup);
         GroupDTO result = groupUseCases.createGroupUseCase(inputDto);
 
         assertAll(

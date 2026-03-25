@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestConstructor;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import com.civica.splitthebill.AbstractIntegrationTest;
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
@@ -35,7 +36,7 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.Us
     GroupPersistanceAdapter.class, GroupMapper.class 
 })
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class ExpensePersistanceIT {
+class ExpensePersistanceIT extends AbstractIntegrationTest {
 
     private final ExpensePortOut expenseRepository;
     private final UserPortOut userRepository;

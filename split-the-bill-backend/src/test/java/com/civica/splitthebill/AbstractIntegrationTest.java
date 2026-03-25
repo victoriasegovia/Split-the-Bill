@@ -1,4 +1,4 @@
-package com.civica.splitthebill.infraestructure.adapter.out.adapter;
+package com.civica.splitthebill;
 
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;

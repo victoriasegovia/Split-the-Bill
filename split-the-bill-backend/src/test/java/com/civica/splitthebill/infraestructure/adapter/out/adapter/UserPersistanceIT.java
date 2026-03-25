@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestConstructor;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import com.civica.splitthebill.AbstractIntegrationTest;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.GroupPortOut;
@@ -28,7 +29,7 @@ import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.Us
     GroupPersistanceAdapter.class, GroupMapper.class
 })
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-class UserPersistanceIT {
+class UserPersistanceIT extends AbstractIntegrationTest {
 
     private final UserPortOut userRepository;
     private final GroupPortOut groupRepository;
