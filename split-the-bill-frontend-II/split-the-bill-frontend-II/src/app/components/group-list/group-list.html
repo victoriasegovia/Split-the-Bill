@@ -1,0 +1,22 @@
+<section class="landing-container">
+  <div>
+    <input [(ngModel)]="newGroupName" placeholder="Nombre del grupo">
+    <button (click)="createGroup()">Crear Grupo</button>
+  </div>
+
+  <div class="group-list">
+    @for (group of groups; track group.groupId) {
+    <div class="group-card">
+      <h3>{{ group.name }}</h3>
+      @if (group.memberNames && group.memberNames.length > 0) {
+      <p><strong>Miembros:</strong> {{ group.memberNames.join(', ') }}</p>
+      } @else {
+      <p><strong>Miembros:</strong> Sin miembros</p>
+      }
+      <button [routerLink]="['/groups', group.groupId]">Ver grupo</button>
+    </div>
+    } @empty {
+    <p>Aún no hay grupos creados. ¡Crea el primero!</p>
+    }
+  </div>
+</section>

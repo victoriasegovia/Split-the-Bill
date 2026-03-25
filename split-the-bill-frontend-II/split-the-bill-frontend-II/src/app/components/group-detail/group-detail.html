@@ -1,0 +1,18 @@
+@if (group) {
+  <div class="detail-container">
+    <button routerLink="/">Volver a la lista</button>
+    
+    <h2>Detalles de: {{ group.name }}</h2>
+
+    <h3>Miembros del grupo</h3>
+    <ul>
+      @for (member of group.memberNames; track member) {
+        <li>{{ member }}</li>
+      } @empty {
+        <li>Este grupo aún no tiene miembros asignados.</li>
+      }
+    </ul>
+  </div>
+} @else {
+  <p>Cargando detalles del grupo...</p>
+}
