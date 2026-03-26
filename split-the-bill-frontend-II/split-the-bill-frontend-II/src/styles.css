@@ -16,8 +16,8 @@
     --cyber-border: #30363d;
 
     /* Colores Acento - Más sutiles */
-    --cyber-blue: #58a6ff;
-    --cyber-blue-muted: #4184e4;
+    --cyber-blue: #a7e9ff;
+    --cyber-blue-muted: #92bffd;
     --cyber-green: #3fb950;
     --cyber-purple: #a371f7;
     --cyber-orange: #d29922;
@@ -132,13 +132,13 @@ h2::before {
 }
 
 h3 {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     color: var(--cyber-text-primary);
     margin-bottom: 1rem;
 }
 
 h4 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--cyber-text-secondary);
     margin-bottom: 1rem;
     margin-top: 1.5rem;
@@ -152,14 +152,14 @@ h4::before {
 }
 
 p {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--cyber-text-secondary);
     margin-bottom: 0.5rem;
 }
 
 strong {
     color: var(--cyber-text-primary);
-    font-weight: 600;
+    font-weight: 500;
 }
 
 /* ───────────────────────────────────────────────────────────
@@ -168,7 +168,7 @@ strong {
 .app-header {
     background: var(--cyber-surface);
     border-bottom: 1px solid var(--cyber-border);
-    padding: 1.5rem 2rem;
+    padding: 1rem;
     text-align: center;
     position: relative;
     z-index: 1;
@@ -183,7 +183,7 @@ strong {
 .landing-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 3rem 2rem;
+    padding: 3rem 1rem;
 }
 
 .landing-container>div:first-child {
@@ -263,8 +263,8 @@ strong {
     background: var(--cyber-surface);
     border: 1px solid var(--cyber-border);
     border-radius: 6px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
     display: flex;
     gap: 0.75rem;
     align-items: center;
@@ -323,6 +323,56 @@ select option {
     background: var(--cyber-surface);
     color: var(--cyber-text-primary);
     padding: 0.5rem;
+}
+
+/* ===================================================================
+   ALINEACIÓN DE FORMULARIOS (FLEXBOX)
+   =================================================================== */
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.form-block {
+    flex: 1;
+    min-width: 300px;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-main);
+    padding: 1rem;
+    position: relative;
+}
+
+.form-block:first-child {
+    flex: 1;
+    min-width: 250px;
+}
+
+.form-block:last-child {
+    flex: 2;
+    min-width: 450px;
+}
+
+.form-inline {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.form-inline input,
+.form-inline select {
+    margin-bottom: 0;
+    flex: 1;
+    min-width: 150px;
+}
+
+.form-inline button {
+    margin-right: 0;
 }
 
 /* ───────────────────────────────────────────────────────────

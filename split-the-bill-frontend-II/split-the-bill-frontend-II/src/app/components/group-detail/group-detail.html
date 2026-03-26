@@ -2,32 +2,35 @@
 <div class="landing-container">
   <button routerLink="/" class="back-button">Volver a la lista</button>
 
-  <div>
+  <div class="form-row">
 
-    <h4>Añadir nuevo miembro</h4>
-    <div class="form">
-      <input type="text" [(ngModel)]="newMemberName" placeholder="Nombre del amigo..." (keyup.enter)="addMember()">
-      <button (click)="addMember()" [disabled]="!newMemberName.trim()">
-        Añadir
-      </button>
+    <div class="form-block">
+      <h4>Añadir nuevo miembro</h4>
+      <div class="form-inline">
+        <input type="text" [(ngModel)]="newMemberName" placeholder="Nombre del amigo..." (keyup.enter)="addMember()">
+        <button (click)="addMember()" [disabled]="!newMemberName.trim()">
+          Añadir
+        </button>
+      </div>
     </div>
 
-    <h4>Añadir nuevo gasto</h4>
-    <div class="form">
-      <input type="text" [(ngModel)]="newExpense.title" placeholder="Nombre del gasto..." (keyup.enter)="addExpense()">
-      <input type="number" [(ngModel)]="newExpense.totalAmount" placeholder="Coste del gasto..."
-        (keyup.enter)="addExpense()">
-      <select [(ngModel)]="newExpense.payerId">
-        <option [ngValue]="null" disabled selected>¿Quién ha pagado?</option>
-        @for (user of users; track user.userId) {
-        <option [ngValue]="user.userId">{{ user.name }}</option>
-        }
-      </select>
-      <button (click)="addExpense()" [disabled]="!isExpenseValid()">
-        Añadir
-      </button>
+    <div class="form-block">
+      <h4>Añadir nuevo gasto</h4>
+      <div class="form-inline">
+        <input type="text" [(ngModel)]="newExpense.title" placeholder="Nombre del gasto..."
+          (keyup.enter)="addExpense()">
+        <input type="number" [(ngModel)]="newExpense.totalAmount" placeholder="Coste..." (keyup.enter)="addExpense()">
+        <select [(ngModel)]="newExpense.payerId">
+          <option [ngValue]="null" disabled selected>¿Quién ha pagado?</option>
+          @for (user of users; track user.userId) {
+          <option [ngValue]="user.userId">{{ user.name }}</option>
+          }
+        </select>
+        <button (click)="addExpense()" [disabled]="!isExpenseValid()">
+          Añadir
+        </button>
+      </div>
     </div>
-
   </div>
 
   <h2>{{ group.name }}</h2>
