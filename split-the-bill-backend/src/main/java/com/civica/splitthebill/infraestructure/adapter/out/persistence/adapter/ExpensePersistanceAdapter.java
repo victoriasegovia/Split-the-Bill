@@ -32,11 +32,6 @@ public class ExpensePersistanceAdapter implements ExpensePortOut {
     public Expense save(Expense expense) {
 
         ExpenseEntity expenseEntity = ExpenseMapper.domainToEntity(expense);
-
-        expenseEntity.setId(expense.expenseId());
-        expenseEntity.setTitle(expense.title());
-        expenseEntity.setTotalAmount(expense.totalAmount());
-
         ExpenseEntity savedExpense = jpaExpenseRepository.save(expenseEntity);
 
         return ExpenseMapper.entityToDomain(savedExpense);

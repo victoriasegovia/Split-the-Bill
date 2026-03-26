@@ -40,7 +40,7 @@ public class UserUseCases implements UserPortIn {
         Set<Long> userGroupList = new HashSet<>();
         userGroupList.add(groupId);
 
-        User newUser = new User(null, userDTO.name(), userGroupList, Set.of());
+        User newUser = new User(null, userDTO.name(), userGroupList, new HashSet<>());
         User userCreated = userRepository.save(newUser);
 
         addUserToGroup(userCreated.userId(), groupId);
@@ -54,14 +54,14 @@ public class UserUseCases implements UserPortIn {
         Group group = groupRepository.findById(groupId)
                 .orElseThrow(EntityNotFoundException::new);
 
-        UseCaseUtils.checkExclusivity(userId, group.memberIds()::contains,
+        Set<Long> newGroupMembers = new HashSet<>(group.memberIds());
+        UseCaseUtils.checkExclusivity(userId, newGroupMembers::contains,
                 (() -> new EntityAlreadyAssignedException(userId, USER, group.groupId(), GROUP)));
 
-        Set<Long> newGroupMembers = new HashSet<>(group.memberIds());
         newGroupMembers.add(userId);
 
-        Group newGroup = new Group(group.groupId(), group.name(), newGroupMembers, group.expenseIds());
-        groupRepository.save(newGroup);
+        Group updated = new Group(group.groupId(), group.name(), newGroupMembers, group.expenseIds());
+        groupRepository.save(updated);
     }
 
     @Override

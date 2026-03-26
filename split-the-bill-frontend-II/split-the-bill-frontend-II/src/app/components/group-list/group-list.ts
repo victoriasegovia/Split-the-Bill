@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Group, GroupRequest } from '../../models/group.model';
@@ -17,7 +17,9 @@ export class GroupList implements OnInit {
   groups: Group[] = [];
   newGroupName: string = '';
 
-  constructor(private groupService: GroupService) { }
+  constructor(
+    private groupService: GroupService,
+    private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.refreshGroups();
@@ -26,6 +28,7 @@ export class GroupList implements OnInit {
   refreshGroups() {
     this.groupService.getGroups().subscribe(data => {
       this.groups = data;
+      this.cdr.detectChanges();
     });
   }
 

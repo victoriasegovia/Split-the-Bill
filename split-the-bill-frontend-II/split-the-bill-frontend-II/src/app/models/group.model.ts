@@ -1,5 +1,5 @@
 export interface Group {
-    groupId?: number;
+    groupId: number;
     name: string;
     memberNames: string[];
 }

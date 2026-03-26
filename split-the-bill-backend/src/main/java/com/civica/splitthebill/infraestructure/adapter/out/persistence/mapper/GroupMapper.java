@@ -13,7 +13,7 @@ public final class GroupMapper {
     private GroupMapper() {
     }
 
-    public static Group entitytoDomain(GroupEntity entity) {
+    public static Group entityToDomain(GroupEntity entity) {
         return new Group(
                 entity.getId(),
                 entity.getName(),
@@ -26,7 +26,7 @@ public final class GroupMapper {
         );
     }
 
-    public static GroupEntity domaintoEntity(Group group) {
+    public static GroupEntity domainToEntity(Group group) {
         return new GroupEntity(
                 group.groupId(),
                 group.name(),
