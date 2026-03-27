@@ -22,7 +22,6 @@ class GroupPersistanceAdapterTest {
 
     private JpaGroupRepository jpaGroupRepository;
     private JpaUserRepository jpaUserRepository;
-    private JpaExpenseRepository jpaExpenseRepository;
 
     private GroupPersistanceAdapter adapter;
 
@@ -31,12 +30,10 @@ class GroupPersistanceAdapterTest {
 
         this.jpaGroupRepository = Mockito.mock(JpaGroupRepository.class);
         this.jpaUserRepository = Mockito.mock(JpaUserRepository.class);
-        this.jpaExpenseRepository = Mockito.mock(JpaExpenseRepository.class);
 
         this.adapter = new GroupPersistanceAdapter(
                 jpaGroupRepository,
-                jpaUserRepository,
-                jpaExpenseRepository);
+                jpaUserRepository);
     }
 
     @Test

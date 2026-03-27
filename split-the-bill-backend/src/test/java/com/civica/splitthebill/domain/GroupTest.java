@@ -1,37 +1,68 @@
 package com.civica.splitthebill.domain;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.HashSet;
 import java.util.Set;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import com.civica.splitthebill.domain.model.Group;
 
 class GroupTest {
 
-    private Group group;
+    @Test
+    void groupShouldHaveGivenName() {
 
-    @BeforeEach
-    void setUp() {
-        this.group = Mockito.mock(Group.class);
+        String expectedName = "Mocked Group";
+
+        Group result = new Group(null, expectedName, Set.of(), Set.of());
+
+        assertAll(
+                () -> assertEquals(expectedName, result.name(), "Name should match the mock configuration"),
+                () -> assertNull(result.groupId(), "ID should be null"),
+                () -> assertNotNull(result.memberIds(), "Member IDs should not be null"),
+                () -> assertNotNull(result.expenseIds(), "Expense IDs should not be null"));
     }
 
     @Test
-    void shouldCreateGroupWithNameOnly() {
-        
-        String expectedName = "Mocked Group";
-        Set<Long> expectedMembers = Set.of(1L, 2L);
+    void shouldThrowExceptionWhenNameIsNull() {
 
-        Mockito.when(group.name()).thenReturn(expectedName);
-        Mockito.when(group.memberIds()).thenReturn(expectedMembers);
-        Mockito.when(group.groupId()).thenReturn(null);
-        Mockito.when(group.expenseIds()).thenReturn(Set.of());
+        String invalidName = null;
+
+        assertThrows(NullPointerException.class, () -> {
+            new Group(null, invalidName, Set.of(), Set.of());
+        });
+    }
+
+    @Test
+    void groupShouldHaveSetWithTwoMemberIds() {
+
+        Set<Long> memberIds = new HashSet<>();
+        memberIds.add(1L);
+        memberIds.add(2L);
+
+        Group result = new Group(null, "", memberIds, Set.of());
 
         assertAll(
-                () -> assertEquals(expectedName, group.name(), "Name should match the mock configuration"),
-                () -> assertNull(group.groupId(), "ID should be null as configured"),
-                () -> assertNotNull(group.memberIds(), "Member IDs should not be null"),
-                () -> assertEquals(2, group.memberIds().size(), "Should have 2 members"),
-                () -> assertTrue(group.expenseIds().isEmpty(), "Expense IDs should be empty"));
+                () -> assertEquals("", result.name(), "Name should match the reference"),
+                () -> assertNull(result.groupId(), "ID should be null as configured"),
+                () -> assertEquals(2, result.memberIds().size(), "Should have 2 member IDs"),
+                () -> assertNotNull(result.expenseIds(), "Expense IDs should not be null"));
+    }
+
+    @Test
+    void groupShouldHaveSetWithTwoExpenseIds() {
+
+        Set<Long> expenseIds = new HashSet<>();
+        expenseIds.add(1L);
+        expenseIds.add(2L);
+
+        Group result = new Group(null, "", Set.of(), expenseIds);
+
+        assertAll(
+                () -> assertEquals("", result.name(), "Name should match the reference"),
+                () -> assertNull(result.groupId(), "ID should be null as configured"),
+                () -> assertNotNull(result.memberIds(), "Member IDs should not be null"),
+                () -> assertEquals(2, result.expenseIds().size(), "Should have 2 member IDs"));
     }
 }

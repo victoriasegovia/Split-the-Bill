@@ -16,5 +16,5 @@ public record Group(
     memberIds = Set.copyOf(Objects.requireNonNullElse(memberIds, Set.of()));
     expenseIds = Set.copyOf(Objects.requireNonNullElse(expenseIds, Set.of()));
   }
-
+  
 }

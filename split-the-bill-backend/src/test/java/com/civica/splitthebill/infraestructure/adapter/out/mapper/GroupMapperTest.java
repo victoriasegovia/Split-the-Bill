@@ -27,7 +27,7 @@ class GroupMapperTest {
         Mockito.when(mockEntity.getMembers()).thenReturn(null); 
         Mockito.when(mockEntity.getExpenses()).thenReturn(null);
 
-        Group result = GroupMapper.entitytoDomain(mockEntity);
+        Group result = GroupMapper.entityToDomain(mockEntity);
 
         assertAll(
                 () -> assertEquals(1L, result.groupId()),
@@ -42,7 +42,7 @@ class GroupMapperTest {
 
         Group domain = new Group(1L, "Cena", Set.of(10L, 11L), Set.of(100L));
 
-        GroupEntity result = GroupMapper.domaintoEntity(domain);
+        GroupEntity result = GroupMapper.domainToEntity(domain);
 
         assertAll(
                 () -> assertEquals(1L, result.getId()),
