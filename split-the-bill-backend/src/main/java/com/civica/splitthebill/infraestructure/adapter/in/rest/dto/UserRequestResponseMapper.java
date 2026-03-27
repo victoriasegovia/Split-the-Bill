@@ -2,8 +2,6 @@ package com.civica.splitthebill.infraestructure.adapter.in.rest.dto;
 
 import com.civica.splitthebill.application.dto.UserDTO;
 
-import java.util.List;
-
 public final class UserRequestResponseMapper {
     
     private UserRequestResponseMapper() {}

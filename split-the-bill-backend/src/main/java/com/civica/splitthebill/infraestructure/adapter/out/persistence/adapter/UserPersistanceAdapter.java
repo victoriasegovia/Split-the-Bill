@@ -2,7 +2,6 @@ package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
