@@ -1,4 +1,4 @@
-package com.civica.splitthebill.infraestructure.adapter.out.mapper;
+package com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,8 +10,6 @@ import java.util.function.Function;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.MapperUtils;
 
 class MapperUtilsTest {
 

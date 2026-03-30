@@ -1,4 +1,4 @@
-package com.civica.splitthebill.infraestructure.adapter.out.adapter;
+package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.civica.splitthebill.domain.model.Expense;
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter.ExpensePersistanceAdapter;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;

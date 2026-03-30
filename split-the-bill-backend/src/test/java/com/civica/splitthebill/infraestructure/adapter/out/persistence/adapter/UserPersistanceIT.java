@@ -1,4 +1,4 @@
-package com.civica.splitthebill.infraestructure.adapter.out.adapter;
+package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,8 +17,6 @@ import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
 import com.civica.splitthebill.domain.port.out.GroupPortOut;
 import com.civica.splitthebill.domain.port.out.UserPortOut;
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter.GroupPersistanceAdapter;
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter.UserPersistanceAdapter;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.GroupMapper;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.UserMapper;
 

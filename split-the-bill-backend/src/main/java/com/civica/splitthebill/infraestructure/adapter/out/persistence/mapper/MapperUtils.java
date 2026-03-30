@@ -7,8 +7,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.hibernate.Hibernate;
-
 public class MapperUtils {
 
     private MapperUtils() {
@@ -16,11 +14,11 @@ public class MapperUtils {
 
     public static <E, K> Set<K> entitiesToIdSet(List<E> entities, Function<E, K> idExtractor) {
         return Optional.ofNullable(entities)
-            .filter(Hibernate::isInitialized)
-            .stream()
-            .flatMap(Collection::stream)
-            .map(idExtractor)
-            .collect(Collectors.toSet());
+                .filter(org.hibernate.Hibernate::isInitialized)
+                .stream()
+                .flatMap(Collection::stream)
+                .map(idExtractor)
+                .collect(Collectors.toSet());
     }
 
     public static <E, K> List<E> idsToEntityProxySet(Set<K> ids, Function<K, E> entityCreation) {
@@ -29,7 +27,7 @@ public class MapperUtils {
                 .toList();
     }
 
-    public static <E, K> E createEntityProxy (K id, Function<K, E> entityCreation) {
+    public static <E, K> E createEntityProxy(K id, Function<K, E> entityCreation) {
         return entityCreation.apply(id);
     }
 }

@@ -1,4 +1,4 @@
-package com.civica.splitthebill.infraestructure.adapter.out.mapper;
+package com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +13,6 @@ import org.mockito.Mockito;
 
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.GroupMapper;
 
 class GroupMapperTest {
 

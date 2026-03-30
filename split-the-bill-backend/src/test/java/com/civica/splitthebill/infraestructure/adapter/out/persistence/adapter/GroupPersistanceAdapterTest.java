@@ -1,7 +1,10 @@
-package com.civica.splitthebill.infraestructure.adapter.out.adapter;
+package com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Set;
@@ -11,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.infraestructure.adapter.out.persistence.adapter.GroupPersistanceAdapter;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaGroupRepository;
@@ -40,19 +42,20 @@ class GroupPersistanceAdapterTest {
 
         Group domainGroup = new Group(null, "Cena", Set.of(1L), Set.of());
         UserEntity userEntity = new UserEntity(1L, "Victoria", List.of(), List.of());
-
-        Mockito.when(jpaUserRepository.findAllById(Mockito.any())).thenReturn(List.of(userEntity));
-
         GroupEntity savedEntity = new GroupEntity(1L, "Cena", List.of(userEntity), List.of());
-        Mockito.when(jpaGroupRepository.save(Mockito.any(GroupEntity.class))).thenReturn(savedEntity);
+
+        when(jpaUserRepository.findAllById(any())).thenReturn(List.of(userEntity));
+        when(jpaGroupRepository.save(any(GroupEntity.class))).thenReturn(savedEntity);
+
 
         Group result = adapter.save(domainGroup);
+
 
         assertAll(
                 () -> assertEquals(1L, result.groupId()),
                 () -> assertEquals("Cena", result.name()),
-                () -> Mockito.verify(jpaGroupRepository).save(Mockito.any(GroupEntity.class)),
-                () -> Mockito.verify(jpaUserRepository).findAllById(Mockito.any()));
+                () -> verify(jpaGroupRepository).save(any(GroupEntity.class))
+        );
     }
 
     @Test
