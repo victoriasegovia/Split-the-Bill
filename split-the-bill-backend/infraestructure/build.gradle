@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '3.4.3'
 }
 
-springBoot {
+bootRun {
     mainClass = 'com.civica.splitthebill.infraestructure.SplitthebillApplication'
 }
 
