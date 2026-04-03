@@ -17,6 +17,7 @@ The goal is to apply modern software design patterns in a controlled environment
 * **Maven & Gradle:** (Roadmap: Modularizing the project into independent modules for each layer).
 * **H2 Database:** For development and testing.
 * **Testing:** JUnit 5 and Mockito for Unit and Integration tests with Docker DB.
+* **Angular:** Basic frontend with Angular.
 
 ---
 
@@ -48,11 +49,14 @@ src/main/java/com/yourpackage/splitthebill/
 ```bash
 # Clone the repository
 git clone https://github.com/victoriasegovia/STEMFounding.git
-cd STEMFounding
+cd split-the-bill-backend
 # Build the project (skipping tests for a faster first run)
 ./mvnw clean install -DskipTests
 # Run the application
 ./mvnw spring-boot:run
+# Run the front end
+cd split-the-bill-frontend
+ng serve
 ```
 
 ---
