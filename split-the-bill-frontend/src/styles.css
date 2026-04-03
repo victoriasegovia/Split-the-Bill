@@ -1,0 +1,640 @@
+/* ═══════════════════════════════════════════════════════════
+   CYBERPUNK EXPENSE TRACKER - CUSTOM STYLES
+   Diseño oscuro, tecnológico y pixelado inspirado en sci-fi
+   ═══════════════════════════════════════════════════════════ */
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+/* ───────────────────────────────────────────────────────────
+   VARIABLES PERSONALIZADAS
+   ─────────────────────────────────────────────────────────── */
+:root {
+    /* Colores Base */
+    --cyber-black: #0d1117;
+    --cyber-surface: #161b22;
+    --cyber-surface-light: #1c2128;
+    --cyber-border: #30363d;
+
+    /* Colores Acento - Más sutiles */
+    --cyber-blue: #a7e9ff;
+    --cyber-blue-muted: #92bffd;
+    --cyber-green: #3fb950;
+    --cyber-purple: #a371f7;
+    --cyber-orange: #d29922;
+    --cyber-red: #f85149;
+
+    /* Textos */
+    --cyber-text-primary: #e6edf3;
+    --cyber-text-secondary: #8b949e;
+    --cyber-text-muted: #6e7681;
+
+    /* Efectos - Más sutiles */
+    --cyber-glow-blue: 0 0 8px rgba(88, 166, 255, 0.25);
+    --cyber-glow-green: 0 0 8px rgba(63, 185, 80, 0.25);
+
+    /* Fuente */
+    --cyber-font: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+}
+
+/* ───────────────────────────────────────────────────────────
+   RESET Y BASE
+   ─────────────────────────────────────────────────────────── */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--cyber-font);
+    background-color: var(--cyber-black);
+    color: var(--cyber-text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Efecto de Scanlines - MÁS SUTIL */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(0deg,
+            rgba(0, 0, 0, 0.08),
+            rgba(0, 0, 0, 0.08) 1px,
+            transparent 1px,
+            transparent 2px);
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.15;
+}
+
+/* Grid Background - MÁS SUTIL */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        linear-gradient(rgba(48, 54, 61, 0.15) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(48, 54, 61, 0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.3;
+}
+
+#root,
+.landing-container,
+section {
+    position: relative;
+    z-index: 1;
+}
+
+/* ───────────────────────────────────────────────────────────
+   TIPOGRAFÍA
+   ─────────────────────────────────────────────────────────── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--cyber-font);
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: var(--cyber-text-primary);
+}
+
+h2 {
+    font-size: 1.75rem;
+    color: var(--cyber-text-primary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--cyber-border);
+}
+
+h2::before {
+    content: '// ';
+    color: var(--cyber-text-muted);
+    font-size: 0.9em;
+}
+
+h3 {
+    font-size: 1.2rem;
+    color: var(--cyber-text-primary);
+    margin-bottom: 1rem;
+}
+
+h4 {
+    font-size: 1rem;
+    color: var(--cyber-text-secondary);
+    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    font-weight: 400;
+}
+
+h4::before {
+    content: '▸ ';
+    color: var(--cyber-blue-muted);
+    font-size: 0.8em;
+}
+
+p {
+    font-size: 0.9rem;
+    color: var(--cyber-text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+strong {
+    color: var(--cyber-text-primary);
+    font-weight: 500;
+}
+
+/* ───────────────────────────────────────────────────────────
+   LANDING CONTAINER
+   ─────────────────────────────────────────────────────────── */
+.app-header {
+    background: var(--cyber-surface);
+    border-bottom: 1px solid var(--cyber-border);
+    padding: 1rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.app-main {
+    min-height: calc(100vh - 80px);
+    position: relative;
+    z-index: 1;
+}
+
+.landing-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1rem;
+}
+
+.landing-container>div:first-child {
+    background: var(--cyber-surface);
+    border: 1px solid var(--cyber-border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 3rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ───────────────────────────────────────────────────────────
+   GROUP LIST & CARDS
+   ─────────────────────────────────────────────────────────── */
+.group-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+    margin-top: 2rem;
+}
+
+.group-card {
+    background: var(--cyber-surface);
+    border: 1px solid var(--cyber-border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.group-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--cyber-blue);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    border-radius: 6px 0 0 6px;
+}
+
+.group-card:hover {
+    border-color: var(--cyber-blue-muted);
+    background: var(--cyber-surface-light);
+    transform: translateY(-2px);
+}
+
+.group-card:hover::before {
+    opacity: 1;
+}
+
+.group-card h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1.15rem;
+}
+
+.group-card h3::before,
+.group-card h3::after {
+    content: none;
+}
+
+.group-card p {
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    color: var(--cyber-text-secondary);
+}
+
+/* ───────────────────────────────────────────────────────────
+   FORMULARIOS - CONTENEDOR
+   ─────────────────────────────────────────────────────────── */
+.form {
+    background: var(--cyber-surface);
+    border: 1px solid var(--cyber-border);
+    border-radius: 6px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: all 0.2s ease;
+}
+
+.form:focus-within {
+    border-color: var(--cyber-blue);
+    background: var(--cyber-surface-light);
+}
+
+/* ───────────────────────────────────────────────────────────
+   FORMULARIOS - INPUTS
+   ─────────────────────────────────────────────────────────── */
+input[type="text"],
+input[type="number"],
+select {
+    font-family: var(--cyber-font);
+    background: var(--cyber-black);
+    border: 1px solid var(--cyber-border);
+    border-radius: 5px;
+    color: var(--cyber-text-primary);
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 300px;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder {
+    color: var(--cyber-text-muted);
+    opacity: 0.8;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: var(--cyber-blue);
+    background: var(--cyber-surface);
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.1);
+}
+
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%238b949e' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.875rem center;
+    padding-right: 2.5rem;
+}
+
+select option {
+    background: var(--cyber-surface);
+    color: var(--cyber-text-primary);
+    padding: 0.5rem;
+}
+
+/* ===================================================================
+   ALINEACIÓN DE FORMULARIOS (FLEXBOX)
+   =================================================================== */
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.form-block {
+    flex: 1;
+    min-width: 300px;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-main);
+    padding: 1rem;
+    position: relative;
+}
+
+.form-block:first-child {
+    flex: 1;
+    min-width: 250px;
+}
+
+.form-block:last-child {
+    flex: 2;
+    min-width: 450px;
+}
+
+.form-inline {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.form-inline input,
+.form-inline select {
+    margin-bottom: 0;
+    flex: 1;
+    min-width: 150px;
+}
+
+.form-inline button {
+    margin-right: 0;
+}
+
+/* ───────────────────────────────────────────────────────────
+   BOTONES
+   ─────────────────────────────────────────────────────────── */
+button {
+    font-family: var(--cyber-font);
+    background: var(--cyber-surface-light);
+    border: 1px solid var(--cyber-border);
+    border-radius: 5px;
+    color: var(--cyber-text-primary);
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    outline: none;
+}
+
+button::before {
+    content: none;
+}
+
+button:hover {
+    background: var(--cyber-surface-light);
+    border-color: var(--cyber-blue);
+    color: var(--cyber-blue);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: var(--cyber-border);
+    color: var(--cyber-text-muted);
+}
+
+button:disabled:hover {
+    border-color: var(--cyber-border);
+    color: var(--cyber-text-muted);
+    transform: none;
+}
+
+/* Botón de volver */
+.back-button {
+    margin-bottom: 2rem;
+    border-color: var(--cyber-border);
+}
+
+.back-button:hover {
+    border-color: var(--cyber-purple);
+    color: var(--cyber-purple);
+}
+
+/* ───────────────────────────────────────────────────────────
+   SECCIONES DE FORMULARIO
+   ─────────────────────────────────────────────────────────── */
+section>div:first-child {
+    background: var(--cyber-surface);
+    border: 1px solid var(--cyber-border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+section>div:first-child>div {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+}
+
+section>div:first-child>div:last-child {
+    margin-bottom: 0;
+}
+
+/* ───────────────────────────────────────────────────────────
+   LISTA DE MIEMBROS CON GASTOS
+   ─────────────────────────────────────────────────────────── */
+section>section {
+    background: var(--cyber-surface);
+    border: 1px solid var(--cyber-border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    transition: all 0.2s ease;
+}
+
+section>section:hover {
+    border-color: var(--cyber-blue-muted);
+    background: var(--cyber-surface-light);
+}
+
+section>section>div {
+    margin-bottom: 1rem;
+}
+
+section>section>div>span:last-child {
+    display: block;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--cyber-border);
+    color: var(--cyber-green);
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+section>section>div>span:last-child::before {
+    content: '∑ ';
+    color: var(--cyber-text-muted);
+    font-size: 0.9em;
+}
+
+/* ───────────────────────────────────────────────────────────
+   LISTAS
+   ─────────────────────────────────────────────────────────── */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+li {
+    background: var(--cyber-black);
+    border: 1px solid var(--cyber-border);
+    border-left: 2px solid transparent;
+    border-radius: 4px;
+    padding: 0.625rem 0.875rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+}
+
+li:hover {
+    border-left-color: var(--cyber-blue);
+    background: var(--cyber-surface);
+}
+
+li span {
+    color: var(--cyber-text-primary);
+}
+
+li span::before {
+    content: '→ ';
+    color: var(--cyber-text-muted);
+    margin-right: 0.5rem;
+    font-size: 0.8em;
+}
+
+/* Lista vacía */
+li:only-child {
+    color: var(--cyber-text-muted);
+    font-style: italic;
+    border-left-color: var(--cyber-orange);
+}
+
+/* ───────────────────────────────────────────────────────────
+   SEPARADORES
+   ─────────────────────────────────────────────────────────── */
+hr {
+    border: none;
+    height: 1px;
+    background: var(--cyber-border);
+    margin: 1.5rem 0;
+    opacity: 0.6;
+}
+
+/* ───────────────────────────────────────────────────────────
+   MENSAJES DE ESTADO
+   ─────────────────────────────────────────────────────────── */
+p:only-child,
+div>p:last-child {
+    text-align: center;
+    padding: 2rem;
+    color: var(--cyber-text-muted);
+    font-style: italic;
+}
+
+p:only-child::before,
+div>p:last-child::before {
+    content: '⚠ ';
+    color: var(--cyber-orange);
+    font-style: normal;
+    font-size: 0.9em;
+}
+
+/* ───────────────────────────────────────────────────────────
+   ANIMACIONES
+   ─────────────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+}
+
+/* ───────────────────────────────────────────────────────────
+   SCROLLBAR PERSONALIZADA
+   ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cyber-black);
+    border-left: 1px solid var(--cyber-border);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--cyber-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--cyber-blue-muted);
+}
+
+/* ───────────────────────────────────────────────────────────
+   RESPONSIVE
+   ─────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .landing-container {
+        padding: 2rem 1rem;
+    }
+
+    .group-list {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select,
+    button {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    section>div:first-child>div {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FIN DEL ARCHIVO
+   ═══════════════════════════════════════════════════════════ */

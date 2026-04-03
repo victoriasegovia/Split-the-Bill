@@ -1,0 +1,66 @@
+@if (group) {
+<div class="landing-container">
+  <button routerLink="/" class="back-button">Volver a la lista</button>
+
+  <div class="form-row">
+
+    <div class="form-block">
+      <h4>Añadir nuevo miembro</h4>
+      <div class="form-inline">
+        <input type="text" [(ngModel)]="newMemberName" placeholder="Nombre del amigo..." (keyup.enter)="addMember()">
+        <button (click)="addMember()" [disabled]="!newMemberName.trim()">
+          Añadir
+        </button>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <h4>Añadir nuevo gasto</h4>
+      <div class="form-inline">
+        <input type="text" [(ngModel)]="newExpense.title" placeholder="Nombre del gasto..."
+          (keyup.enter)="addExpense()">
+        <input type="number" [(ngModel)]="newExpense.totalAmount" placeholder="Coste..." (keyup.enter)="addExpense()">
+        <select [(ngModel)]="newExpense.payerId">
+          <option [ngValue]="null" disabled selected>¿Quién ha pagado?</option>
+          @for (user of users; track user.userId) {
+          <option [ngValue]="user.userId">{{ user.name }}</option>
+          }
+        </select>
+        <button (click)="addExpense()" [disabled]="!isExpenseValid()">
+          Añadir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <h2>{{ group.name }}</h2>
+
+  <div>
+    @for (member of membersWithData; track member.userId) {
+    <section>
+
+      <div>
+        <h3>{{ member.name }}</h3>
+        <ul>
+          @for (expense of member.userExpenses; track expense.expenseId) {
+          <li>
+            <span>{{ expense.title }}: {{ expense.totalAmount }} €</span>
+          </li>
+          } @empty {
+          <li>Este miembro no tiene gastos registrados.</li>
+          }
+        </ul>
+        <span>Total gastado: {{ member.totalSpent }} €</span>
+      </div>
+
+    </section>
+    } @empty {
+    <div>
+      <p>Empieza anadiendo un nuevo miembro</p>
+    </div>
+    }
+  </div>
+</div>
+} @else {
+<p>Cargando detalles del grupo...</p>
+}

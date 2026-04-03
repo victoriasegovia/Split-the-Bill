@@ -1,2 +1,196 @@
 # Split-the-Bill
 Hexagonal architecture
+
+
+## UML
+```mermaid
+classDiagram
+    %% Capa de Dominio
+    class Group {
+        +Long id
+        +String name
+        +List<User> members
+    }
+    
+    class User {
+        +Long id
+        +String name
+    }
+    
+    class GroupRepository {
+        +Optional<Group> save(Group group)
+        +Optional<Group> findByName(String name)
+        +List<Group> findAll()
+        +List<User> findUsersByGroupId(Long groupId)
+        +void addUserToGroup(Long groupId, Long userId)
+        +void removeUserFromGroup(Long groupId, Long userId)
+    }
+    
+    class UserRepository {
+        +Optional<User> save(User user)
+        +Optional<User> findById(Long id)
+        +List<User> findAllById(List<Long> ids)
+    }
+    
+    %% Capa de Aplicación
+    class GroupDTO {
+        +Long id
+        +String name
+        +List<Long> membersIds
+    }
+    
+    class UserDTO {
+        +Long id
+        +String name
+    }
+    
+    class GroupService {
+        +GroupDTO createGroupUseCase(GroupDTO groupDTO)
+        +List<GroupDTO> listGroupsUseCase()
+        +void addUserToGroupUseCase(Long groupId, Long userId)
+        +void removeUserFromGroupUseCase(Long groupId, Long userId)
+    }
+    
+    class GroupUseCases {
+        -GroupRepository groupRepository
+        -UserRepository userRepository
+    }
+    
+    class GroupDTOMapper {
+        +GroupDTO domainToDTO(Group group)
+        +Group dtoToDomain(GroupDTO dto, List<User> members)
+    }
+    
+    %% Capa de Infraestructura
+    class GroupController {
+        -GroupService groupService
+        -UserRepository userRepository
+        +ResponseEntity<GroupResponse> create(GroupRequest request)
+        +List<GroupResponse> list()
+    }
+    
+    class GroupPersistanceAdapter {
+        -JpaGroupRepository jpaGroupRepository
+    }
+    
+    class UserPersistanceAdapter {
+        -JpaUserRepository jpaUserRepository
+    }
+    
+    %% Relaciones
+    GroupUseCases ..|> GroupService : implements
+    GroupPersistanceAdapter ..|> GroupRepository : implements
+    UserPersistanceAdapter ..|> UserRepository : implements
+    
+    GroupController --> GroupService : uses
+    GroupUseCases --> GroupRepository : uses
+    GroupUseCases --> UserRepository : uses
+    GroupController --> UserRepository : uses
+    
+    GroupUseCases --> GroupDTOMapper : uses
+    GroupController --> GroupDTOMapper : uses (via RequestResponseMapper)
+    
+    Group --> User : contains
+    GroupDTO --> UserDTO : references ids
+    
+    GroupRepository --> Group : manages
+    UserRepository --> User : manages
+    GroupService --> GroupDTO : uses
+```
+
+## Database Diagrama
+```mermaid
+erDiagram
+    User {
+        BIGINT id PK
+        VARCHAR name
+    }
+
+    Group {
+        BIGINT id PK
+        VARCHAR name
+    }
+
+    GroupMember {
+        BIGINT id PK
+        BIGINT group_id FK
+        BIGINT user_id FK
+    }
+
+    Expense {
+        BIGINT id PK
+        VARCHAR description
+        DECIMAL amount
+
+        BIGINT group_id FK
+        BIGINT paid_by FK
+    }
+
+    ExpenseParticipation {
+        BIGINT id PK
+        DECIMAL amount_owed
+
+        BIGINT expense_id FK
+        BIGINT user_id FK
+    }
+
+    Balance {
+        BIGINT id PK
+        String name
+        DECIMAL amount
+
+        BIGINT from_user_id FK
+        BIGINT to_user_id FK
+    }
+
+    User ||--o{ GroupMember : "belongs to"
+    Group ||--o{ GroupMember : "has members"
+    Group ||--o{ Expense : "contains"
+    User ||--o{ Expense : "pays"
+    Expense ||--o{ ExpenseParticipation : "divided among"
+    User ||--o{ ExpenseParticipation : "owes"
+    User ||--o{ Balance : "owes to"
+    User ||--o{ Balance : "owed by"
+```
+
+```mermaid
+sequenceDiagram
+    participant Client as Cliente (HTTP)
+    participant Controller as GroupController (Infra)
+    participant Mapper as RequestResponseMapper (Infra)
+    participant Service as GroupService (App)
+    participant UseCase as GroupUseCases (App)
+    participant DTOMapper as GroupDTOMapper (App)
+    participant UserRepo as UserRepository (Domain)
+    participant GroupRepo as GroupRepository (Domain)
+    participant UserAdapter as UserPersistanceAdapter (Infra)
+    participant GroupAdapter as GroupPersistanceAdapter (Infra)
+    participant DB as Base de Datos
+
+    Client->>Controller: POST /api/groups (JSON)
+    Controller->>Mapper: requestToDomainDTO(request)
+    Mapper-->>Controller: GroupDTO
+    Controller->>Service: createGroupUseCase(GroupDTO)
+    Service->>UseCase: createGroupUseCase(GroupDTO)
+    UseCase->>DTOMapper: dtoToDomain(GroupDTO, members)
+    DTOMapper-->>UseCase: Group
+    UseCase->>UserRepo: findAllById(membersIds)
+    UserRepo->>UserAdapter: findAllById(membersIds)
+    UserAdapter->>DB: SELECT users
+    DB-->>UserAdapter: List<User>
+    UserAdapter-->>UserRepo: List<User>
+    UserRepo-->>UseCase: List<User>
+    UseCase->>GroupRepo: save(Group)
+    GroupRepo->>GroupAdapter: save(Group)
+    GroupAdapter->>DB: INSERT group
+    DB-->>GroupAdapter: Group (saved)
+    GroupAdapter-->>GroupRepo: Group
+    GroupRepo-->>UseCase: Group
+    UseCase->>DTOMapper: domainToDTO(Group)
+    DTOMapper-->>UseCase: GroupDTO
+    UseCase-->>Service: GroupDTO
+    Service-->>Controller: GroupDTO
+    Controller->>Mapper: domainDTOToResponse(GroupDTO, memberNames)
+    Mapper-->>Controller: GroupResponse
+    Controller-->>Client: HTTP 201 (JSON GroupResponse)
+```
