@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.civica.splitthebill.application.dto.UserDTO;
-import com.civica.splitthebill.domain.port.in.UserPortIn;
+import com.civica.splitthebill.domain.port.inbound.UserPortIn;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.handler.GlobalExceptionHandler;
 
 import org.springframework.http.MediaType;

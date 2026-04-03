@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Repository;
 
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.out.UserPortOut;
+import com.civica.splitthebill.domain.port.outbound.UserPortOut;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;

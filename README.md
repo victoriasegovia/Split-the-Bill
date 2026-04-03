@@ -1,6 +1,61 @@
-# Split-the-Bill
-Hexagonal architecture
+# Split-the-Bill (Work in Progress 🚧)
 
+This project is a simplified version of an expense-sharing application, developed as an academic exercise. The primary focus is to demonstrate a **Pure Hexagonal Architecture** (Ports and Adapters) and clean code principles.
+
+## Project Overview
+The goal is to apply modern software design patterns in a controlled environment:
+* **Pure Hexagonal Architecture:** Strict separation between business logic and technical implementation.
+* **Basic DDD:** Implementation of Domain Entities and Repositories (intentionally omitting Value Objects, UUIDs, and Aggregate Roots for simplicity).
+* **SOLID & OOP:** Strong adherence to Single Responsibility and Dependency Inversion.
+* **KISS & DRY:** Focused on keeping the solution simple and avoiding unnecessary duplication.
+* **Functional Programming:** Extensive use of Java Streams and functional paradigms for data mapping and transformations.
+* **Decoupling:** Implementation of **Application DTOs** to ensure the Domain remains agnostic of the external layers.
+
+## Tech Stack
+* **Java 21+**
+* **Spring Boot 3.x**
+* **Gradle:** (Current roadmap: Modularizing the project into independent modules for each layer).
+* **H2 Database:** For development and testing.
+* **Testing:** JUnit 5 and Mockito for Unit and Integration tests.
+
+---
+
+## Project Structure
+The project follows a standard Hexagonal modular organization:
+
+```text
+src/main/java/com/yourpackage/splitthebill/
+├── application/
+│   ├── dto/                # Application Data Transfer Objects (Decoupling)
+│   ├── mapper/             # Domain <-> DTO Mapping logic
+│   ├── ports/
+│   │   ├── inbound/        # Use Case interfaces (Input)
+│   │   └── outbound/       # Repository interfaces (Output)
+│   └── usecases/           # Application logic implementation
+├── domain/
+│   └── model/              # Pure Domain Entities (User, Group, Expense)
+└── infrastructure/
+    ├── adapters/
+    │   ├── inbound/        # REST Controllers (Web Adapters)
+    │   └── outbound/       # Persistence Adapters (JPA/Hibernate)
+    ├── mappers/            # Request/Response to DTO Mappers
+    └── config/             # Framework-specific configuration
+```
+
+---
+
+## Run the proyect
+```bash
+# Clone the repository
+git clone https://github.com/victoriasegovia/STEMFounding.git
+cd STEMFounding
+# Build the project (skipping tests for a faster first run)
+./mvnw clean install -DskipTests
+# Run the application
+./mvnw spring-boot:run
+```
+
+---
 
 ## UML
 ```mermaid
@@ -126,31 +181,10 @@ erDiagram
         BIGINT paid_by FK
     }
 
-    ExpenseParticipation {
-        BIGINT id PK
-        DECIMAL amount_owed
-
-        BIGINT expense_id FK
-        BIGINT user_id FK
-    }
-
-    Balance {
-        BIGINT id PK
-        String name
-        DECIMAL amount
-
-        BIGINT from_user_id FK
-        BIGINT to_user_id FK
-    }
-
     User ||--o{ GroupMember : "belongs to"
     Group ||--o{ GroupMember : "has members"
     Group ||--o{ Expense : "contains"
     User ||--o{ Expense : "pays"
-    Expense ||--o{ ExpenseParticipation : "divided among"
-    User ||--o{ ExpenseParticipation : "owes"
-    User ||--o{ Balance : "owes to"
-    User ||--o{ Balance : "owed by"
 ```
 
 ```mermaid

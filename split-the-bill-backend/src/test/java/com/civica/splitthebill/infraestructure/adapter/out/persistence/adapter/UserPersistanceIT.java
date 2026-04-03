@@ -15,8 +15,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import com.civica.splitthebill.AbstractIntegrationTest;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
-import com.civica.splitthebill.domain.port.out.UserPortOut;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
+import com.civica.splitthebill.domain.port.outbound.UserPortOut;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.GroupMapper;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.UserMapper;
 

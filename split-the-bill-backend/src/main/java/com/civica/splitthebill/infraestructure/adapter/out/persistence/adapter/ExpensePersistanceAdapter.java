@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.civica.splitthebill.domain.model.Expense;
-import com.civica.splitthebill.domain.port.out.ExpensePortOut;
+import com.civica.splitthebill.domain.port.outbound.ExpensePortOut;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.ExpenseEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.ExpenseMapper;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.repository.JpaExpenseRepository;

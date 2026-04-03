@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.GroupEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.entity.UserEntity;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.GroupMapper;

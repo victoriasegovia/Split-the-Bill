@@ -1,4 +1,4 @@
-package com.civica.splitthebill.application.services;
+package com.civica.splitthebill.application.usecases;
 
 import java.util.HashSet;
 import java.util.List;
@@ -11,10 +11,10 @@ import com.civica.splitthebill.application.mapper.ExpenseDTOMapper;
 import com.civica.splitthebill.domain.exception.EntityAlreadyAssignedException;
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.domain.port.in.ExpensePortIn;
-import com.civica.splitthebill.domain.port.out.ExpensePortOut;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
-import com.civica.splitthebill.domain.port.out.UserPortOut;
+import com.civica.splitthebill.domain.port.inbound.ExpensePortIn;
+import com.civica.splitthebill.domain.port.outbound.ExpensePortOut;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
+import com.civica.splitthebill.domain.port.outbound.UserPortOut;
 
 import jakarta.persistence.EntityNotFoundException;
 

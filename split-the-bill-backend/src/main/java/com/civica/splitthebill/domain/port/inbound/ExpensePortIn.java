@@ -1,4 +1,4 @@
-package com.civica.splitthebill.domain.port.in;
+package com.civica.splitthebill.domain.port.inbound;
 
 import java.util.List;
 

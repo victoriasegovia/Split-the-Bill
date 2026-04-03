@@ -1,19 +1,17 @@
-package com.civica.splitthebill.application.services;
+package com.civica.splitthebill.application.usecases;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
 import com.civica.splitthebill.application.mapper.GroupDTOMapper;
-
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.in.GroupPortIn;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
+import com.civica.splitthebill.domain.port.inbound.GroupPortIn;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -30,7 +28,7 @@ public class GroupUseCases implements GroupPortIn {
 
     @Override
     public GroupDTO createGroupUseCase(GroupDTO groupDTO) {
-        Group group = new Group(null, groupDTO.name(), Set.of(), Set.of());
+        Group group = new Group(groupDTO.name());
         Group groupCreated = groupRepository.save(group);
 
         return GroupDTOMapper.domainToDTO(groupCreated);

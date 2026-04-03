@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.civica.splitthebill.application.dto.ExpenseDTO;
-import com.civica.splitthebill.domain.port.in.ExpensePortIn;
+import com.civica.splitthebill.domain.port.inbound.ExpensePortIn;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseRequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseResponse;

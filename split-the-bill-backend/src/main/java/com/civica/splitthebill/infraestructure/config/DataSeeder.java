@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.out.ExpensePortOut;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
-import com.civica.splitthebill.domain.port.out.UserPortOut;
+import com.civica.splitthebill.domain.port.outbound.ExpensePortOut;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
+import com.civica.splitthebill.domain.port.outbound.UserPortOut;
 
 @Component
 public class DataSeeder implements CommandLineRunner {

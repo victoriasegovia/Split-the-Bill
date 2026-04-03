@@ -15,13 +15,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.civica.splitthebill.application.dto.ExpenseDTO;
-import com.civica.splitthebill.application.services.ExpenseUseCase;
+import com.civica.splitthebill.application.usecases.ExpenseUseCase;
 import com.civica.splitthebill.domain.model.Expense;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.out.ExpensePortOut;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
-import com.civica.splitthebill.domain.port.out.UserPortOut;
+import com.civica.splitthebill.domain.port.outbound.ExpensePortOut;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
+import com.civica.splitthebill.domain.port.outbound.UserPortOut;
 
 class ExpenseServiceTest {
     

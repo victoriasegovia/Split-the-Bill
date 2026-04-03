@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
-import com.civica.splitthebill.domain.port.in.GroupPortIn;
+import com.civica.splitthebill.domain.port.inbound.GroupPortIn;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.handler.GlobalExceptionHandler;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;

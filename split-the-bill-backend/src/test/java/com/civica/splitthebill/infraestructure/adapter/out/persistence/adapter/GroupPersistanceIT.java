@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.civica.splitthebill.AbstractIntegrationTest;
 import com.civica.splitthebill.domain.model.Group;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
 import com.civica.splitthebill.infraestructure.adapter.out.persistence.mapper.GroupMapper;
 
 @Testcontainers

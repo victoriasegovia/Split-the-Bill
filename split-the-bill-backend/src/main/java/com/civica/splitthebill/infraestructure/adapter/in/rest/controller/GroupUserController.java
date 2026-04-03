@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.civica.splitthebill.application.dto.UserDTO;
-import com.civica.splitthebill.domain.port.in.UserPortIn;
+import com.civica.splitthebill.domain.port.inbound.UserPortIn;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.UserRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.UserRequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.UserResponse;

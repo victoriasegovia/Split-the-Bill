@@ -12,10 +12,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.civica.splitthebill.application.dto.GroupDTO;
-import com.civica.splitthebill.application.services.GroupUseCases;
+import com.civica.splitthebill.application.usecases.GroupUseCases;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
 
 import jakarta.persistence.EntityNotFoundException;
 

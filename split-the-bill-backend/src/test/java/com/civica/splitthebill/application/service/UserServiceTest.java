@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.civica.splitthebill.application.dto.UserDTO;
-import com.civica.splitthebill.application.services.UserUseCases;
+import com.civica.splitthebill.application.usecases.UserUseCases;
 import com.civica.splitthebill.domain.model.Group;
 import com.civica.splitthebill.domain.model.User;
-import com.civica.splitthebill.domain.port.out.GroupPortOut;
-import com.civica.splitthebill.domain.port.out.UserPortOut;
+import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
+import com.civica.splitthebill.domain.port.outbound.UserPortOut;
 
 import jakarta.persistence.EntityNotFoundException;
 

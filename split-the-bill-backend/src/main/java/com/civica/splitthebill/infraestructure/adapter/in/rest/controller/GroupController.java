@@ -1,6 +1,5 @@
 package com.civica.splitthebill.infraestructure.adapter.in.rest.controller;
 
-import com.civica.splitthebill.domain.port.in.GroupPortIn;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequestResponseMapper;
 
 import jakarta.validation.Valid;
@@ -8,6 +7,7 @@ import jakarta.validation.Valid;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.GroupResponse;
 import com.civica.splitthebill.application.dto.GroupDTO;
+import com.civica.splitthebill.domain.port.inbound.GroupPortIn;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

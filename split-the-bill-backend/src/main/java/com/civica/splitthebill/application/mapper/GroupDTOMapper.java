@@ -5,10 +5,7 @@ import com.civica.splitthebill.domain.model.Group;
 
 public class GroupDTOMapper {
 
-    private GroupDTOMapper() {
-    }
-
-    public static GroupDTO domainToDTO(Group group) {
+    public GroupDTO domainToDTO(Group group) {
 
         return new GroupDTO(
                 group.groupId(),

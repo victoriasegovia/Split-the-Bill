@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.civica.splitthebill.application.dto.ExpenseDTO;
-import com.civica.splitthebill.domain.port.in.ExpensePortIn;
+import com.civica.splitthebill.domain.port.inbound.ExpensePortIn;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.handler.GlobalExceptionHandler;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;

@@ -1,4 +1,4 @@
-package com.civica.splitthebill.domain.port.out;
+package com.civica.splitthebill.domain.port.outbound;
 
 import com.civica.splitthebill.domain.model.User;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.civica.splitthebill.application.services;
+package com.civica.splitthebill.application.usecases;
 
 import java.util.Optional;
 import java.util.function.LongPredicate;
