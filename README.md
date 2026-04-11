@@ -29,11 +29,11 @@ src/main/java/com/yourpackage/splitthebill/
 ├── application/
 │   ├── dto/                # Application Data Transfer Objects (Decoupling)
 │   ├── mapper/             # Domain <-> DTO Mapping logic
+│   └── usecases/           # Application logic implementation
+├── domain/
 │   ├── ports/
 │   │   ├── inbound/        # Use Case interfaces (Input)
 │   │   └── outbound/       # Repository interfaces (Output)
-│   └── usecases/           # Application logic implementation
-├── domain/
 │   └── model/              # Pure Domain Entities (User, Group, Expense)
 └── infrastructure/
     ├── adapters/
