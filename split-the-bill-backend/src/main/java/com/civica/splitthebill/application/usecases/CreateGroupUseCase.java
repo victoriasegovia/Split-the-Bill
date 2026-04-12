@@ -12,10 +12,11 @@ import com.civica.splitthebill.domain.port.outbound.GroupPortOut;
 public class CreateGroupUseCase implements CreateGroupPortInbound {
 
     private final GroupPortOut groupRepository;
-    private final GroupDTOMapper groupDTOMapper = new GroupDTOMapper();
+    private final GroupDTOMapper groupDTOMapper;
 
-    public CreateGroupUseCase(GroupPortOut groupRepository) {
+    public CreateGroupUseCase(GroupPortOut groupRepository, GroupDTOMapper groupDTOMapper) {
         this.groupRepository = groupRepository;
+        this.groupDTOMapper = groupDTOMapper;
     }
 
     @Override

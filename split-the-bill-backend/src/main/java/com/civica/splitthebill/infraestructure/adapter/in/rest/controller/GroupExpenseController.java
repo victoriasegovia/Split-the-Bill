@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.civica.splitthebill.application.dto.ExpenseDTO;
-import com.civica.splitthebill.domain.port.inbound.ExpensePortIn;
+import com.civica.splitthebill.domain.port.inbound.AddExpenseToGroupPortInbound;
+import com.civica.splitthebill.domain.port.inbound.CreateExpensePortInbound;
+import com.civica.splitthebill.domain.port.inbound.ListExpensesInGroupPortInbound;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseRequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.ExpenseResponse;
@@ -26,17 +28,23 @@ public class GroupExpenseController {
 
     private static final String ID_NOT_NULL = "Id cannot be null";
 
-    private final ExpensePortIn expenseService;
+    private final CreateExpensePortInbound createExpenseUseCase;
+    private final AddExpenseToGroupPortInbound addExpenseToGroupUseCase;
+    private final ListExpensesInGroupPortInbound listExpensesInGroupUseCase;
 
-    public GroupExpenseController(ExpensePortIn expenseService) {
-        this.expenseService = expenseService;
+    public GroupExpenseController(CreateExpensePortInbound createExpenseUseCase,
+            AddExpenseToGroupPortInbound addExpenseToGroupUseCase,
+            ListExpensesInGroupPortInbound listExpensesInGroupUseCase) {
+        this.createExpenseUseCase = createExpenseUseCase;
+        this.addExpenseToGroupUseCase = addExpenseToGroupUseCase;
+        this.listExpensesInGroupUseCase = listExpensesInGroupUseCase;
     }
 
     @GetMapping
     public ResponseEntity<List<ExpenseResponse>> getExpensesByGroupId(@PathVariable Long groupId) {
         Objects.requireNonNull(groupId, ID_NOT_NULL);
 
-        List<ExpenseDTO> expenses = expenseService.listExpensesInGroupUseCase(groupId);
+        List<ExpenseDTO> expenses = listExpensesInGroupUseCase.execute(groupId);
         List<ExpenseResponse> response = expenses.stream()
                 .map(ExpenseRequestResponseMapper::domainDTOToResponse)
                 .toList();
@@ -50,7 +58,10 @@ public class GroupExpenseController {
         Objects.requireNonNull(groupId, ID_NOT_NULL);
 
         ExpenseDTO input = ExpenseRequestResponseMapper.requestToDomainDTO(request);
-        ExpenseDTO created = expenseService.createExpenseUseCase(input);
+        ExpenseDTO payload = new ExpenseDTO(input.expenseId(), input.title(), input.payerId(), groupId,
+                input.totalAmount());
+        ExpenseDTO created = createExpenseUseCase.execute(payload);
+        addExpenseToGroupUseCase.execute(created.expenseId(), groupId);
 
         ExpenseResponse response = ExpenseRequestResponseMapper.domainDTOToResponse(created);
 

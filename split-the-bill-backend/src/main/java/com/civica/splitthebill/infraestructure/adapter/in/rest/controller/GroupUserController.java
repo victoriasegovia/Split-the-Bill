@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.civica.splitthebill.application.dto.UserDTO;
-import com.civica.splitthebill.domain.port.inbound.UserPortIn;
+import com.civica.splitthebill.domain.port.inbound.AddUserToGroupPortInbound;
+import com.civica.splitthebill.domain.port.inbound.CreateUserPortInbound;
+import com.civica.splitthebill.domain.port.inbound.ListUsersInGroupPortInbound;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.UserRequest;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.UserRequestResponseMapper;
 import com.civica.splitthebill.infraestructure.adapter.in.rest.dto.UserResponse;
@@ -26,17 +28,23 @@ public class GroupUserController {
 
     private static final String ID_NOT_NULL = "Id cannot be null";
 
-    private final UserPortIn userService;
+    private final CreateUserPortInbound createUserUseCase;
+    private final AddUserToGroupPortInbound addUserToGroupUseCase;
+    private final ListUsersInGroupPortInbound listUsersInGroupUseCase;
 
-    public GroupUserController(UserPortIn userService) {
-        this.userService = userService;
+    public GroupUserController(CreateUserPortInbound createUserUseCase,
+            AddUserToGroupPortInbound addUserToGroupUseCase,
+            ListUsersInGroupPortInbound listUsersInGroupUseCase) {
+        this.createUserUseCase = createUserUseCase;
+        this.addUserToGroupUseCase = addUserToGroupUseCase;
+        this.listUsersInGroupUseCase = listUsersInGroupUseCase;
     }
 
     @GetMapping
     public ResponseEntity<List<UserResponse>> getUsersByGroupId(@PathVariable Long groupId) {
         Objects.requireNonNull(groupId, ID_NOT_NULL);
 
-        List<UserDTO> users = userService.listUsersInGroupUseCase(groupId);
+        List<UserDTO> users = listUsersInGroupUseCase.execute(groupId);
 
         List<UserResponse> response = users.stream()
                 .map(UserRequestResponseMapper::domainDTOToResponse)
@@ -51,7 +59,8 @@ public class GroupUserController {
         Objects.requireNonNull(groupId, ID_NOT_NULL);
 
         UserDTO input = UserRequestResponseMapper.requestToDomainDTO(request);
-        UserDTO created = userService.createUserUseCase(input, groupId);
+        UserDTO created = createUserUseCase.execute(input, groupId);
+        addUserToGroupUseCase.execute(created.userId(), groupId);
 
         UserResponse response = UserRequestResponseMapper.domainDTOToResponse(created);
 
