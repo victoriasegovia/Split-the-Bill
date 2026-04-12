@@ -6,8 +6,7 @@
 # Split-the-Bill
 
 This project is a simplified version of an expense-sharing application, developed as an academic exercise. The primary focus is to demonstrate a **Pure Hexagonal Architecture** (Ports and Adapters) and clean code principles.
-<img width="3840" height="1495" alt="Screenshot 2026-04-12 094943" src="https://github.com/user-attachments/assets/e4f21b73-b0f0-4de7-8a7c-ac3a0e6f9b7c" />
-
+<img width="3840" height="1134" alt="Screenshot 2026-04-12 094943" src="https://github.com/user-attachments/assets/98b3ba55-f53c-4533-ae45-1ff91ed954e9" />
 
 ## Project Overview
 The goal is to apply modern software design patterns in a controlled environment:
