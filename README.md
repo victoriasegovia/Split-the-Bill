@@ -1,3 +1,9 @@
+![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=springboot)
+![Architecture](https://img.shields.io/badge/Architecture-Hexagonal-blue?style=for-the-badge)
+![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular)
+![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
+
 # Split-the-Bill
 
 This project is a simplified version of an expense-sharing application, developed as an academic exercise. The primary focus is to demonstrate a **Pure Hexagonal Architecture** (Ports and Adapters) and clean code principles.
@@ -72,6 +78,7 @@ El proyecto aplica una pirámide de pruebas enfocada en el aislamiento de capas:
 - Unit Tests (Domain): Pruebas de lógica pura sin dependencias de frameworks.
 - Integration Tests (Infrastructure): Validación de adaptadores de persistencia con H2.
 - API Tests: Validación de contratos de entrada/salida mediante MockMvc.
+
 Ejecutar tests: ./mvnw test
 
 ---
