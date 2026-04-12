@@ -84,6 +84,9 @@ El proyecto aplica una pirámide de pruebas enfocada en el aislamiento de capas:
 Ejecutar tests: ./mvnw test
 
 ---
+## Expense view
+<img width="3840" height="1482" alt="Screenshot 2026-04-12 095058" src="https://github.com/user-attachments/assets/f269d4e6-444d-4f7d-b853-72bcc3d3ce0b" />
+---
 
 ## UML
 ```mermaid
