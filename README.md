@@ -26,7 +26,7 @@ The goal is to apply modern software design patterns in a controlled environment
 * **Angular:** Basic frontend with Angular.
 
 ---
-![SplitTheBill-GoogleChrome2026-04-1209-54-35-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8259499-5be5-4a4d-bf83-5d58c53ba821)
+![SplitTheBill-GoogleChrome2026-04-1209-54-35-ezgif com-video-to-gif-converter (2)](https://github.com/user-attachments/assets/8520b1fb-7bf8-4856-af10-1b37f86dcb33)
 ---
 
 ## Project Structure
