@@ -26,6 +26,8 @@ The goal is to apply modern software design patterns in a controlled environment
 * **Angular:** Basic frontend with Angular.
 
 ---
+![SplitTheBill-GoogleChrome2026-04-1209-54-35-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8259499-5be5-4a4d-bf83-5d58c53ba821)
+---
 
 ## Project Structure
 The project follows a standard Hexagonal modular organization:
@@ -80,10 +82,6 @@ El proyecto aplica una pirámide de pruebas enfocada en el aislamiento de capas:
 - API Tests: Validación de contratos de entrada/salida mediante MockMvc.
 
 Ejecutar tests: ./mvnw test
-
----
-
-![SplitTheBill-GoogleChrome2026-04-1209-54-35-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8259499-5be5-4a4d-bf83-5d58c53ba821)
 
 ---
 
