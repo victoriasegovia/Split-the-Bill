@@ -6,6 +6,7 @@
 # Split-the-Bill
 
 This project is a simplified version of an expense-sharing application, developed as an academic exercise. The primary focus is to demonstrate a **Pure Hexagonal Architecture** (Ports and Adapters) and clean code principles.
+<img width="3840" height="2400" alt="Screenshot 2026-04-12 094943" src="https://github.com/user-attachments/assets/7a98fd44-0e10-4c8c-8e56-62f7efc1fcbb" />
 
 ## Project Overview
 The goal is to apply modern software design patterns in a controlled environment:
@@ -79,6 +80,10 @@ El proyecto aplica una pirámide de pruebas enfocada en el aislamiento de capas:
 - API Tests: Validación de contratos de entrada/salida mediante MockMvc.
 
 Ejecutar tests: ./mvnw test
+
+---
+
+![SplitTheBill-GoogleChrome2026-04-1209-54-35-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f8259499-5be5-4a4d-bf83-5d58c53ba821)
 
 ---
 
