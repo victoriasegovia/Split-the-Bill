@@ -1,4 +1,4 @@
-# Split-the-Bill (Work in Progress 🚧)
+# Split-the-Bill
 
 This project is a simplified version of an expense-sharing application, developed as an academic exercise. The primary focus is to demonstrate a **Pure Hexagonal Architecture** (Ports and Adapters) and clean code principles.
 
@@ -40,12 +40,18 @@ src/main/java/com/yourpackage/splitthebill/
     │   ├── inbound/        # REST Controllers (Web Adapters)
     │   └── outbound/       # Persistence Adapters (JPA/Hibernate)
     ├── mappers/            # Request/Response to DTO Mappers
+    ├── exception/          # GlobalExceptionHandler
     └── config/             # Framework-specific configuration
 ```
 
 ---
 
 ## Run the proyect
+Prerrequisitos:
+- Java 21+
+- Node.js v18+ y npm
+- Angular CLI
+
 ```bash
 # Clone the repository
 git clone https://github.com/victoriasegovia/STEMFounding.git
@@ -58,6 +64,15 @@ cd split-the-bill-backend
 cd split-the-bill-frontend
 ng serve
 ```
+
+---
+
+## Estrategia de Testing
+El proyecto aplica una pirámide de pruebas enfocada en el aislamiento de capas:
+- Unit Tests (Domain): Pruebas de lógica pura sin dependencias de frameworks.
+- Integration Tests (Infrastructure): Validación de adaptadores de persistencia con H2.
+- API Tests: Validación de contratos de entrada/salida mediante MockMvc.
+Ejecutar tests: ./mvnw test
 
 ---
 
