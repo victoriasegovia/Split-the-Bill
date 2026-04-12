@@ -2,7 +2,6 @@
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-3.x-6DB33F?style=for-the-badge&logo=springboot)
 ![Architecture](https://img.shields.io/badge/Architecture-Hexagonal-blue?style=for-the-badge)
 ![Angular](https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular)
-![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)
 
 # Split-the-Bill
 
